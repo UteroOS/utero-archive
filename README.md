@@ -21,7 +21,7 @@ To make an ISO file and run on Qemu
 To make an ISO file  
 ``$ make iso``
 
-To make a binary file of the kernel
+To make a binary file of the kernel  
 ``$ make`` or ``$ make all``
 
 To clean up  

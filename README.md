@@ -6,7 +6,7 @@ This is the *work in progress*.
 
 ## Requirements
 
-* Crystal 0.19.2
+* Crystal 0.20.1
 * nasm
 * grub-mkrescue
 * xorriso

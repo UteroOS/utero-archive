@@ -50,7 +50,7 @@ struct Scrn
   end
 
   def print(str)
-    str.each_byte {|byte| put_byte(byte) }
+    str.each_byte { |byte| put_byte(byte) }
   end
 
   def puts(str)

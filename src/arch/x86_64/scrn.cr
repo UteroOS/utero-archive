@@ -60,14 +60,14 @@ struct Scrn
   end
 end
 
-STDOUT = Scrn.new
+SCRN = Scrn.new
 
 def print(str)
-  STDOUT.print(str)
+  SCRN.print(str)
 end
 
 def puts(str)
-  STDOUT.puts(str)
+  SCRN.puts(str)
 end
 
 def puts

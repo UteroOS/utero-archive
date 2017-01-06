@@ -1,6 +1,6 @@
 # utero
 
-**Utero** is an operating system written in [Crystal](https://crystal-lang.org/).
+**Utero** is an operating system (for x86_64) written in [Crystal](https://crystal-lang.org/) *as much as possible*.
 
 This is the *work in progress*.
 
@@ -26,6 +26,9 @@ To make a binary file of the kernel
 
 To clean up  
 ``$ make clean``
+
+To test (crystal spec)
+``$ make test``
 
 ## Contributing
 

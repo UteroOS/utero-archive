@@ -29,9 +29,12 @@ assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
 				build/arch/$(arch)/%.o, $(assembly_source_files))
 crystal_files := $(shell find ./ -name *.cr)
 
-.PHONY: all clean run iso
+.PHONY: all test clean run iso
 
 all: $(kernel)
+
+test:
+				@crystal spec -v
 
 clean:
 				@rm -r build

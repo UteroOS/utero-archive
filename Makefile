@@ -15,10 +15,10 @@ target ?= $(arch)-unknown-linux-gnu
 kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 
-libcr := src/core/libcr.a
-libcr_source_files := $(wildcard src/core/*.c)
-libcr_object_files := $(patsubst src/core/%.c, \
-				build/core/%.o, $(libcr_source_files))
+libcr := src/lib_cr/libcr.a
+libcr_source_files := $(wildcard src/lib_cr/*.c)
+libcr_object_files := $(patsubst src/lib_cr/%.c, \
+				build/lib_cr/%.o, $(libcr_source_files))
 
 crystal_os := target/$(target)/debug/main.o
 
@@ -65,7 +65,6 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 $(libcr): $(libcr_object_files)
 				@ar r $(libcr) $(libcr_object_files)
 
-# $(libcr_objs):
-build/core/%.o: src/core/%.c
+build/lib_cr/%.o: src/lib_cr/%.c
 				@mkdir -p $(shell dirname $@)
 				@cc -o $@ -c $<

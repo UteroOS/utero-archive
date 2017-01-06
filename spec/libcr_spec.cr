@@ -1,5 +1,5 @@
 require "./spec_helper"
-require "../src/core/libcr"
+require "../src/lib_cr/libcr"
 
 describe "LibCR" do
   context "memcmp" do

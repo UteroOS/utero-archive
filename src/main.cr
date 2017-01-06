@@ -8,7 +8,7 @@
 # except according to those terms.
 
 require "./arch/x86_64/scrn"
-require "./core/libcr"
+require "./lib_cr/libcr"
 
 puts
 puts "Hello World from Crystal!!!"

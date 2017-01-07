@@ -27,7 +27,7 @@ To make a binary file of the kernel
 To clean up  
 ``$ make clean``
 
-To test (crystal spec)
+To test (crystal spec)  
 ``$ make test``
 
 ## Contributing

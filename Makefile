@@ -15,6 +15,11 @@ target ?= $(arch)-unknown-linux-gnu
 kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 
+libcr := src/lib_cr/libcr.a
+libcr_source_files := $(wildcard src/lib_cr/*.c)
+libcr_object_files := $(patsubst src/lib_cr/%.c, \
+				build/lib_cr/%.o, $(libcr_source_files))
+
 crystal_os := target/$(target)/debug/main.o
 
 linker_script := src/arch/$(arch)/linker.ld
@@ -22,10 +27,14 @@ grub_cfg := src/arch/$(arch)/grub.cfg
 assembly_source_files := $(wildcard src/arch/$(arch)/*.asm)
 assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
 				build/arch/$(arch)/%.o, $(assembly_source_files))
+crystal_files := $(shell find ./ -name *.cr)
 
-.PHONY: all clean run iso
+.PHONY: all test clean run iso
 
 all: $(kernel)
+
+test:
+				@crystal spec -v
 
 clean:
 				@rm -r build
@@ -42,13 +51,20 @@ $(iso): $(kernel) $(grub_cfg)
 				@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
 				@rm -r build/isofiles
 
-$(kernel): $(crystal_os) $(assembly_object_files) $(linker_script)
+$(kernel): $(assembly_object_files) $(crystal_os) $(linker_script) $(crystal_files) $(libcr)
 				@echo Creating $@...
 				@mkdir -p $(shell dirname $(crystal_os))
 				@crystal build src/main.cr --target=$(target) --prelude=empty --emit=obj --verbose
 				@mv -f main.o main target/$(target)/debug/
-				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@  $(assembly_object_files) $(crystal_os)
+				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libcr)
 
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 				@mkdir -p $(shell dirname $@)
 				@nasm -felf64 $< -o $@
+
+$(libcr): $(libcr_object_files)
+				@ar r $(libcr) $(libcr_object_files)
+
+build/lib_cr/%.o: src/lib_cr/%.c
+				@mkdir -p $(shell dirname $@)
+				@cc -o $@ -c $<

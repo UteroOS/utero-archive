@@ -7,22 +7,6 @@
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
 
-require "./arch/x86_64/scrn"
-require "./lib_cr/libcr"
-
-puts
-puts "Hello World from Crystal!!!"
-puts
-puts "Welcome to Utero!!!"
-puts
-
-puts "---------memcmp------------"
-puts "Comparing 'abcx' and 'abcv' returns 2"
-ptr1 = "abcx"
-ptr2 = "abcv"
-
-result = LibCR.memcmp(ptr1.as(Void*), ptr2.as(Void*), 4 * sizeof(String))
-puts "Displays 'memcmp' twice"
-result.times do
-  puts "memcmp"
-end
+# from crystal/src/lib_c.cr
+alias ULong = UInt64 # for x86_64
+alias SizeT = ULong

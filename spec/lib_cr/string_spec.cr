@@ -7,8 +7,8 @@
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
 
-require "./spec_helper"
-require "../src/lib_cr/libcr"
+require "../spec_helper"
+require "../../src/lib_cr/string"
 
 describe "LibCR" do
   context "memcmp" do

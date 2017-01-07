@@ -37,7 +37,7 @@ test:
 				@crystal spec -v
 
 clean:
-				@rm -r build
+				@rm -r build/ target/
 
 run: $(iso)
 				@qemu-system-x86_64 -cdrom $(iso)
@@ -53,11 +53,13 @@ $(iso): $(kernel) $(grub_cfg)
 
 $(kernel): $(assembly_object_files) $(crystal_os) $(linker_script) $(crystal_files) $(libcr)
 				@echo Creating $@...
+				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libcr)
+
+$(crystal_os): $(crystal_files)
 				@mkdir -p $(shell dirname $(crystal_os))
 				@crystal build src/main.cr --target=$(target) --prelude=empty --emit=obj --verbose
 				@rm main
 				@mv -f main.o target/$(target)/debug/
-				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libcr)
 
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 				@mkdir -p $(shell dirname $@)

@@ -28,6 +28,24 @@ describe "LibCR" do
     assert { LibCR.memcmp(str1.as(Void*), str1.as(Void*), 4 * sizeof(String)).should eq 0 }
   end
 
+  describe "memset" do
+    ptr = Pointer.malloc(4) { |i| i + 10 } # [10, 11, 12, 13]
+
+    context "assign 0 to len" do
+      it "does not change the value of pointer" do
+        LibCR.memset(ptr, 0_i32, 0_u64)
+        ptr.to_slice(4).should eq Slice[10, 11, 12, 13]
+      end
+    end
+
+    context "assign 1 to size" do
+      it "sets zero to the first value of pointer" do
+        LibCR.memset(ptr, 0_i32, 1_u64)
+        ptr.to_slice(4).should eq Slice[0, 11, 12, 13]
+      end
+    end
+  end
+
   context "strlen" do
     str1 = "abcde"
     str2 = "あいうえお"

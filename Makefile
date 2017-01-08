@@ -41,9 +41,9 @@ test:
 				@crystal spec -v
 
 libctest: $(test_libc_targets)
-				@run-parts --test build/test_libc
+				@run-parts build/test_libc
 
-build/test_libc/% : test_libc/%.c
+build/test_libc/%: test_libc/%.c
 				@mkdir -p $(shell dirname $@)
 				@cc $< -o $@
 

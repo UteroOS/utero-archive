@@ -9,6 +9,7 @@
 
 require "../spec_helper"
 require "../../src/lib_cr/string"
+require "../../src/lib_cr/string_st"
 
 describe "LibCR" do
   context "memcmp" do
@@ -25,5 +26,12 @@ describe "LibCR" do
     assert { LibCR.memcmp(str1.as(Void*), str2.as(Void*), 4 * sizeof(String)).should be > 0 }
     assert { LibCR.memcmp(str2.as(Void*), str1.as(Void*), 4 * sizeof(String)).should be < 0 }
     assert { LibCR.memcmp(str1.as(Void*), str1.as(Void*), 4 * sizeof(String)).should eq 0 }
+  end
+
+  context "strlen" do
+    str1 = "abcde"
+    str2 = "あいうえお"
+    assert { StringST.strlen(str1.as(UInt8*)).should eq 5 }
+    assert { StringST.strlen(str2.as(UInt8*)).should eq 15 }
   end
 end

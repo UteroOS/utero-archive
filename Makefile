@@ -29,12 +29,23 @@ assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
 				build/arch/$(arch)/%.o, $(assembly_source_files))
 crystal_files := $(shell find ./ -name *.cr)
 
+test_libc_sources := $(wildcard test_libc/*.c)
+test_libc_targets := $(patsubst test_libc/%.c, \
+				build/test_libc/%, $(test_libc_sources))
+
 .PHONY: all test clean run iso
 
 all: $(kernel)
 
 test:
 				@crystal spec -v
+
+libctest: $(test_libc_targets)
+				@run-parts --test build/test_libc
+
+build/test_libc/% : test_libc/%.c
+				@mkdir -p $(shell dirname $@)
+				@cc $< -o $@
 
 clean:
 				@rm -r build/ target/

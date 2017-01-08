@@ -9,6 +9,7 @@
 
 require "./arch/x86_64/scrn"
 require "./lib_cr/string"
+require "./lib_cr/string_st"
 
 puts
 puts "Hello World from Crystal!!!"
@@ -16,6 +17,22 @@ puts
 puts "Welcome to Utero!!!"
 puts
 
+puts "---------strlen------------"
+ab = "abc"
+ab_len = StringST.strlen(ab.as(UInt8*))
+ab_len.times do
+  print "3 bytes "
+end
+
+puts
+
+ai = "あい"
+ai_len1 = StringST.strlen(ai.as(UInt8*))
+ai_len1.times do
+  print "6 bytes "
+end
+
+puts
 puts "---------memcmp------------"
 puts "Comparing 'abcx' and 'abcv' returns 2"
 ptr1 = "abcx"

@@ -9,7 +9,7 @@
 
 require "../spec_helper"
 require "../../src/lib_cr/string"
-require "../../src/lib_cr/string_st"
+require "../../src/lib_cr/no_bind/libstring"
 include NoBind
 
 describe "LibCR" do

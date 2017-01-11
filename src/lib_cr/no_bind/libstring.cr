@@ -1,4 +1,4 @@
-require "./stddef"
+require "../stddef"
 
 module NoBind
   struct LibString

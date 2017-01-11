@@ -9,7 +9,7 @@
 
 require "./arch/x86_64/scrn"
 require "./lib_cr/string"
-require "./lib_cr/string_st"
+require "./lib_cr/no_bind/libstring"
 include NoBind
 
 puts

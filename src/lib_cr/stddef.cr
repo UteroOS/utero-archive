@@ -8,5 +8,9 @@
 # except according to those terms.
 
 # from crystal/src/lib_c.cr
-alias ULong = UInt64 # for x86_64
-alias SizeT = ULong
+lib LibCR
+  alias ULong = UInt64 # for x86_64
+  alias SizeT = ULong
+  alias Char = UInt8
+  alias Int = Int32
+end

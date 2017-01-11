@@ -31,6 +31,7 @@ ai_len1 = NoBind::String.strlen(ai.as(UInt8*))
 ai_len1.times do
   print "6 bytes "
 end
+puts
 
 puts
 puts "---------memcmp------------"
@@ -43,3 +44,19 @@ puts "Displays 'memcmp' twice"
 result.times do
   puts "memcmp"
 end
+
+puts
+puts "---------strcmp------------"
+str1 = "abcde"
+str2 = "abcdf"
+puts "Comparing 'abcde' and 'abcde'"
+strcmp_result = NoBind::String.strcmp(str1.as(UInt8*), str1.as(UInt8*))
+puts "returns 0" if strcmp_result == 0
+
+puts "Comparing 'abcde' and 'abcdf'"
+strcmp_result = NoBind::String.strcmp(str1.as(UInt8*), str2.as(UInt8*))
+puts "returns -1" if strcmp_result == -1
+
+puts "Comparing 'abcdf' and 'abcde'"
+strcmp_result = NoBind::String.strcmp(str2.as(UInt8*), str1.as(UInt8*))
+puts "returns 1" if strcmp_result == 1

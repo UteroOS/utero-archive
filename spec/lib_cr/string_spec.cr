@@ -10,6 +10,7 @@
 require "../spec_helper"
 require "../../src/lib_cr/string"
 require "../../src/lib_cr/string_st"
+include NoBind
 
 describe "LibCR" do
   context "memcmp" do
@@ -49,8 +50,8 @@ describe "LibCR" do
   context "strlen" do
     str1 = "abcde"
     str2 = "あいうえお"
-    assert { NoBind::String.strlen(str1.as(UInt8*)).should eq 5 }
-    assert { NoBind::String.strlen(str2.as(UInt8*)).should eq 15 }
+    assert { LibString.strlen(str1.as(UInt8*)).should eq 5 }
+    assert { LibString.strlen(str2.as(UInt8*)).should eq 15 }
   end
 
   context "strcmp" do

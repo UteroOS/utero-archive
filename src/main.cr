@@ -10,6 +10,7 @@
 require "./arch/x86_64/scrn"
 require "./lib_cr/string"
 require "./lib_cr/string_st"
+include NoBind
 
 puts
 puts "Hello World from Crystal!!!"
@@ -19,7 +20,7 @@ puts
 
 puts "---------strlen------------"
 ab = "abc"
-ab_len = NoBind::String.strlen(ab.as(UInt8*))
+ab_len = LibString.strlen(ab.as(UInt8*))
 ab_len.times do
   print "3 bytes "
 end
@@ -27,7 +28,7 @@ end
 puts
 
 ai = "あい"
-ai_len1 = NoBind::String.strlen(ai.as(UInt8*))
+ai_len1 = LibString.strlen(ai.as(UInt8*))
 ai_len1.times do
   print "6 bytes "
 end
@@ -50,13 +51,13 @@ puts "---------strcmp------------"
 str1 = "abcde"
 str2 = "abcdf"
 puts "Comparing 'abcde' and 'abcde'"
-strcmp_result = NoBind::String.strcmp(str1.as(UInt8*), str1.as(UInt8*))
+strcmp_result = LibString.strcmp(str1.as(UInt8*), str1.as(UInt8*))
 puts "returns 0" if strcmp_result == 0
 
 puts "Comparing 'abcde' and 'abcdf'"
-strcmp_result = NoBind::String.strcmp(str1.as(UInt8*), str2.as(UInt8*))
+strcmp_result = LibString.strcmp(str1.as(UInt8*), str2.as(UInt8*))
 puts "returns -1" if strcmp_result == -1
 
 puts "Comparing 'abcdf' and 'abcde'"
-strcmp_result = NoBind::String.strcmp(str2.as(UInt8*), str1.as(UInt8*))
+strcmp_result = LibString.strcmp(str2.as(UInt8*), str1.as(UInt8*))
 puts "returns 1" if strcmp_result == 1

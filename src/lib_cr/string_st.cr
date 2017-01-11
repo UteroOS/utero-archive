@@ -1,11 +1,13 @@
+require "./stddef"
+
 module NoBind
   struct LibString
-    def self.strlen(str : UInt8*) : UInt64
+    def self.strlen(str : LibCR::Char*) : LibCR::SizeT
       str[4].to_u64 # Byte size of str is in it
     end
 
     # Alternative
-    # def self.strlen(str : UInt8*) : UInt64
+    # def self.strlen(str : LibCR::Char*) : LibCR::SizeT
     #   ret = 0_u64
     #   # str[12] seems to be the starting point of string
     #   while str[12 + ret] != 0
@@ -14,8 +16,7 @@ module NoBind
     #   ret
     # end
 
-    # fun strcmp(x0 : Char*, x1 : Char*) : Int
-    def self.strcmp(x0 : UInt8*, x1 : UInt8*) : Int32
+    def self.strcmp(x0 : LibCR::Char*, x1 : LibCR::Char*) : LibCR::Int
       # What a shit this is
       ret = x0 - x1
 
@@ -28,7 +29,7 @@ module NoBind
         ret = 0_i32
       end
 
-      return ret.as(Int32)
+      return ret.as(LibCR::Int)
     end
   end
 end

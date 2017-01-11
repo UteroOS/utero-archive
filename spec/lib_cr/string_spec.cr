@@ -52,4 +52,21 @@ describe "LibCR" do
     assert { NoBind::String.strlen(str1.as(UInt8*)).should eq 5 }
     assert { NoBind::String.strlen(str2.as(UInt8*)).should eq 15 }
   end
+
+  context "strcmp" do
+    assert { LibString.strcmp("abcde".as(UInt8*), "abcde".as(UInt8*)).should eq 0 }
+    assert { LibString.strcmp("abcde".as(UInt8*), "abcdx".as(UInt8*)).should be < 0 }
+    assert { LibString.strcmp("abcdx".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
+    assert { LibString.strcmp("".as(UInt8*), "abcde".as(UInt8*)).should be < 0 }
+    assert { LibString.strcmp("abcde".as(UInt8*), "".as(UInt8*)).should be > 0 }
+    assert { LibString.strcmp("abcde".as(UInt8*), "abcd#{'\u{00fc}'}".as(UInt8*)).should be < 0 } # "abcd#{'\u{00fc}'}" == abcdü"
+
+    # Comparing two strings with different sizes
+    assert { LibString.strcmp("abcde".as(UInt8*), "abcdef".as(UInt8*)).should be < 0 }
+    assert { LibString.strcmp("abcdef".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
+
+    # Comparing one byte characters and triple-byte characters
+    assert { LibString.strcmp("abcde".as(UInt8*), "あいうえお".as(UInt8*)).should be < 0 }
+    assert { LibString.strcmp("あいうえお".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
+  end
 end

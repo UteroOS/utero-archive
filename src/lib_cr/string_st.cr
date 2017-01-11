@@ -13,5 +13,22 @@ module NoBind
     #   end
     #   ret
     # end
+
+    # fun strcmp(x0 : Char*, x1 : Char*) : Int
+    def self.strcmp(x0 : UInt8*, x1 : UInt8*) : Int32
+      # What a shit this is
+      ret = x0 - x1
+
+      case ret
+      when .> 0
+        ret = 1_i32
+      when .< 0
+        ret = -1_i32
+      else
+        ret = 0_i32
+      end
+
+      return ret.as(Int32)
+    end
   end
 end

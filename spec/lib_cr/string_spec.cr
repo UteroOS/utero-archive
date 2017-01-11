@@ -49,7 +49,7 @@ describe "LibCR" do
   context "strlen" do
     str1 = "abcde"
     str2 = "あいうえお"
-    assert { StringST.strlen(str1.as(UInt8*)).should eq 5 }
-    assert { StringST.strlen(str2.as(UInt8*)).should eq 15 }
+    assert { NoBind::String.strlen(str1.as(UInt8*)).should eq 5 }
+    assert { NoBind::String.strlen(str2.as(UInt8*)).should eq 15 }
   end
 end

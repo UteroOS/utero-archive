@@ -19,7 +19,7 @@ puts
 
 puts "---------strlen------------"
 ab = "abc"
-ab_len = StringST.strlen(ab.as(UInt8*))
+ab_len = NoBind::String.strlen(ab.as(UInt8*))
 ab_len.times do
   print "3 bytes "
 end
@@ -27,7 +27,7 @@ end
 puts
 
 ai = "あい"
-ai_len1 = StringST.strlen(ai.as(UInt8*))
+ai_len1 = NoBind::String.strlen(ai.as(UInt8*))
 ai_len1.times do
   print "6 bytes "
 end

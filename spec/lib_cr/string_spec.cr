@@ -9,6 +9,8 @@
 
 require "../spec_helper"
 require "../../src/lib_cr/string"
+require "../../src/lib_cr/no_bind/libstring"
+include NoBind
 
 describe "LibCR" do
   context "memcmp" do
@@ -25,5 +27,47 @@ describe "LibCR" do
     assert { LibCR.memcmp(str1.as(Void*), str2.as(Void*), 4 * sizeof(String)).should be > 0 }
     assert { LibCR.memcmp(str2.as(Void*), str1.as(Void*), 4 * sizeof(String)).should be < 0 }
     assert { LibCR.memcmp(str1.as(Void*), str1.as(Void*), 4 * sizeof(String)).should eq 0 }
+  end
+
+  describe "memset" do
+    ptr = Pointer.malloc(4) { |i| i + 10 } # [10, 11, 12, 13]
+
+    context "assign 0 to len" do
+      it "does not change the value of pointer" do
+        LibCR.memset(ptr, 0_i32, 0_u64)
+        ptr.to_slice(4).should eq Slice[10, 11, 12, 13]
+      end
+    end
+
+    context "assign 1 to size" do
+      it "sets zero to the first value of pointer" do
+        LibCR.memset(ptr, 0_i32, 1_u64)
+        ptr.to_slice(4).should eq Slice[0, 11, 12, 13]
+      end
+    end
+  end
+
+  context "strlen" do
+    str1 = "abcde"
+    str2 = "あいうえお"
+    assert { LibString.strlen(str1.as(UInt8*)).should eq 5 }
+    assert { LibString.strlen(str2.as(UInt8*)).should eq 15 }
+  end
+
+  context "strcmp" do
+    assert { LibString.strcmp("abcde".as(UInt8*), "abcde".as(UInt8*)).should eq 0 }
+    assert { LibString.strcmp("abcde".as(UInt8*), "abcdx".as(UInt8*)).should be < 0 }
+    assert { LibString.strcmp("abcdx".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
+    assert { LibString.strcmp("".as(UInt8*), "abcde".as(UInt8*)).should be < 0 }
+    assert { LibString.strcmp("abcde".as(UInt8*), "".as(UInt8*)).should be > 0 }
+    assert { LibString.strcmp("abcde".as(UInt8*), "abcd#{'\u{00fc}'}".as(UInt8*)).should be < 0 } # "abcd#{'\u{00fc}'}" == abcdü"
+
+    # Comparing two strings with different sizes
+    assert { LibString.strcmp("abcde".as(UInt8*), "abcdef".as(UInt8*)).should be < 0 }
+    assert { LibString.strcmp("abcdef".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
+
+    # Comparing one byte characters and triple-byte characters
+    assert { LibString.strcmp("abcde".as(UInt8*), "あいうえお".as(UInt8*)).should be < 0 }
+    assert { LibString.strcmp("あいうえお".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
   end
 end

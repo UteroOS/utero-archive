@@ -9,8 +9,9 @@
 
 require "../spec_helper"
 require "../../src/lib_cr/string"
-require "../../src/lib_cr/no_bind/libstring"
-include NoBind
+# FIXME: or KILLME
+# require "../../src/lib_cr/no_bind/libstring"
+# include NoBind
 
 describe "LibCR" do
   context "memcmp" do
@@ -57,24 +58,24 @@ describe "LibCR" do
   context "strlen" do
     str1 = "abcde"
     str2 = "あいうえお"
-    assert { LibString.strlen(str1.as(UInt8*)).should eq 5 }
-    assert { LibString.strlen(str2.as(UInt8*)).should eq 15 }
+    assert { LibCR.strlen(str1).should eq 5 }
+    assert { LibCR.strlen(str2).should eq 15 }
   end
 
   context "strcmp" do
-    assert { LibString.strcmp("abcde".as(UInt8*), "abcde".as(UInt8*)).should eq 0 }
-    assert { LibString.strcmp("abcde".as(UInt8*), "abcdx".as(UInt8*)).should be < 0 }
-    assert { LibString.strcmp("abcdx".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
-    assert { LibString.strcmp("".as(UInt8*), "abcde".as(UInt8*)).should be < 0 }
-    assert { LibString.strcmp("abcde".as(UInt8*), "".as(UInt8*)).should be > 0 }
-    assert { LibString.strcmp("abcde".as(UInt8*), "abcd#{'\u{00fc}'}".as(UInt8*)).should be < 0 } # "abcd#{'\u{00fc}'}" == abcdü"
+    assert { LibCR.strcmp("abcde", "abcde").should eq 0 }
+    assert { LibCR.strcmp("abcde", "abcdx").should be < 0 }
+    assert { LibCR.strcmp("abcdx", "abcde").should be > 0 }
+    assert { LibCR.strcmp("", "abcde").should be < 0 }
+    assert { LibCR.strcmp("abcde", "").should be > 0 }
+    assert { LibCR.strcmp("abcde", "abcd#{'\u{00fc}'}").should be < 0 } # "abcd#{'\u{00fc}'}" == abcdü"
 
     # Comparing two strings with different sizes
-    assert { LibString.strcmp("abcde".as(UInt8*), "abcdef".as(UInt8*)).should be < 0 }
-    assert { LibString.strcmp("abcdef".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
+    assert { LibCR.strcmp("abcde", "abcdef").should be < 0 }
+    assert { LibCR.strcmp("abcdef", "abcde").should be > 0 }
 
     # Comparing one byte characters and triple-byte characters
-    assert { LibString.strcmp("abcde".as(UInt8*), "あいうえお".as(UInt8*)).should be < 0 }
-    assert { LibString.strcmp("あいうえお".as(UInt8*), "abcde".as(UInt8*)).should be > 0 }
+    assert { LibCR.strcmp("abcde", "あいうえお").should be < 0 }
+    assert { LibCR.strcmp("あいうえお", "abcde").should be > 0 }
   end
 end

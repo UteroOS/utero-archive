@@ -29,3 +29,23 @@ void * memset( void * s, int c, size_t n )
 	}
 	return s;
 }
+
+int strcmp( const char * s1, const char * s2 )
+{
+	while ( ( *s1 ) && ( *s1 == *s2 ) )
+	{
+		++s1;
+		++s2;
+	}
+	return ( *(unsigned char *)s1 - *(unsigned char *)s2 );
+}
+
+size_t strlen( const char * s )
+{
+	size_t rc = 0;
+	while ( s[rc] )
+	{
+		++rc;
+	}
+	return rc;
+}

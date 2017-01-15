@@ -9,8 +9,9 @@
 
 require "./arch/x86_64/scrn"
 require "./lib_cr/string"
-require "./lib_cr/no_bind/libstring"
-include NoBind
+# FIXME: or KILLME
+# require "./lib_cr/no_bind/libstring"
+# include NoBind
 
 puts
 puts "Hello World from Crystal!!!"
@@ -18,21 +19,21 @@ puts
 puts "Welcome to Utero!!!"
 puts
 
-puts "---------strlen------------"
-ab = "abc"
-ab_len = LibString.strlen(ab.as(LibCR::Char*))
-ab_len.times do
-  print "3 bytes "
-end
-
-puts
-
-ai = "あい"
-ai_len1 = LibString.strlen(ai.as(LibCR::Char*))
-ai_len1.times do
-  print "6 bytes "
-end
-puts
+# puts "---------strlen------------"
+# ab = "abc"
+# ab_len = LibString.strlen(ab.as(LibCR::Char*))
+# ab_len.times do
+#   print "3 bytes "
+# end
+#
+# puts
+#
+# ai = "あい"
+# ai_len1 = LibString.strlen(ai.as(LibCR::Char*))
+# ai_len1.times do
+#   print "6 bytes "
+# end
+# puts
 
 # puts
 # puts "---------memcmp------------"
@@ -46,18 +47,18 @@ puts
 #   puts "memcmp"
 # end
 
-puts
-puts "---------strcmp------------"
-str1 = "abcde"
-str2 = "abcdf"
-puts "Comparing 'abcde' and 'abcde'"
-strcmp_result = LibString.strcmp(str1.as(LibCR::Char*), str1.as(LibCR::Char*))
-puts "returns 0" if strcmp_result == 0
-
-puts "Comparing 'abcde' and 'abcdf'"
-strcmp_result = LibString.strcmp(str1.as(LibCR::Char*), str2.as(LibCR::Char*))
-puts "returns -1" if strcmp_result == -1
-
-puts "Comparing 'abcdf' and 'abcde'"
-strcmp_result = LibString.strcmp(str2.as(LibCR::Char*), str1.as(LibCR::Char*))
-puts "returns 1" if strcmp_result == 1
+# puts
+# puts "---------strcmp------------"
+# str1 = "abcde"
+# str2 = "abcdf"
+# puts "Comparing 'abcde' and 'abcde'"
+# strcmp_result = LibString.strcmp(str1.as(LibCR::Char*), str1.as(LibCR::Char*))
+# puts "returns 0" if strcmp_result == 0
+#
+# puts "Comparing 'abcde' and 'abcdf'"
+# strcmp_result = LibString.strcmp(str1.as(LibCR::Char*), str2.as(LibCR::Char*))
+# puts "returns -1" if strcmp_result == -1
+#
+# puts "Comparing 'abcdf' and 'abcde'"
+# strcmp_result = LibString.strcmp(str2.as(LibCR::Char*), str1.as(LibCR::Char*))
+# puts "returns 1" if strcmp_result == 1

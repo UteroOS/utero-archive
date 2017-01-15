@@ -9,8 +9,9 @@
 
 require "../spec_helper"
 require "../../src/lib_cr/string"
-require "../../src/lib_cr/no_bind/libstring"
-include NoBind
+# FIXME: or KILLME
+# require "../../src/lib_cr/no_bind/libstring"
+# include NoBind
 
 describe "LibCR" do
   context "memcmp" do

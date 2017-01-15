@@ -9,8 +9,9 @@
 
 require "./arch/x86_64/scrn"
 require "./lib_cr/string"
-require "./lib_cr/no_bind/libstring"
-include NoBind
+# FIXME: or KILLME
+# require "./lib_cr/no_bind/libstring"
+# include NoBind
 
 puts
 puts "Hello World from Crystal!!!"

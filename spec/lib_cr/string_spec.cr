@@ -57,8 +57,8 @@ describe "LibCR" do
   context "strlen" do
     str1 = "abcde"
     str2 = "あいうえお"
-    assert { LibString.strlen(str1.as(UInt8*)).should eq 5 }
-    assert { LibString.strlen(str2.as(UInt8*)).should eq 15 }
+    assert { LibCR.strlen(str1).should eq 5 }
+    assert { LibCR.strlen(str2).should eq 15 }
   end
 
   context "strcmp" do

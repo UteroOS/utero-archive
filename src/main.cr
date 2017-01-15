@@ -34,17 +34,17 @@ ai_len1.times do
 end
 puts
 
-puts
-puts "---------memcmp------------"
-puts "Comparing 'abcx' and 'abcv' returns 2"
-ptr1 = "abcx"
-ptr2 = "abcv"
-
-result = LibCR.memcmp(ptr1.as(Void*), ptr2.as(Void*), 4 * sizeof(String))
-puts "Displays 'memcmp' twice"
-result.times do
-  puts "memcmp"
-end
+# puts
+# puts "---------memcmp------------"
+# puts "Comparing 'abcx' and 'abcv' returns 2"
+# ptr1 = "abcx"
+# ptr2 = "abcv"
+#
+# result = LibCR.memcmp(ptr1.as(Void*), ptr2.as(Void*), 4 * sizeof(String))
+# puts "Displays 'memcmp' twice"
+# result.times do
+#   puts "memcmp"
+# end
 
 puts
 puts "---------strcmp------------"

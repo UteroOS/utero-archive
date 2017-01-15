@@ -18,21 +18,21 @@ puts
 puts "Welcome to Utero!!!"
 puts
 
-puts "---------strlen------------"
-ab = "abc"
-ab_len = LibString.strlen(ab.as(LibCR::Char*))
-ab_len.times do
-  print "3 bytes "
-end
-
-puts
-
-ai = "あい"
-ai_len1 = LibString.strlen(ai.as(LibCR::Char*))
-ai_len1.times do
-  print "6 bytes "
-end
-puts
+# puts "---------strlen------------"
+# ab = "abc"
+# ab_len = LibString.strlen(ab.as(LibCR::Char*))
+# ab_len.times do
+#   print "3 bytes "
+# end
+#
+# puts
+#
+# ai = "あい"
+# ai_len1 = LibString.strlen(ai.as(LibCR::Char*))
+# ai_len1.times do
+#   print "6 bytes "
+# end
+# puts
 
 # puts
 # puts "---------memcmp------------"

@@ -49,3 +49,35 @@ size_t strlen( const char * s )
 	}
 	return rc;
 }
+
+char * strstr( const char * s1, const char * s2 )
+{
+	const char * p1 = s1;
+	const char * p2;
+	while ( *s1 )
+	{
+		p2 = s2;
+		while ( *p2 && ( *p1 == *p2 ) )
+		{
+			++p1;
+			++p2;
+		}
+		if ( ! *p2 )
+		{
+			return (char *) s1;
+		}
+		++s1;
+		p1 = s1;
+	}
+	return NULL;
+}
+
+// Implementation using strlen and memcmp
+// char *strstr(char *s1, const char *s2)
+// {
+// 	size_t n = strlen(s2);
+// 	while (*s1)
+// 		if (!memcmp(s1++, s2, n))
+// 			return s1 - 1;
+// 	return 0;
+// }

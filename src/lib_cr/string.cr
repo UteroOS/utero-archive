@@ -14,4 +14,5 @@ lib LibCR
   fun memset(dest : Void*, src : Int, len : SizeT) : Void*
   fun strcmp(x0 : Char*, x1 : Char*) : Int
   fun strlen(x0 : Char*) : SizeT
+  fun strstr(x0 : Char*, x1 : Char*) : Char*
 end

@@ -78,4 +78,17 @@ describe "LibCR" do
     assert { LibCR.strcmp("abcde", "あいうえお").should be < 0 }
     assert { LibCR.strcmp("あいうえお", "abcde").should be > 0 }
   end
+
+  describe "strstr" do
+    str= "abcabcabcdabcde"
+
+    puts abcabcabcdabcde_ptr = LibCR.strstr(str, "abcabcabcdabcde") # equal to the pointer of s[0]
+
+    assert { LibCR.strstr(str,"x").should eq Pointer(UInt8).null }
+    assert { LibCR.strstr(str,"xyz").should eq Pointer(UInt8).null }
+    assert { LibCR.strstr(str,"a").should eq abcabcabcdabcde_ptr }
+    assert { LibCR.strstr(str,"abc").should eq abcabcabcdabcde_ptr }
+    assert { LibCR.strstr(str,"abcd").should eq abcabcabcdabcde_ptr + 6 }
+    assert { LibCR.strstr(str,"abcde").should eq abcabcabcdabcde_ptr + 10 }
+  end
 end

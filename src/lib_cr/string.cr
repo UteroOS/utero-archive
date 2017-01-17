@@ -16,4 +16,5 @@ lib LibCR
   fun strlen(x0 : Char*) : SizeT
   fun strstr(x0 : Char*, x1 : Char*) : Char*
   fun strchr(x0 : Char*, x1 : Int) : Char*
+  fun strncmp(x0 : Char*, x1 : Char*, n : SizeT) : Int
 end

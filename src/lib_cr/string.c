@@ -81,3 +81,15 @@ char * strstr( const char * s1, const char * s2 )
 // 			return s1 - 1;
 // 	return 0;
 // }
+
+char * strchr( const char * s, int c )
+{
+	do
+	{
+		if ( *s == (char) c )
+		{
+			return (char *) s;
+		}
+	} while ( *s++ );
+	return NULL;
+}

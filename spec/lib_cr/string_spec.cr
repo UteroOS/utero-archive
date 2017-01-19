@@ -132,4 +132,19 @@ describe "LibCR" do
     assert { LibCR.strncmp("あいうえか", "あいうえお", 15).should be > 0 }
     assert { LibCR.strncmp("あいうえお", "あいうえか", 12).should eq 0 }
   end
+
+  describe "strchrnul" do
+    blank = ""
+    blank_ptr = LibCR.strchrnul(blank, '\u{0}'.ord)
+    str = "abcabc"
+    str_ptr = LibCR.strchrnul(str, 'a'.ord)
+
+    assert { LibCR.strchrnul(blank, 'A'.ord).should eq blank_ptr }
+    assert { LibCR.strchrnul(blank, '\u{0}'.ord).should eq blank_ptr }
+
+    assert { LibCR.strchrnul(str, 'A'.ord).should eq str_ptr + 6 }
+    assert { LibCR.strchrnul(str, 'a'.ord).should eq str_ptr + 0 }
+    assert { LibCR.strchrnul(str, 'c'.ord).should eq str_ptr + 2 }
+    assert { LibCR.strchrnul(str, '\u{0}'.ord).should eq str_ptr + 6 }
+  end
 end

@@ -5,8 +5,12 @@ Licensed under permissive MIT license
 */
 
 /*
-memset( void *, int, size_t )
+The part of this file was taken from:
+cyanurus https://github.com/redcap97/cyanurus
+Licensed under the Apache License, Version 2.0
+*/
 
+/*
 The part of the Public Domain C Library (PDCLib).
 Permission is granted to use, modify, and / or redistribute at will.
 */

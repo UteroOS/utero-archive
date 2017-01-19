@@ -80,7 +80,7 @@ describe "LibCR" do
   end
 
   describe "strstr" do
-    str= "abcabcabcdabcde"
+    str = "abcabcabcdabcde"
 
     puts abcabcabcdabcde_ptr = LibCR.strstr(str, "abcabcabcdabcde") # equal to the pointer of s[0]
 
@@ -90,5 +90,61 @@ describe "LibCR" do
     assert { LibCR.strstr(str,"abc").should eq abcabcabcdabcde_ptr }
     assert { LibCR.strstr(str,"abcd").should eq abcabcabcdabcde_ptr + 6 }
     assert { LibCR.strstr(str,"abcde").should eq abcabcabcdabcde_ptr + 10 }
+  end
+
+  describe "strchr" do
+    abccd = "abccd"
+    # pass the code point of 'a' to 2nd argument
+    abccd_ptr = LibCR.strchr(abccd, 'a'.ord) # equal to the pointer of abccd[0]
+
+    assert { LibCR.strchr(abccd,'x'.ord).should eq Pointer(UInt8).null }
+    assert { LibCR.strchr(abccd,'a'.ord).should eq abccd_ptr }
+    assert { LibCR.strchr(abccd,'d'.ord).should eq abccd_ptr + 4 }
+    assert { LibCR.strchr(abccd,'\0'.ord).should eq abccd_ptr + 5 }
+    assert { LibCR.strchr(abccd,'c'.ord).should eq abccd_ptr + 2 }
+  end
+
+  describe "strncmp" do
+    abcde = "abcde"
+    abcdx = "abcdx"
+    cmpabcde = "abcde\u{0}f"
+    cmpabcd_ = "abcde\u{fc}" # \u{fc} == ü
+    empty = ""
+    x = "x"
+
+    assert { LibCR.strncmp(abcde, cmpabcde, 5).should eq 0 }
+    assert { LibCR.strncmp(abcde, cmpabcde, 10).should eq 0 }
+    assert { LibCR.strncmp(abcde, abcdx, 5).should be < 0 }
+    assert { LibCR.strncmp(abcdx, abcde, 5).should be > 0 }
+    assert { LibCR.strncmp(empty, abcde, 5).should be < 0 }
+    assert { LibCR.strncmp(abcde, empty, 5).should be > 0 }
+    assert { LibCR.strncmp(abcde, abcdx, 4).should eq 0 }
+    assert { LibCR.strncmp(abcde, x, 0).should eq 0 }
+    assert { LibCR.strncmp(abcde, x, 1).should be < 0 }
+    assert { LibCR.strncmp(abcde, cmpabcd_, 6).should be < 0 }
+
+    # Comparing one byte characters and triple-byte characters
+    assert { LibCR.strncmp("abcde", "あいうえお", 15).should be < 0 }
+    assert { LibCR.strncmp("あいうえお", "abcde", 15).should be > 0 }
+
+    # Comparing the both of triple-byte characters
+    assert { LibCR.strncmp("あいうえお", "あいうえか", 15).should be < 0 }
+    assert { LibCR.strncmp("あいうえか", "あいうえお", 15).should be > 0 }
+    assert { LibCR.strncmp("あいうえお", "あいうえか", 12).should eq 0 }
+  end
+
+  describe "strchrnul" do
+    blank = ""
+    blank_ptr = LibCR.strchrnul(blank, '\u{0}'.ord)
+    str = "abcabc"
+    str_ptr = LibCR.strchrnul(str, 'a'.ord)
+
+    assert { LibCR.strchrnul(blank, 'A'.ord).should eq blank_ptr }
+    assert { LibCR.strchrnul(blank, '\u{0}'.ord).should eq blank_ptr }
+
+    assert { LibCR.strchrnul(str, 'A'.ord).should eq str_ptr + 6 }
+    assert { LibCR.strchrnul(str, 'a'.ord).should eq str_ptr + 0 }
+    assert { LibCR.strchrnul(str, 'c'.ord).should eq str_ptr + 2 }
+    assert { LibCR.strchrnul(str, '\u{0}'.ord).should eq str_ptr + 6 }
   end
 end

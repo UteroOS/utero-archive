@@ -5,8 +5,12 @@ Licensed under permissive MIT license
 */
 
 /*
-memset( void *, int, size_t )
+The part of this file was taken from:
+cyanurus https://github.com/redcap97/cyanurus
+Licensed under the Apache License, Version 2.0
+*/
 
+/*
 The part of the Public Domain C Library (PDCLib).
 Permission is granted to use, modify, and / or redistribute at will.
 */
@@ -81,3 +85,45 @@ char * strstr( const char * s1, const char * s2 )
 // 			return s1 - 1;
 // 	return 0;
 // }
+
+char * strchr( const char * s, int c )
+{
+	do
+	{
+		if ( *s == (char) c )
+		{
+			return (char *) s;
+		}
+	} while ( *s++ );
+	return NULL;
+}
+
+int strncmp( const char * s1, const char * s2, size_t n )
+{
+	while ( *s1 && n && ( *s1 == *s2 ) )
+	{
+		++s1;
+		++s2;
+		--n;
+	}
+	if ( n == 0 )
+	{
+		return 0;
+	}
+	else
+	{
+		return ( *(unsigned char *)s1 - *(unsigned char *)s2 );
+	}
+}
+
+char *strchrnul(const char *s, int c) {
+	unsigned char *r = (unsigned char*)s, a = (unsigned char)c;
+
+	while (*r) {
+		if (*r == a) {
+			break;
+		}
+		r++;
+	}
+	return (char*)r;
+}

@@ -111,3 +111,15 @@ int strncmp( const char * s1, const char * s2, size_t n )
 		return ( *(unsigned char *)s1 - *(unsigned char *)s2 );
 	}
 }
+
+char *strchrnul(const char *s, int c) {
+	unsigned char *r = (unsigned char*)s, a = (unsigned char)c;
+
+	while (*r) {
+		if (*r == a) {
+			break;
+		}
+		r++;
+	}
+	return (char*)r;
+}

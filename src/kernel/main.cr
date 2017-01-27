@@ -7,7 +7,7 @@
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
 
-require "./core/prelude"
+require "../core/prelude"
 require "./scrn"
 # require "./lib_cr/string"
 # FIXME: or KILLME

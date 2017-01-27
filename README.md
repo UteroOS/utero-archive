@@ -62,3 +62,7 @@ Referred to Writing an OS in Rust series at [os.phil-opp.com](http://os.phil-opp
 * http://os.phil-opp.com/multiboot-kernel.html
 * http://os.phil-opp.com/entering-longmode.html
 * http://os.phil-opp.com/set-up-rust.html
+
+NuummiteOS  
+This is a great OS **almost** written in Crystal!  
+https://github.com/TheKernelCorp/NuummiteOS

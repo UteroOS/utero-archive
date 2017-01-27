@@ -8,7 +8,7 @@
 # except according to those terms.
 
 require "./core/prelude"
-require "./arch/x86_64/scrn"
+require "./scrn"
 # require "./lib_cr/string"
 # FIXME: or KILLME
 # require "./lib_cr/no_bind/libstring"

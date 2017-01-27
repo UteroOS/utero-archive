@@ -7,10 +7,6 @@
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
 
-require "../../core/int.cr"
-require "../../core/string.cr"
-require "../../core/pointer.cr"
-
 struct Scrn
   def initialize
     @framebuffer = Pointer(UInt16).new(0xb8000u64)

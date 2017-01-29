@@ -25,5 +25,6 @@ void* memset(void* bufptr, int value, size_t size);
 // char *strstr(char *s1, const char *s2);
 // char *strchr(const char *s, int c);
 // int strncmp(const char * s1, const char * s2, size_t n);
+void * memchr( const void * s, int c, size_t n );
 // char *ctos(char s[2], const char c);
 #endif

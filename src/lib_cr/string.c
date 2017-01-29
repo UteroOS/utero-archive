@@ -17,21 +17,25 @@ Permission is granted to use, modify, and / or redistribute at will.
 
 #include "string.h"
 
+void * memchr( const void * s, int c, size_t n )
+{
+	const unsigned char * p = (const unsigned char *) s;
+	while ( n-- )
+	{
+		if ( *p == (unsigned char) c )
+		{
+			return (void *) p;
+		}
+		++p;
+	}
+	return NULL;
+}
+
 int memcmp(const void *vl, const void *vr, size_t n)
 {
 	const unsigned char *l=vl, *r=vr;
 	for (; n && *l == *r; n--, l++, r++);
 	return n ? *l-*r : 0;
-}
-
-void * memset( void * s, int c, size_t n )
-{
-	unsigned char * p = (unsigned char *) s;
-	while ( n-- )
-	{
-		*p++ = (unsigned char) c;
-	}
-	return s;
 }
 
 int strcmp( const char * s1, const char * s2 )
@@ -42,6 +46,16 @@ int strcmp( const char * s1, const char * s2 )
 		++s2;
 	}
 	return ( *(unsigned char *)s1 - *(unsigned char *)s2 );
+}
+
+void * memset( void * s, int c, size_t n )
+{
+	unsigned char * p = (unsigned char *) s;
+	while ( n-- )
+	{
+		*p++ = (unsigned char) c;
+	}
+	return s;
 }
 
 size_t strlen( const char * s )
@@ -126,18 +140,4 @@ char *strchrnul(const char *s, int c) {
 		r++;
 	}
 	return (char*)r;
-}
-
-void * memchr( const void * s, int c, size_t n )
-{
-	const unsigned char * p = (const unsigned char *) s;
-	while ( n-- )
-	{
-		if ( *p == (unsigned char) c )
-		{
-			return (void *) p;
-		}
-		++p;
-	}
-	return NULL;
 }

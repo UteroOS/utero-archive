@@ -147,4 +147,15 @@ describe "LibCR" do
     assert { LibCR.strchrnul(str, 'c'.ord).should eq str_ptr + 2 }
     assert { LibCR.strchrnul(str, '\u{0}'.ord).should eq str_ptr + 6 }
   end
+
+  describe "memchr" do
+    abcde = "abcde"
+    abcde_ptr = LibCR.memchr(abcde, 'a'.ord, 1) # equal to the pointer of abcde[0]
+
+    assert { LibCR.memchr( abcde, 'c'.ord, 5 ).should eq abcde_ptr + 2 }
+    assert { LibCR.memchr( abcde, 'a'.ord, 1 ).should eq abcde_ptr }
+    assert { LibCR.memchr( abcde, 'a'.ord, 0 ).should eq Pointer(Void).null }
+    assert { LibCR.memchr( abcde, '\0'.ord, 5 ).should eq Pointer(Void).null }
+    assert { LibCR.memchr( abcde, '\0'.ord, 6 ).should eq abcde_ptr + 5 }
+  end
 end

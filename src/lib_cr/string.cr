@@ -10,9 +10,11 @@
 require "./stddef"
 
 lib LibCR
+  fun memchr(x0 : Void*, x1 : Int, n : SizeT) : Void*
   fun memcmp(x0 : Void*, x1 : Void*, x2 : SizeT) : Int
-  fun memset(dest : Void*, src : Int, len : SizeT) : Void*
   fun strcmp(x0 : Char*, x1 : Char*) : Int
+  fun memset(dest : Void*, src : Int, len : SizeT) : Void*
+  # fun strerror(x0 : Int) : Char*
   fun strlen(x0 : Char*) : SizeT
   fun strstr(x0 : Char*, x1 : Char*) : Char*
   fun strchr(x0 : Char*, x1 : Int) : Char*

@@ -81,4 +81,4 @@ $(libcr): $(libcr_object_files)
 
 build/lib_cr/%.o: src/lib_cr/%.c
 				@mkdir -p $(shell dirname $@)
-				@cc -o $@ -c $<
+				@cc -ffreestanding -o $@ -c $<

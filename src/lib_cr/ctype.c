@@ -1,30 +1,37 @@
 /*
 Copyright (c) 2016-2017 Utero OS Developers. See the COPYRIGHT
 file at the top-level directory of this distribution.
-
+#
 Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
 http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
 <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 option. This file may not be copied, modified, or distributed
 except according to those terms.
-
-The part of this file was taken from:
-https://github.com/phil-opp/blog_os/blob/set_up_rust/src/arch/x86_64/linker.ld
 */
 
-ENTRY(start)
+#include "ctype.h"
 
-SECTIONS {
-		. = 1M;
+int isupper(char c)
+{
+	return (c >= 'A' && c <= 'Z');
+}
 
-		.boot :
-		{
-				/* ensure that the multiboot header is at the beginning */
-				KEEP(*(.multiboot_header))
-		}
+int islower(char c)
+{
+	return (c >= 'a' && c <= 'z');
+}
 
-		.text :
-		{
-				*(.text)
-		}
+int isalpha(char c)
+{
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+
+int isspace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\12');
+}
+
+int isdigit(char c)
+{
+	return (c >= '0' && c <= '9');
 }

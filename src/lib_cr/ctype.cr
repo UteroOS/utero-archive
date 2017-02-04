@@ -6,14 +6,13 @@
 # <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
-#
-# The part of this file was taken from:
-# https://github.com/phil-opp/blog_os/blob/set_up_rust/src/arch/x86_64/grub.cfg
 
-set timeout=0
-set default=0
+require "./stddef"
 
-menuentry "utero" {
-    multiboot2 /boot/kernel.bin
-    boot
-}
+lib LibCR
+  fun isupper(c : Char) : Int
+  fun islower(c : Char) : Int
+  fun isalpha(c : Char) : Int
+  fun isspace(c : Char) : Int
+  fun isdigit(c : Char) : Int
+end

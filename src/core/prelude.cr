@@ -1,4 +1,4 @@
-# Copyright 2016 Utero OS Developers. See the COPYRIGHT
+# Copyright (c) 2016-2017 Utero OS Developers. See the COPYRIGHT
 # file at the top-level directory of this distribution.
 #
 # Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
@@ -9,6 +9,7 @@
 
 # Order-dependent list
 require "../lib_cr/string"
+require "../lib_cr/ctype"
 require "./string"
 
 # Alpha-sorted list

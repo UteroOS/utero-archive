@@ -1,4 +1,4 @@
-# Copyright 2016 Utero OS Developers. See the COPYRIGHT
+# Copyright (c) 2016-2017 Utero OS Developers. See the COPYRIGHT
 # file at the top-level directory of this distribution.
 #
 # Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or

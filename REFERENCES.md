@@ -1,0 +1,20 @@
+## References
+### Writing an OS in Rust series at [os.phil-opp.com](http://os.phil-opp.com/).  
+
+* http://os.phil-opp.com/multiboot-kernel.html
+* http://os.phil-opp.com/entering-longmode.html
+* http://os.phil-opp.com/set-up-rust.html
+
+-----
+
+### NuummiteOS  
+This is a great OS **almost** written in Crystal!  
+
+https://github.com/TheKernelCorp/NuummiteOS
+
+-----
+
+### Create Your Own Operating System: Build, deploy, and test your very own operating systems for the Internet of Things and other devices Kindle Edition
+by Lucus Darnell
+
+https://www.amazon.com/Create-Your-Own-Operating-System-ebook/dp/B01KU8N6FC/ref=cm_cr_arp_d_product_top?ie=UTF8

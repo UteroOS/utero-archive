@@ -9,12 +9,12 @@
 
 struct Scrn
   def initialize
-    @framebuffer = Pointer(UInt16).new(0xb8000u64)
+    @framebuffer = Pointer(UInt16).new(0xb8000_u64)
     @col = 0
     @row = 0
     80.times do |col|
       16.times do |row|
-        @framebuffer[row * 80 + col] = 0u16
+        @framebuffer[row * 80 + col] = 0_u16
       end
     end
   end
@@ -37,7 +37,7 @@ struct Scrn
       end
       return
     end
-    @framebuffer[@row * 80 + @col] = ((15u16 << 8) | (0u16 << 12) | byte).as UInt16
+    @framebuffer[@row * 80 + @col] = ((15_u16 << 8) | (0_u16 << 12) | byte).as(UInt16)
     @col += 1
     if @col == 80
       @col = 0

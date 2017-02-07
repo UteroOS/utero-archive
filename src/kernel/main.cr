@@ -19,6 +19,7 @@ puts "Hello World from Crystal!!!"
 puts
 puts "Welcome to Utero!!!"
 puts
+puts "\t\t\t\t\t\t\t\t\t\t\ttab * 11 = 80 cols + 8 cols(in the next line)"
 
 # puts "---------strlen------------"
 # ab = "abc"

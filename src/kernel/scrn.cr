@@ -19,10 +19,14 @@ struct Scrn
     end
   end
 
+  private def linebreak
+    @col = 0
+    @row += 1
+  end
+
   private def put_byte(byte)
     if byte == '\n'.ord
-      @col = 0
-      @row += 1
+      linebreak
       return
     end
     if byte == '\r'.ord
@@ -32,16 +36,14 @@ struct Scrn
     if byte == '\t'.ord
       @col = (@col + 8) / 8 * 8
       if @col >= 80
-        @col = 0
-        @row += 1
+        linebreak
       end
       return
     end
     @framebuffer[@row * 80 + @col] = ((15_u16 << 8) | (0_u16 << 12) | byte).as(UInt16)
     @col += 1
     if @col == 80
-      @col = 0
-      @row += 1
+      linebreak
     end
   end
 
@@ -51,8 +53,7 @@ struct Scrn
 
   def puts(str)
     print(str)
-    @col = 0
-    @row += 1
+    linebreak
   end
 end
 

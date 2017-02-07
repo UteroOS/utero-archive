@@ -35,16 +35,13 @@ struct Scrn
     end
     if byte == '\t'.ord
       @col = (@col + 8) / 8 * 8
-      if @col >= 80
-        linebreak
-      end
+      linebreak if @col >= 80
       return
     end
+
     @framebuffer[@row * 80 + @col] = ((15_u16 << 8) | (0_u16 << 12) | byte).as(UInt16)
     @col += 1
-    if @col == 80
-      linebreak
-    end
+    linebreak if @col == 80
   end
 
   def print(str)

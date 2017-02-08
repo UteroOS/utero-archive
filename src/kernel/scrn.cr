@@ -8,13 +8,19 @@
 # except according to those terms.
 
 struct Scrn
+  # Constants
+  private TAB_SIZE = 8
+  private VGA_WIDTH = 80
+  private VGA_HEIGHT = 25
+  # private VGA_SIZE = VGA_WIDTH * VGA_HEIGHT
+
   def initialize
     @framebuffer = Pointer(UInt16).new(0xb8000_u64)
     @col = 0
     @row = 0
-    80.times do |col|
-      16.times do |row|
-        @framebuffer[row * 80 + col] = 0_u16
+    VGA_WIDTH.times do |col|
+      VGA_HEIGHT.times do |row|
+        @framebuffer[row * VGA_WIDTH + col] = 0_u16
       end
     end
   end
@@ -34,14 +40,16 @@ struct Scrn
       return
     end
     if byte == '\t'.ord
-      @col = (@col + 8) / 8 * 8
-      linebreak if @col >= 80
+      # Handles a tab by incrementing the cursor's x, but only
+      # to a point that will make it divisible by TAB_SIZE
+      @col = (@col + TAB_SIZE) / TAB_SIZE * TAB_SIZE
+      linebreak if @col >= VGA_WIDTH
       return
     end
 
-    @framebuffer[@row * 80 + @col] = ((15_u16 << 8) | (0_u16 << 12) | byte).as(UInt16)
+    @framebuffer[@row * VGA_WIDTH + @col] = ((15_u16 << 8) | (0_u16 << 12) | byte).as(UInt16)
     @col += 1
-    linebreak if @col == 80
+    linebreak if @col == VGA_WIDTH
   end
 
   def print(str)

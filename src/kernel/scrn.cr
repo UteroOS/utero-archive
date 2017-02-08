@@ -13,14 +13,15 @@ struct Scrn
   private VGA_WIDTH = 80
   private VGA_HEIGHT = 25
   # private VGA_SIZE = VGA_WIDTH * VGA_HEIGHT
+  private VGA_MEMORY = Pointer(UInt16).new(0xb8000_u64)
 
   def initialize
-    @framebuffer = Pointer(UInt16).new(0xb8000_u64)
+    @vmem = VGA_MEMORY
     @col = 0
     @row = 0
     VGA_WIDTH.times do |col|
       VGA_HEIGHT.times do |row|
-        @framebuffer[row * VGA_WIDTH + col] = 0_u16
+        @vmem[row * VGA_WIDTH + col] = 0_u16
       end
     end
   end
@@ -47,7 +48,7 @@ struct Scrn
       return
     end
 
-    @framebuffer[@row * VGA_WIDTH + @col] = ((15_u16 << 8) | (0_u16 << 12) | byte).as(UInt16)
+    @vmem[@row * VGA_WIDTH + @col] = ((15_u16 << 8) | (0_u16 << 12) | byte).as(UInt16)
     @col += 1
     linebreak if @col == VGA_WIDTH
   end

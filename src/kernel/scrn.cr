@@ -26,9 +26,21 @@ struct Scrn
     end
   end
 
+  private def scroll
+    VGA_WIDTH.times do |col|
+      VGA_HEIGHT.times do |row|
+        @vmem[row * VGA_WIDTH + col] = @vmem[(row + 1) * VGA_WIDTH + col]
+      end
+    end
+    @row = VGA_HEIGHT - 1
+  end
+
   private def linebreak
     @col = 0
     @row += 1
+    if @row == VGA_HEIGHT
+      scroll
+    end
   end
 
   private def put_byte(byte)

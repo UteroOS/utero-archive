@@ -6,13 +6,14 @@
 # <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
+require "../arch/x86_64/io"
 
 struct Scrn
   # Constants
   private TAB_SIZE = 8
   private VGA_WIDTH = 80
   private VGA_HEIGHT = 25
-  # private VGA_SIZE = VGA_WIDTH * VGA_HEIGHT
+  private VGA_SIZE = VGA_WIDTH * VGA_HEIGHT
   private VGA_MEMORY = Pointer(UInt16).new(0xb8000_u64)
 
   def initialize
@@ -35,12 +36,43 @@ struct Scrn
     @row = VGA_HEIGHT - 1
   end
 
+  # /* Updates the hardware cursor: the little blinking line
+  # *  on the screen under the last character pressed! */
+  private def move_csr(col, row)
+      # /* The equation for finding the index in a linear
+      # *  chunk of memory can be represented by:
+      # *  Index = [(y * width) + x] */
+      # temp = @row * VGA_WIDTH + @col
+      temp = row * VGA_WIDTH + col
+
+      # /* This sends a command to indicies 14 and 15 in the
+      # *  CRT Control Register of the VGA controller. These
+      # *  are the high and low bytes of the index that show
+      # *  where the hardware cursor is to be 'blinking'. To
+      # *  learn more, you should look up some VGA specific
+      # *  programming documents. A great start to graphics:
+      # *  http://www.brackeen.com/home/vga */
+      outb(0x3d4_u16, 15_u8)
+      outb(0x3d5_u16, temp.to_u8)
+      outb(0x3d4_u16, 14_u8)
+      outb(0x3d5_u16, (temp >> 8).to_u8)
+  end
+
+  def clear
+    # attr = make_attribute BLANK, @@color
+    attr = 0x0f.to_u16 << 8 | ' '.ord
+    VGA_SIZE.times { |i| @vmem[i] = attr }
+
+    @col = 0
+    @row = 0
+    move_csr(@col, @row)
+  end
+
   private def linebreak
     @col = 0
     @row += 1
-    if @row == VGA_HEIGHT
-      scroll
-    end
+    scroll if @row == VGA_HEIGHT
+    # move_csr(@col, @row)
   end
 
   private def put_byte(byte)
@@ -87,4 +119,8 @@ end
 
 def puts
   print "\n"
+end
+
+def clear
+  SCRN.clear
 end

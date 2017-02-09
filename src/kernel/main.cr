@@ -46,6 +46,8 @@ puts "28: Welcome to Utero!!!"
 puts "29: "
 puts "30: \t\t\t\t\t\t\t\t\t\t\ttab * 11 = 80 cols + 8 cols(in the next line)"
 
+# clear
+
 # puts "---------strlen------------"
 # ab = "abc"
 # ab_len = LibString.strlen(ab.as(LibCR::Char*))

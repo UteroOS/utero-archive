@@ -39,13 +39,15 @@ puts "22:"
 puts "23:"
 print "24: This line uses print method + \\n\n"
 
+set_color(VGAColor::WHITE.value, VGAColor::BLACK.value)
 puts "25: "
 puts "26: Hello World from Crystal!!!"
 puts "27: "
 puts "28: Welcome to Utero!!!"
 puts "29: "
 puts "30: \t\t\t\t\t\t\t\t\t\t\ttab * 11 = 80 cols + 8 cols(in the next line)"
-
+reset_color
+puts "31: Reset Color"
 # clear
 
 # puts "---------strlen------------"

@@ -14,12 +14,44 @@ require "./scrn"
 # require "./lib_cr/no_bind/libstring"
 # include NoBind
 
-puts
-puts "Hello World from Crystal!!!"
-puts
-puts "Welcome to Utero!!!"
-puts
-puts "\t\t\t\t\t\t\t\t\t\t\ttab * 11 = 80 cols + 8 cols(in the next line)"
+puts "1:"
+puts "2:"
+puts "3:"
+puts "4:"
+puts "5:"
+puts "6:"
+puts "7:"
+puts "8:"
+puts "9:"
+puts "10:"
+puts "11:"
+puts "12:"
+puts "13:"
+puts "14:"
+puts "15:"
+puts "16:"
+puts "17:"
+puts "18:"
+puts "19:"
+puts "20:"
+puts "21:"
+puts "22:"
+puts "23:"
+print "24: This line uses print method + \\n\n"
+
+set_color(VGAColor::WHITE.value, VGAColor::BLACK.value)
+puts "25: "
+puts "26: Hello World from Crystal!!!"
+puts "27: "
+puts "28: Welcome to Utero!!!"
+puts "29: "
+puts "30: \t\t\t\t\t\t\t\t\t\t\ttab * 11 = 80 cols + 8 cols(in the next line)"
+reset_color
+puts "31: Reset Color"
+# print 80 characters and insert a blank into the end of line
+print "32: 5678901234567890123456789012345678901234567890123456789012345678901234567890"
+print "\b"
+# clear
 
 # puts "---------strlen------------"
 # ab = "abc"

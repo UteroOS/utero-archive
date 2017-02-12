@@ -8,8 +8,21 @@
 # except according to those terms.
 
 struct Int
+  def >>(count)
+    self.unsafe_shr(count)
+  end
+
   def <<(count)
-    unsafe_shl(count)
+    self.unsafe_shl(count)
+  end
+
+  # from line 226
+  def abs
+    self >= 0 ? self : -self
+  end
+
+  def -
+    0 - self
   end
 
   def /(x : Int)

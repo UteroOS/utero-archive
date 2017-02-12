@@ -95,6 +95,17 @@ struct Scrn
       linebreak if @col >= VGA_WIDTH
       return
     end
+    # Backspace
+    if byte == '\b'.ord
+      if @col == 0
+        @row = @row > 0 ? @row - 1 : 0
+        @col = VGA_WIDTH - 1
+      else
+        @col -= 1
+      end
+      @vmem[@row * VGA_WIDTH + @col] = (@vga_color.to_u16 << 8 | ' '.ord).as(UInt16)
+      return
+    end
 
     @vmem[@row * VGA_WIDTH + @col] = (@vga_color.to_u16 << 8 | byte).as(UInt16)
     @col += 1

@@ -18,3 +18,6 @@ https://github.com/TheKernelCorp/NuummiteOS
 by Lucus Darnell
 
 https://www.amazon.com/Create-Your-Own-Operating-System-ebook/dp/B01KU8N6FC/ref=cm_cr_arp_d_product_top?ie=UTF8
+
+### bkerndev Bran's Kernel Development A tutorial on writing kernels
+http://www.osdever.net/bkerndev/Docs/title.htm

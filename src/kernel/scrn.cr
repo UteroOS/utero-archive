@@ -33,11 +33,20 @@ struct Scrn
   end
 
   private def scroll
+    # Move the current text chunk that makes up the screen
+    # back in the buffer by a line
     VGA_WIDTH.times do |col|
       VGA_HEIGHT.times do |row|
         @vmem[row * VGA_WIDTH + col] = @vmem[(row + 1) * VGA_WIDTH + col]
       end
     end
+
+    # Insert VGA_WIDTH blank character to the last line
+    VGA_WIDTH.times do |x|
+      @vmem[VGA_SIZE - VGA_WIDTH + x] = (@vga_color.to_u16 << 8 | ' '.ord).as(UInt16)
+    end
+
+    # The cursor should be on the last line
     @row = VGA_HEIGHT - 1
   end
 

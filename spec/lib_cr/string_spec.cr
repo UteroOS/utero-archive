@@ -84,12 +84,12 @@ describe "LibCR" do
 
     puts abcabcabcdabcde_ptr = LibCR.strstr(str, "abcabcabcdabcde") # equal to the pointer of s[0]
 
-    assert { LibCR.strstr(str,"x").should eq Pointer(UInt8).null }
-    assert { LibCR.strstr(str,"xyz").should eq Pointer(UInt8).null }
-    assert { LibCR.strstr(str,"a").should eq abcabcabcdabcde_ptr }
-    assert { LibCR.strstr(str,"abc").should eq abcabcabcdabcde_ptr }
-    assert { LibCR.strstr(str,"abcd").should eq abcabcabcdabcde_ptr + 6 }
-    assert { LibCR.strstr(str,"abcde").should eq abcabcabcdabcde_ptr + 10 }
+    assert { LibCR.strstr(str, "x").should eq Pointer(UInt8).null }
+    assert { LibCR.strstr(str, "xyz").should eq Pointer(UInt8).null }
+    assert { LibCR.strstr(str, "a").should eq abcabcabcdabcde_ptr }
+    assert { LibCR.strstr(str, "abc").should eq abcabcabcdabcde_ptr }
+    assert { LibCR.strstr(str, "abcd").should eq abcabcabcdabcde_ptr + 6 }
+    assert { LibCR.strstr(str, "abcde").should eq abcabcabcdabcde_ptr + 10 }
   end
 
   describe "strchr" do
@@ -97,11 +97,11 @@ describe "LibCR" do
     # pass the code point of 'a' to 2nd argument
     abccd_ptr = LibCR.strchr(abccd, 'a'.ord) # equal to the pointer of abccd[0]
 
-    assert { LibCR.strchr(abccd,'x'.ord).should eq Pointer(UInt8).null }
-    assert { LibCR.strchr(abccd,'a'.ord).should eq abccd_ptr }
-    assert { LibCR.strchr(abccd,'d'.ord).should eq abccd_ptr + 4 }
-    assert { LibCR.strchr(abccd,'\0'.ord).should eq abccd_ptr + 5 }
-    assert { LibCR.strchr(abccd,'c'.ord).should eq abccd_ptr + 2 }
+    assert { LibCR.strchr(abccd, 'x'.ord).should eq Pointer(UInt8).null }
+    assert { LibCR.strchr(abccd, 'a'.ord).should eq abccd_ptr }
+    assert { LibCR.strchr(abccd, 'd'.ord).should eq abccd_ptr + 4 }
+    assert { LibCR.strchr(abccd, '\0'.ord).should eq abccd_ptr + 5 }
+    assert { LibCR.strchr(abccd, 'c'.ord).should eq abccd_ptr + 2 }
   end
 
   describe "strncmp" do
@@ -152,10 +152,10 @@ describe "LibCR" do
     abcde = "abcde"
     abcde_ptr = LibCR.memchr(abcde, 'a'.ord, 1) # equal to the pointer of abcde[0]
 
-    assert { LibCR.memchr( abcde, 'c'.ord, 5 ).should eq abcde_ptr + 2 }
-    assert { LibCR.memchr( abcde, 'a'.ord, 1 ).should eq abcde_ptr }
-    assert { LibCR.memchr( abcde, 'a'.ord, 0 ).should eq Pointer(Void).null }
-    assert { LibCR.memchr( abcde, '\0'.ord, 5 ).should eq Pointer(Void).null }
-    assert { LibCR.memchr( abcde, '\0'.ord, 6 ).should eq abcde_ptr + 5 }
+    assert { LibCR.memchr(abcde, 'c'.ord, 5).should eq abcde_ptr + 2 }
+    assert { LibCR.memchr(abcde, 'a'.ord, 1).should eq abcde_ptr }
+    assert { LibCR.memchr(abcde, 'a'.ord, 0).should eq Pointer(Void).null }
+    assert { LibCR.memchr(abcde, '\0'.ord, 5).should eq Pointer(Void).null }
+    assert { LibCR.memchr(abcde, '\0'.ord, 6).should eq abcde_ptr + 5 }
   end
 end

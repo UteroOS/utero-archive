@@ -41,26 +41,27 @@ struct Scrn
     @row = VGA_HEIGHT - 1
   end
 
-  # /* Updates the hardware cursor: the little blinking line
-  # *  on the screen under the last character pressed! */
+  # Comments are taken from http://www.osdever.net/bkerndev/Docs/printing.htm
+  # Updates the hardware cursor: the little blinking line
+  # on the screen under the last character pressed!
   private def move_csr(col, row)
-      # /* The equation for finding the index in a linear
-      # *  chunk of memory can be represented by:
-      # *  Index = [(y * width) + x] */
-      # temp = @row * VGA_WIDTH + @col
-      temp = row * VGA_WIDTH + col
+    # The equation for finding the index in a linear
+    # chunk of memory can be represented by:
+    # Index = [(y * width) + x]
+    # temp = @row * VGA_WIDTH + @col
+    temp = row * VGA_WIDTH + col
 
-      # /* This sends a command to indicies 14 and 15 in the
-      # *  CRT Control Register of the VGA controller. These
-      # *  are the high and low bytes of the index that show
-      # *  where the hardware cursor is to be 'blinking'. To
-      # *  learn more, you should look up some VGA specific
-      # *  programming documents. A great start to graphics:
-      # *  http://www.brackeen.com/home/vga */
-      outb(0x3d4_u16, 15_u8)
-      outb(0x3d5_u16, temp.to_u8)
-      outb(0x3d4_u16, 14_u8)
-      outb(0x3d5_u16, (temp >> 8).to_u8)
+    # This sends a command to indicies 14 and 15 in the
+    # CRT Control Register of the VGA controller. These
+    # are the high and low bytes of the index that show
+    # where the hardware cursor is to be 'blinking'. To
+    # learn more, you should look up some VGA specific
+    # programming documents. A great start to graphics:
+    # http://www.brackeen.com/home/vga
+    outb(0x3d4_u16, 15_u8)
+    outb(0x3d5_u16, temp.to_u8)
+    outb(0x3d4_u16, 14_u8)
+    outb(0x3d5_u16, (temp >> 8).to_u8)
   end
 
   def clear

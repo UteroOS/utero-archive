@@ -53,12 +53,11 @@ struct Scrn
   # Comments are taken from http://www.osdever.net/bkerndev/Docs/printing.htm
   # Updates the hardware cursor: the little blinking line
   # on the screen under the last character pressed!
-  private def move_csr(col, row)
+  private def move_csr
     # The equation for finding the index in a linear
     # chunk of memory can be represented by:
     # Index = [(y * width) + x]
-    # temp = @row * VGA_WIDTH + @col
-    temp = row * VGA_WIDTH + col
+    temp = @row * VGA_WIDTH + @col
 
     # This sends a command to indicies 14 and 15 in the
     # CRT Control Register of the VGA controller. These
@@ -79,14 +78,14 @@ struct Scrn
 
     @col = 0
     @row = 0
-    move_csr(@col, @row)
+    move_csr
   end
 
   private def linebreak
     @col = 0
     @row += 1
     scroll if @row == VGA_HEIGHT
-    move_csr(@col, @row)
+    move_csr
   end
 
   private def put_byte(byte)

@@ -54,7 +54,7 @@ struct Scrn
   # Comments are taken from http://www.osdever.net/bkerndev/Docs/printing.htm
   # Updates the hardware cursor: the little blinking line
   # on the screen under the last character pressed!
-  private def move_csr
+  private def update_cur
     # The equation for finding the index in a linear
     # chunk of memory can be represented by:
     # Index = [(y * width) + x]
@@ -79,14 +79,14 @@ struct Scrn
 
     @cur_x = 0
     @cur_y = 0
-    move_csr
+    update_cur
   end
 
   private def linebreak
     @cur_x = 0
     @cur_y += 1
     scroll if @cur_y == VGA_HEIGHT
-    move_csr
+    update_cur
   end
 
   private def put_byte(byte)
@@ -120,7 +120,7 @@ struct Scrn
     @vmem[@cur_y * VGA_WIDTH + @cur_x] = (@vga_color.to_u16 << 8 | byte).as(UInt16)
     @cur_x += 1
     linebreak if @cur_x == VGA_WIDTH
-    move_csr
+    update_cur
   end
 
   def set_default_color

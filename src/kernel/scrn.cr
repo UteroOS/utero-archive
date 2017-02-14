@@ -119,6 +119,7 @@ struct Scrn
     @vmem[@row * VGA_WIDTH + @col] = (@vga_color.to_u16 << 8 | byte).as(UInt16)
     @col += 1
     linebreak if @col == VGA_WIDTH
+    move_csr
   end
 
   def set_default_color

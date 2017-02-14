@@ -30,6 +30,7 @@ struct Scrn
         @vmem[row * VGA_WIDTH + col] = 0_u16
       end
     end
+    clear
   end
 
   private def scroll

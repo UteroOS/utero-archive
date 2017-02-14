@@ -21,35 +21,44 @@ struct Scrn
 
   def initialize
     @vmem = VGA_MEMORY
-    @col = 0
-    @row = 0
+    @cur_x = 0
+    @cur_y = 0
     @vga_color = set_default_color.as(UInt8)
 
-    VGA_WIDTH.times do |col|
-      VGA_HEIGHT.times do |row|
-        @vmem[row * VGA_WIDTH + col] = 0_u16
+    VGA_WIDTH.times do |cur_x|
+      VGA_HEIGHT.times do |cur_y|
+        @vmem[cur_y * VGA_WIDTH + cur_x] = 0_u16
       end
     end
+    clear
   end
 
   private def scroll
-    VGA_WIDTH.times do |col|
-      VGA_HEIGHT.times do |row|
-        @vmem[row * VGA_WIDTH + col] = @vmem[(row + 1) * VGA_WIDTH + col]
+    # Move the current text chunk that makes up the screen
+    # back in the buffer by a line
+    VGA_WIDTH.times do |cur_x|
+      VGA_HEIGHT.times do |cur_y|
+        @vmem[cur_y * VGA_WIDTH + cur_x] = @vmem[(cur_y + 1) * VGA_WIDTH + cur_x]
       end
     end
-    @row = VGA_HEIGHT - 1
+
+    # Insert VGA_WIDTH blank character to the last line
+    VGA_WIDTH.times do |cur_x|
+      @vmem[VGA_SIZE - VGA_WIDTH + cur_x] = (@vga_color.to_u16 << 8 | ' '.ord).as(UInt16)
+    end
+
+    # The cursor should be on the last line
+    @cur_y = VGA_HEIGHT - 1
   end
 
   # Comments are taken from http://www.osdever.net/bkerndev/Docs/printing.htm
   # Updates the hardware cursor: the little blinking line
   # on the screen under the last character pressed!
-  private def move_csr(col, row)
+  private def update_cur
     # The equation for finding the index in a linear
     # chunk of memory can be represented by:
     # Index = [(y * width) + x]
-    # temp = @row * VGA_WIDTH + @col
-    temp = row * VGA_WIDTH + col
+    temp = @cur_y * VGA_WIDTH + @cur_x
 
     # This sends a command to indicies 14 and 15 in the
     # CRT Control Register of the VGA controller. These
@@ -68,16 +77,16 @@ struct Scrn
     attr = 0x0f.to_u16 << 8 | ' '.ord
     VGA_SIZE.times { |i| @vmem[i] = attr }
 
-    @col = 0
-    @row = 0
-    move_csr(@col, @row)
+    @cur_x = 0
+    @cur_y = 0
+    update_cur
   end
 
   private def linebreak
-    @col = 0
-    @row += 1
-    scroll if @row == VGA_HEIGHT
-    move_csr(@col, @row)
+    @cur_x = 0
+    @cur_y += 1
+    scroll if @cur_y == VGA_HEIGHT
+    update_cur
   end
 
   private def put_byte(byte)
@@ -86,31 +95,32 @@ struct Scrn
       return
     end
     if byte == '\r'.ord
-      @col = 0
+      @cur_x = 0
       return
     end
     if byte == '\t'.ord
       # Handles a tab by incrementing the cursor's x, but only
       # to a point that will make it divisible by TAB_SIZE
-      @col = (@col + TAB_SIZE) / TAB_SIZE * TAB_SIZE
-      linebreak if @col >= VGA_WIDTH
+      @cur_x = (@cur_x + TAB_SIZE) / TAB_SIZE * TAB_SIZE
+      linebreak if @cur_x >= VGA_WIDTH
       return
     end
     # Backspace
     if byte == '\b'.ord
-      if @col == 0
-        @row = @row > 0 ? @row - 1 : 0
-        @col = VGA_WIDTH - 1
+      if @cur_x == 0
+        @cur_y = @cur_y > 0 ? @cur_y - 1 : 0
+        @cur_x = VGA_WIDTH - 1
       else
-        @col -= 1
+        @cur_x -= 1
       end
-      @vmem[@row * VGA_WIDTH + @col] = (@vga_color.to_u16 << 8 | ' '.ord).as(UInt16)
+      @vmem[@cur_y * VGA_WIDTH + @cur_x] = (@vga_color.to_u16 << 8 | ' '.ord).as(UInt16)
       return
     end
 
-    @vmem[@row * VGA_WIDTH + @col] = (@vga_color.to_u16 << 8 | byte).as(UInt16)
-    @col += 1
-    linebreak if @col == VGA_WIDTH
+    @vmem[@cur_y * VGA_WIDTH + @cur_x] = (@vga_color.to_u16 << 8 | byte).as(UInt16)
+    @cur_x += 1
+    linebreak if @cur_x == VGA_WIDTH
+    update_cur
   end
 
   def set_default_color

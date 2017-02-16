@@ -104,4 +104,21 @@ describe "LibCR" do
       assert { LibCR.isdigit('@'.ord).should eq 0 }
     end
   end
+
+  describe "fun isalnum(c : Char) : Int" do
+    context "Return non-zero when a character or a digit" do
+      assert { LibCR.isalnum('a'.ord).should_not eq 0 }
+      assert { LibCR.isalnum('z'.ord).should_not eq 0 }
+      assert { LibCR.isalnum('A'.ord).should_not eq 0 }
+      assert { LibCR.isalnum('Z'.ord).should_not eq 0 }
+      assert { LibCR.isalnum('0'.ord).should_not eq 0 }
+      assert { LibCR.isalnum('9'.ord).should_not eq 0 }
+    end
+
+    context "Return zero when a non-character or a non-digit" do
+      assert { LibCR.isalnum(' '.ord).should eq 0 }
+      assert { LibCR.isalnum('\n'.ord).should eq 0 }
+      assert { LibCR.isalnum('@'.ord).should eq 0 }
+    end
+  end
 end

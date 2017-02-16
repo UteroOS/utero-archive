@@ -14,8 +14,9 @@ except according to those terms.
 
 int isalpha(char c);
 int isdigit(char c);
-int islower(char c);
-int isspace(char c);
-int isupper(char c);
+// int isalnum(int c);
+// int islower(char c);
+// int isspace(char c);
+// int isupper(char c);
 
 #endif

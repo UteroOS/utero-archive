@@ -16,6 +16,11 @@ int isalpha(char c)
 	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
+int isalnum(int c)
+{
+	return isalpha(c) || isdigit(c);
+}
+
 int isdigit(char c)
 {
 	return (c >= '0' && c <= '9');

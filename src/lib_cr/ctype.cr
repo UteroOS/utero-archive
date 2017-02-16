@@ -13,6 +13,7 @@ lib LibCR
   fun isalpha(c : Char) : Int
   fun isalnum(c : Char) : Int
   fun isblank(c : Char) : Int
+  fun iscntrl(c : Char) : Int
   fun isdigit(c : Char) : Int
   fun islower(c : Char) : Int
   fun isspace(c : Char) : Int

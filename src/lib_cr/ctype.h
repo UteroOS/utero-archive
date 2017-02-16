@@ -15,6 +15,7 @@ except according to those terms.
 // int isalnum(int c);
 int isalpha(char c);
 // int isblank(int c);
+// int iscntrl(int c);
 int isdigit(char c);
 // int islower(char c);
 // int isspace(char c);

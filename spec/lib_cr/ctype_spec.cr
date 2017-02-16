@@ -121,4 +121,22 @@ describe "LibCR" do
       assert { LibCR.isalnum('@'.ord).should eq 0 }
     end
   end
+
+  describe "fun isblank(c : Char) : Int" do
+    context "Returns non-zero when a white-space or a tab character" do
+      assert { LibCR.isblank(' '.ord).should_not eq 0 }
+      assert { LibCR.isblank('\t'.ord).should_not eq 0 }
+    end
+
+    context "Returns zero when not a white-space or a tab character" do
+      assert { LibCR.isblank('\v'.ord).should eq 0 }
+      assert { LibCR.isblank('\r'.ord).should eq 0 }
+      assert { LibCR.isblank('x'.ord).should eq 0 }
+      assert { LibCR.isblank('@'.ord).should eq 0 }
+    end
+
+    context "Returns zero when a Zenkaku white-space (due to unsupport locales?)" do
+      assert { LibCR.isblank('　'.ord).should eq 0 }
+    end
+  end
 end

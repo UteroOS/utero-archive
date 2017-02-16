@@ -139,4 +139,24 @@ describe "LibCR" do
       assert { LibCR.isblank('　'.ord).should eq 0 }
     end
   end
+
+  describe "fun iscntrl(c : Char) : Int" do
+    context "Returns non-zero when a control character" do
+      assert { LibCR.iscntrl('\0'.ord).should_not eq 0 } # Null
+      # Crystal does not support '\a' ?
+      # https://github.com/crystal-lang/crystal/issues/3078#issuecomment-238630121
+      # assert { LibCR.iscntrl('\a'.ord).should_not eq 0 } # Bell
+      assert { LibCR.iscntrl(0x07).should_not eq 0 }     # Bell
+      assert { LibCR.iscntrl('\b'.ord).should_not eq 0 } # Backspace
+      assert { LibCR.iscntrl('\t'.ord).should_not eq 0 } # Horizontal Tabulation
+      assert { LibCR.iscntrl('\n'.ord).should_not eq 0 } # Line Feed
+      assert { LibCR.iscntrl('\v'.ord).should_not eq 0 } # Vertical Tabulation
+      assert { LibCR.iscntrl('\f'.ord).should_not eq 0 } # Form Feed
+      assert { LibCR.iscntrl('\r'.ord).should_not eq 0 } # Carriage Return
+    end
+
+    context "Returns zero when not a control character" do
+      assert { LibCR.iscntrl(' '.ord).should eq 0 }
+    end
+  end
 end

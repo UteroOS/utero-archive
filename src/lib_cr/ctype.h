@@ -12,9 +12,10 @@ except according to those terms.
 #ifndef _CTYPE_H
 #define _CTYPE_H 1
 
-int isalpha(char c);
-int isdigit(char c);
 // int isalnum(int c);
+int isalpha(char c);
+// int isblank(int c);
+int isdigit(char c);
 // int islower(char c);
 // int isspace(char c);
 // int isupper(char c);

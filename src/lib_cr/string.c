@@ -38,16 +38,6 @@ int memcmp(const void *vl, const void *vr, size_t n)
 	return n ? *l-*r : 0;
 }
 
-int strcmp( const char * s1, const char * s2 )
-{
-	while ( ( *s1 ) && ( *s1 == *s2 ) )
-	{
-		++s1;
-		++s2;
-	}
-	return ( *(unsigned char *)s1 - *(unsigned char *)s2 );
-}
-
 void * memset( void * s, int c, size_t n )
 {
 	unsigned char * p = (unsigned char *) s;
@@ -58,6 +48,40 @@ void * memset( void * s, int c, size_t n )
 	return s;
 }
 
+char * strchr( const char * s, int c )
+{
+	do
+	{
+		if ( *s == (char) c )
+		{
+			return (char *) s;
+		}
+	} while ( *s++ );
+	return NULL;
+}
+
+char *strchrnul(const char *s, int c) {
+	unsigned char *r = (unsigned char*)s, a = (unsigned char)c;
+
+	while (*r) {
+		if (*r == a) {
+			break;
+		}
+		r++;
+	}
+	return (char*)r;
+}
+
+int strcmp( const char * s1, const char * s2 )
+{
+	while ( ( *s1 ) && ( *s1 == *s2 ) )
+	{
+		++s1;
+		++s2;
+	}
+	return ( *(unsigned char *)s1 - *(unsigned char *)s2 );
+}
+
 size_t strlen( const char * s )
 {
 	size_t rc = 0;
@@ -66,6 +90,24 @@ size_t strlen( const char * s )
 		++rc;
 	}
 	return rc;
+}
+
+int strncmp( const char * s1, const char * s2, size_t n )
+{
+	while ( *s1 && n && ( *s1 == *s2 ) )
+	{
+		++s1;
+		++s2;
+		--n;
+	}
+	if ( n == 0 )
+	{
+		return 0;
+	}
+	else
+	{
+		return ( *(unsigned char *)s1 - *(unsigned char *)s2 );
+	}
 }
 
 char * strstr( const char * s1, const char * s2 )
@@ -99,45 +141,3 @@ char * strstr( const char * s1, const char * s2 )
 // 			return s1 - 1;
 // 	return 0;
 // }
-
-char * strchr( const char * s, int c )
-{
-	do
-	{
-		if ( *s == (char) c )
-		{
-			return (char *) s;
-		}
-	} while ( *s++ );
-	return NULL;
-}
-
-int strncmp( const char * s1, const char * s2, size_t n )
-{
-	while ( *s1 && n && ( *s1 == *s2 ) )
-	{
-		++s1;
-		++s2;
-		--n;
-	}
-	if ( n == 0 )
-	{
-		return 0;
-	}
-	else
-	{
-		return ( *(unsigned char *)s1 - *(unsigned char *)s2 );
-	}
-}
-
-char *strchrnul(const char *s, int c) {
-	unsigned char *r = (unsigned char*)s, a = (unsigned char)c;
-
-	while (*r) {
-		if (*r == a) {
-			break;
-		}
-		r++;
-	}
-	return (char*)r;
-}

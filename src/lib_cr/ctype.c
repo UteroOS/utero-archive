@@ -26,6 +26,11 @@ int isblank(int c)
 	return (c == ' ' || c == '\t');
 }
 
+int iscntrl(int c)
+{
+	return (unsigned)c < 0x20 || c == 0x7f;
+}
+
 int isdigit(char c)
 {
 	return (c >= '0' && c <= '9');

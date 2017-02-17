@@ -18,6 +18,7 @@ lib LibCR
   fun isgraph(c : Char) : Int
   fun islower(c : Char) : Int
   fun isprint(c : Char) : Int
+  fun ispunct(c : Char) : Int
   fun isspace(c : Char) : Int
   fun isupper(c : Char) : Int
 end

@@ -58,6 +58,12 @@ int isprint(int c)
 	return (unsigned)c-0x20 < 0x5f;
 }
 
+// Is it a punctuation character?
+int ispunct(int c)
+{
+	return isgraph(c) && !isalnum(c);
+}
+
 int isspace(int c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\12');

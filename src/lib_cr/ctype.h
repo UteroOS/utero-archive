@@ -23,5 +23,5 @@ int isgraph(int c);
 // int ispunct(int c)
 // int isspace(int c);
 // int isupper(int c);
-
+// int isxdigit(int c);
 #endif

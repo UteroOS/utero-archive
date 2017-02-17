@@ -256,5 +256,23 @@ describe "LibCR" do
     assert { LibCR.ispunct(' '.ord).should eq 0 }
   end
 
+  describe "fun isxdigit(c : Char) : Int" do
+    context "Returns non-zero when a hexadicimal digit" do
+      assert { LibCR.isxdigit('0'.ord).should_not eq 0 }
+      assert { LibCR.isxdigit('9'.ord).should_not eq 0 }
+      assert { LibCR.isxdigit('a'.ord).should_not eq 0 }
+      assert { LibCR.isxdigit('f'.ord).should_not eq 0 }
+      assert { LibCR.isxdigit('A'.ord).should_not eq 0 }
+      assert { LibCR.isxdigit('F'.ord).should_not eq 0 }
+    end
+
+    context "Returns zero when not a hexadicimal digit" do
+      assert { LibCR.isxdigit('g'.ord).should eq 0 }
+      assert { LibCR.isxdigit('G'.ord).should eq 0 }
+      assert { LibCR.isxdigit('@'.ord).should eq 0 }
+      assert { LibCR.isxdigit(' '.ord).should eq 0 }
+    end
+  end
+
   # TODO: sort describes by alphabetical order
 end

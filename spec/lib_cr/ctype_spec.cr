@@ -191,4 +191,33 @@ describe "LibCR" do
     assert { LibCR.isgraph('\0'.ord).should eq 0 }
     assert { LibCR.isgraph(' '.ord).should eq 0 }
   end
+
+  describe "fun isprint(c : Char) : Int" do
+    context "Returns non-zero when a printable character (including a space)" do
+      (0x20..0x7e).each do |c|
+        assert { LibCR.isprint(c).should_not eq 0}
+      end
+    end
+
+    context "Returns zero when a control character" do
+      (0x00..0x1f).each do |c|
+        assert { LibCR.isprint(c).should eq 0 }
+      end
+    end
+
+    context "Returns zero when a DELETE" do
+      # 0x7f (DELETE)
+      assert { LibCR.isprint(0x7f).should eq 0 }
+    end
+
+    assert { LibCR.isprint('a'.ord).should_not eq 0 }
+    assert { LibCR.isprint('z'.ord).should_not eq 0 }
+    assert { LibCR.isprint('A'.ord).should_not eq 0 }
+    assert { LibCR.isprint('Z'.ord).should_not eq 0 }
+    assert { LibCR.isprint('@'.ord).should_not eq 0 }
+    assert { LibCR.isprint('\t'.ord).should eq 0 }
+    assert { LibCR.isprint('\0'.ord).should eq 0 }
+    assert { LibCR.isprint(' '.ord).should_not eq 0 }
+  end
+
 end

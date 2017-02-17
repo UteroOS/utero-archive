@@ -19,6 +19,7 @@ int isalpha(char c);
 int isdigit(char c);
 // int isgraph(int c)
 // int islower(char c);
+// int isprint(int c)
 // int isspace(char c);
 // int isupper(char c);
 

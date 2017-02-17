@@ -11,34 +11,6 @@ require "../spec_helper"
 require "../../src/lib_cr/ctype"
 
 describe "LibCR" do
-  describe "fun isupper(c : Char) : Int" do
-    context "Returns non-zero when uppercase" do
-      assert { LibCR.isupper('A'.ord).should_not eq 0 }
-      assert { LibCR.isupper('Z'.ord).should_not eq 0 }
-    end
-
-    context "Returns zero when non-uppercase" do
-      non_uppercases = ['a', 'z', ' ', '@']
-      non_uppercases.each do |c|
-        assert { LibCR.isupper(c.ord).should eq 0 }
-      end
-    end
-  end
-
-  describe "fun islower(c : Char) : Int" do
-    context "Returns non-zero when lowercase" do
-      assert { LibCR.islower('a'.ord).should_not eq 0 }
-      assert { LibCR.islower('z'.ord).should_not eq 0 }
-    end
-
-    context "Returns zero when non-lowercase" do
-      non_lowercases = ['A', 'Z', ' ', '@']
-      non_lowercases.each do |c|
-        assert { LibCR.islower(c.ord).should eq 0 }
-      end
-    end
-  end
-
   describe "fun isalpha(c : Char) : Int" do
     context "Returns non-zero when an English character" do
       assert { LibCR.isalpha('a'.ord).should_not eq 0 }
@@ -70,36 +42,6 @@ describe "LibCR" do
       # 'e'
       assert { LibCR.isalpha('ゑ'.ord).should eq 0 }
       assert { LibCR.isalpha('ヱ'.ord).should eq 0 }
-    end
-  end
-
-  # checks  for  white-space  characters.   In  the  "C" and "POSIX"
-  # locales, these are: space,  form-feed  ('\f'),  newline  ('\n'),
-  # carriage  return ('\r'), horizontal tab ('\t'), and vertical tab
-  # ('\v').
-  describe "fun isspace(c : Char) : Int" do
-    context "Returns non-zero when a white-space character" do
-      white_space_chars = [' ', '\f', '\n', '\r', '\t', '\v']
-      white_space_chars.each do |c|
-        assert { LibCR.isspace(c.ord).should_not eq 0 }
-      end
-    end
-
-    context "Returns zero when without a white-space character" do
-      assert { LibCR.isspace('a'.ord).should eq 0 }
-    end
-  end
-
-  describe "fun isdigit(c : Char) : Int" do
-    context "Returns non-zero when a digit" do
-      assert { LibCR.isdigit('0'.ord).should_not eq 0 }
-      assert { LibCR.isdigit('9'.ord).should_not eq 0 }
-    end
-
-    context "Returns zero when a non-digit" do
-      assert { LibCR.isdigit(' '.ord).should eq 0 }
-      assert { LibCR.isdigit('a'.ord).should eq 0 }
-      assert { LibCR.isdigit('@'.ord).should eq 0 }
     end
   end
 
@@ -154,6 +96,19 @@ describe "LibCR" do
     end
   end
 
+  describe "fun isdigit(c : Char) : Int" do
+    context "Returns non-zero when a digit" do
+      assert { LibCR.isdigit('0'.ord).should_not eq 0 }
+      assert { LibCR.isdigit('9'.ord).should_not eq 0 }
+    end
+
+    context "Returns zero when a non-digit" do
+      assert { LibCR.isdigit(' '.ord).should eq 0 }
+      assert { LibCR.isdigit('a'.ord).should eq 0 }
+      assert { LibCR.isdigit('@'.ord).should eq 0 }
+    end
+  end
+
   describe "fun isgraph(c : Char) : Int" do
     context "Returns non-zero when a printable character without a space" do
       (0x21..0x7e).each do |c|
@@ -174,6 +129,20 @@ describe "LibCR" do
     context "Returns zero when a DELETE" do
       # 0x7f (DELETE)
       assert { LibCR.isgraph(0x7f).should eq 0 }
+    end
+  end
+
+  describe "fun islower(c : Char) : Int" do
+    context "Returns non-zero when lowercase" do
+      assert { LibCR.islower('a'.ord).should_not eq 0 }
+      assert { LibCR.islower('z'.ord).should_not eq 0 }
+    end
+
+    context "Returns zero when non-lowercase" do
+      non_lowercases = ['A', 'Z', ' ', '@']
+      non_lowercases.each do |c|
+        assert { LibCR.islower(c.ord).should eq 0 }
+      end
     end
   end
 
@@ -222,6 +191,37 @@ describe "LibCR" do
     end
   end
 
+  # checks  for  white-space  characters.   In  the  "C" and "POSIX"
+  # locales, these are: space,  form-feed  ('\f'),  newline  ('\n'),
+  # carriage  return ('\r'), horizontal tab ('\t'), and vertical tab
+  # ('\v').
+  describe "fun isspace(c : Char) : Int" do
+    context "Returns non-zero when a white-space character" do
+      white_space_chars = [' ', '\f', '\n', '\r', '\t', '\v']
+      white_space_chars.each do |c|
+        assert { LibCR.isspace(c.ord).should_not eq 0 }
+      end
+    end
+
+    context "Returns zero when without a white-space character" do
+      assert { LibCR.isspace('a'.ord).should eq 0 }
+    end
+  end
+
+  describe "fun isupper(c : Char) : Int" do
+    context "Returns non-zero when uppercase" do
+      assert { LibCR.isupper('A'.ord).should_not eq 0 }
+      assert { LibCR.isupper('Z'.ord).should_not eq 0 }
+    end
+
+    context "Returns zero when non-uppercase" do
+      non_uppercases = ['a', 'z', ' ', '@']
+      non_uppercases.each do |c|
+        assert { LibCR.isupper(c.ord).should eq 0 }
+      end
+    end
+  end
+
   describe "fun isxdigit(c : Char) : Int" do
     context "Returns non-zero when a hexadicimal digit" do
       hex_digits = ['0', '9', 'a', 'f', 'A', 'F']
@@ -237,6 +237,4 @@ describe "LibCR" do
       end
     end
   end
-
-  # TODO: sort describes by alphabetical order
 end

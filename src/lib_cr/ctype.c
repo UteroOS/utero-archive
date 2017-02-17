@@ -11,7 +11,7 @@ except according to those terms.
 
 #include "ctype.h"
 
-int isalpha(char c)
+int isalpha(int c)
 {
 	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
@@ -31,7 +31,7 @@ int iscntrl(int c)
 	return (unsigned)c < 0x20 || c == 0x7f;
 }
 
-int isdigit(char c)
+int isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }
@@ -44,7 +44,7 @@ int isgraph(int c)
 	return (unsigned)c-0x21 < 0x5e;
 }
 
-int islower(char c)
+int islower(int c)
 {
 	return (c >= 'a' && c <= 'z');
 }
@@ -58,12 +58,12 @@ int isprint(int c)
 	return (unsigned)c-0x20 < 0x5f;
 }
 
-int isspace(char c)
+int isspace(int c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\12');
 }
 
-int isupper(char c)
+int isupper(int c)
 {
 	return (c >= 'A' && c <= 'Z');
 }

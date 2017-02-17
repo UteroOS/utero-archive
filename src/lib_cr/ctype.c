@@ -36,6 +36,14 @@ int isdigit(char c)
 	return (c >= '0' && c <= '9');
 }
 
+// Printable characters without a space (0x21 ~ 0x7e)
+// 0x7e - 0x21 = 0x5e
+// That's why c - 0x21 < 0x5e;
+int isgraph(int c)
+{
+	return (unsigned)c-0x21 < 0x5e;
+}
+
 int islower(char c)
 {
 	return (c >= 'a' && c <= 'z');

@@ -17,6 +17,7 @@ int isalpha(char c);
 // int isblank(int c);
 // int iscntrl(int c);
 int isdigit(char c);
+// int isgraph(int c)
 // int islower(char c);
 // int isspace(char c);
 // int isupper(char c);

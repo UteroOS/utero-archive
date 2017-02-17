@@ -15,6 +15,7 @@ lib LibCR
   fun isblank(c : Char) : Int
   fun iscntrl(c : Char) : Int
   fun isdigit(c : Char) : Int
+  fun isgraph(c : Char) : Int
   fun islower(c : Char) : Int
   fun isspace(c : Char) : Int
   fun isupper(c : Char) : Int

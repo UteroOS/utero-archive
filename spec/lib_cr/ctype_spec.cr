@@ -18,10 +18,10 @@ describe "LibCR" do
     end
 
     context "Returns zero when non-uppercase" do
-      assert { LibCR.isupper('a'.ord).should eq 0 }
-      assert { LibCR.isupper('z'.ord).should eq 0 }
-      assert { LibCR.isupper(' '.ord).should eq 0 }
-      assert { LibCR.isupper('@'.ord).should eq 0 }
+      non_uppercases = ['a', 'z', ' ', '@']
+      non_uppercases.each do |c|
+        assert { LibCR.isupper(c.ord).should eq 0 }
+      end
     end
   end
 
@@ -32,10 +32,10 @@ describe "LibCR" do
     end
 
     context "Returns zero when non-lowercase" do
-      assert { LibCR.islower('A'.ord).should eq 0 }
-      assert { LibCR.islower('Z'.ord).should eq 0 }
-      assert { LibCR.islower(' '.ord).should eq 0 }
-      assert { LibCR.islower('@'.ord).should eq 0 }
+      non_lowercases = ['A', 'Z', ' ', '@']
+      non_lowercases.each do |c|
+        assert { LibCR.islower(c.ord).should eq 0 }
+      end
     end
   end
 
@@ -79,12 +79,10 @@ describe "LibCR" do
   # ('\v').
   describe "fun isspace(c : Char) : Int" do
     context "Returns non-zero when a white-space character" do
-      assert { LibCR.isspace(' '.ord).should_not eq 0 }
-      assert { LibCR.isspace('\f'.ord).should_not eq 0 }
-      assert { LibCR.isspace('\n'.ord).should_not eq 0 }
-      assert { LibCR.isspace('\r'.ord).should_not eq 0 }
-      assert { LibCR.isspace('\t'.ord).should_not eq 0 }
-      assert { LibCR.isspace('\v'.ord).should_not eq 0 }
+      white_space_chars = [' ', '\f', '\n', '\r', '\t', '\v']
+      white_space_chars.each do |c|
+        assert { LibCR.isspace(c.ord).should_not eq 0 }
+      end
     end
 
     context "Returns zero when without a white-space character" do
@@ -107,12 +105,10 @@ describe "LibCR" do
 
   describe "fun isalnum(c : Char) : Int" do
     context "Return non-zero when a character or a digit" do
-      assert { LibCR.isalnum('a'.ord).should_not eq 0 }
-      assert { LibCR.isalnum('z'.ord).should_not eq 0 }
-      assert { LibCR.isalnum('A'.ord).should_not eq 0 }
-      assert { LibCR.isalnum('Z'.ord).should_not eq 0 }
-      assert { LibCR.isalnum('0'.ord).should_not eq 0 }
-      assert { LibCR.isalnum('9'.ord).should_not eq 0 }
+      char_or_digits = ['a', 'z', 'A', 'Z', '0', '9']
+      char_or_digits.each do |c|
+        assert { LibCR.isalnum(c.ord).should_not eq 0 }
+      end
     end
 
     context "Return zero when a non-character or a non-digit" do
@@ -142,17 +138,15 @@ describe "LibCR" do
 
   describe "fun iscntrl(c : Char) : Int" do
     context "Returns non-zero when a control character" do
-      assert { LibCR.iscntrl('\0'.ord).should_not eq 0 } # Null
       # Crystal does not support '\a' ?
       # https://github.com/crystal-lang/crystal/issues/3078#issuecomment-238630121
       # assert { LibCR.iscntrl('\a'.ord).should_not eq 0 } # Bell
       assert { LibCR.iscntrl(0x07).should_not eq 0 }     # Bell
-      assert { LibCR.iscntrl('\b'.ord).should_not eq 0 } # Backspace
-      assert { LibCR.iscntrl('\t'.ord).should_not eq 0 } # Horizontal Tabulation
-      assert { LibCR.iscntrl('\n'.ord).should_not eq 0 } # Line Feed
-      assert { LibCR.iscntrl('\v'.ord).should_not eq 0 } # Vertical Tabulation
-      assert { LibCR.iscntrl('\f'.ord).should_not eq 0 } # Form Feed
-      assert { LibCR.iscntrl('\r'.ord).should_not eq 0 } # Carriage Return
+
+      control_chars = ['\0', '\b', '\t', '\n', '\v', '\f', '\r']
+      control_chars.each do |c|
+        assert { LibCR.iscntrl(c.ord).should_not eq 0 }
+      end
     end
 
     context "Returns zero when not a control character" do
@@ -181,15 +175,6 @@ describe "LibCR" do
       # 0x7f (DELETE)
       assert { LibCR.isgraph(0x7f).should eq 0 }
     end
-
-    assert { LibCR.isgraph('a'.ord).should_not eq 0 }
-    assert { LibCR.isgraph('z'.ord).should_not eq 0 }
-    assert { LibCR.isgraph('A'.ord).should_not eq 0 }
-    assert { LibCR.isgraph('Z'.ord).should_not eq 0 }
-    assert { LibCR.isgraph('@'.ord).should_not eq 0 }
-    assert { LibCR.isgraph('\t'.ord).should eq 0 }
-    assert { LibCR.isgraph('\0'.ord).should eq 0 }
-    assert { LibCR.isgraph(' '.ord).should eq 0 }
   end
 
   describe "fun isprint(c : Char) : Int" do
@@ -209,15 +194,6 @@ describe "LibCR" do
       # 0x7f (DELETE)
       assert { LibCR.isprint(0x7f).should eq 0 }
     end
-
-    assert { LibCR.isprint('a'.ord).should_not eq 0 }
-    assert { LibCR.isprint('z'.ord).should_not eq 0 }
-    assert { LibCR.isprint('A'.ord).should_not eq 0 }
-    assert { LibCR.isprint('Z'.ord).should_not eq 0 }
-    assert { LibCR.isprint('@'.ord).should_not eq 0 }
-    assert { LibCR.isprint('\t'.ord).should eq 0 }
-    assert { LibCR.isprint('\0'.ord).should eq 0 }
-    assert { LibCR.isprint(' '.ord).should_not eq 0 }
   end
 
   describe "fun ispunct(c : Char) : Int" do
@@ -244,33 +220,21 @@ describe "LibCR" do
         assert { LibCR.ispunct(c).should_not eq 0 }
       end
     end
-
-    assert { LibCR.ispunct('a'.ord).should eq 0 }
-    assert { LibCR.ispunct('z'.ord).should eq 0 }
-    assert { LibCR.ispunct('A'.ord).should eq 0 }
-    assert { LibCR.ispunct('Z'.ord).should eq 0 }
-    assert { LibCR.ispunct('@'.ord).should_not eq 0 }
-    assert { LibCR.ispunct('.'.ord).should_not eq 0 }
-    assert { LibCR.ispunct('\t'.ord).should eq 0 }
-    assert { LibCR.ispunct('\0'.ord).should eq 0 }
-    assert { LibCR.ispunct(' '.ord).should eq 0 }
   end
 
   describe "fun isxdigit(c : Char) : Int" do
     context "Returns non-zero when a hexadicimal digit" do
-      assert { LibCR.isxdigit('0'.ord).should_not eq 0 }
-      assert { LibCR.isxdigit('9'.ord).should_not eq 0 }
-      assert { LibCR.isxdigit('a'.ord).should_not eq 0 }
-      assert { LibCR.isxdigit('f'.ord).should_not eq 0 }
-      assert { LibCR.isxdigit('A'.ord).should_not eq 0 }
-      assert { LibCR.isxdigit('F'.ord).should_not eq 0 }
+      hex_digits = ['0', '9', 'a', 'f', 'A', 'F']
+      hex_digits.each do |c|
+        assert { LibCR.isxdigit(c.ord).should_not eq 0 }
+      end
     end
 
     context "Returns zero when not a hexadicimal digit" do
-      assert { LibCR.isxdigit('g'.ord).should eq 0 }
-      assert { LibCR.isxdigit('G'.ord).should eq 0 }
-      assert { LibCR.isxdigit('@'.ord).should eq 0 }
-      assert { LibCR.isxdigit(' '.ord).should eq 0 }
+      non_hex_digits = ['g', 'G', '@', ' ']
+      non_hex_digits.each do |c|
+        assert { LibCR.isxdigit(c.ord).should eq 0 }
+      end
     end
   end
 

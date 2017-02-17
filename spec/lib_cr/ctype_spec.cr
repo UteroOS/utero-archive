@@ -159,4 +159,36 @@ describe "LibCR" do
       assert { LibCR.iscntrl(' '.ord).should eq 0 }
     end
   end
+
+  describe "fun isgraph(c : Char) : Int" do
+    context "Returns non-zero when a printable character without a space" do
+      (0x21..0x7e).each do |c|
+        assert { LibCR.isgraph(c).should_not eq 0}
+      end
+    end
+
+    context "Returns zero when a control character" do
+      (0x00..0x1f).each do |c|
+        assert { LibCR.isgraph(c).should eq 0 }
+      end
+    end
+
+    context "Returns zero when a space" do
+      assert { LibCR.isgraph(0x20).should eq 0 }
+    end
+
+    context "Returns zero when a DELETE" do
+      # 0x7f (DELETE)
+      assert { LibCR.isgraph(0x7f).should eq 0 }
+    end
+
+    assert { LibCR.isgraph('a'.ord).should_not eq 0 }
+    assert { LibCR.isgraph('z'.ord).should_not eq 0 }
+    assert { LibCR.isgraph('A'.ord).should_not eq 0 }
+    assert { LibCR.isgraph('Z'.ord).should_not eq 0 }
+    assert { LibCR.isgraph('@'.ord).should_not eq 0 }
+    assert { LibCR.isgraph('\t'.ord).should eq 0 }
+    assert { LibCR.isgraph('\0'.ord).should eq 0 }
+    assert { LibCR.isgraph(' '.ord).should eq 0 }
+  end
 end

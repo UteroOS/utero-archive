@@ -49,6 +49,15 @@ int islower(char c)
 	return (c >= 'a' && c <= 'z');
 }
 
+// Similar to isgraph function, but including a space (0x20)
+// Printable characters (0x20 ~ 0x7e)
+// 0x7e - 0x20 = 0x5f
+// That's why c - 0x20 < 0x5f;
+int isprint(int c)
+{
+	return (unsigned)c-0x20 < 0x5f;
+}
+
 int isspace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\12');

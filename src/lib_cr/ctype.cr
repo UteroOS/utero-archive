@@ -21,4 +21,5 @@ lib LibCR
   fun ispunct(c : Char) : Int
   fun isspace(c : Char) : Int
   fun isupper(c : Char) : Int
+  fun isxdigit(c : Char) : Int
 end

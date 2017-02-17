@@ -73,3 +73,8 @@ int isupper(int c)
 {
 	return (c >= 'A' && c <= 'Z');
 }
+
+int isxdigit(int c)
+{
+	return isdigit(c) || ((unsigned)c|32)-'a' < 6;
+}

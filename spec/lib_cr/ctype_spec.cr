@@ -220,5 +220,41 @@ describe "LibCR" do
     assert { LibCR.isprint(' '.ord).should_not eq 0 }
   end
 
+  describe "fun ispunct(c : Char) : Int" do
+    context "Returns non-zero when a punctuation character" do
+      (0x21..0x29).each do |c|
+        assert { LibCR.ispunct(c).should_not eq 0 }
+      end
+
+      (0x2a..0x2f).each do |c|
+        assert { LibCR.ispunct(c).should_not eq 0 }
+      end
+
+      (0x3a..0x3f).each do |c|
+        assert { LibCR.ispunct(c).should_not eq 0 }
+      end
+
+      assert { LibCR.ispunct(0x40).should_not eq 0 }
+
+      (0x5b..0x60).each do |c|
+        assert { LibCR.ispunct(c).should_not eq 0 }
+      end
+
+      (0x7b..0x7d).each do |c|
+        assert { LibCR.ispunct(c).should_not eq 0 }
+      end
+    end
+
+    assert { LibCR.ispunct('a'.ord).should eq 0 }
+    assert { LibCR.ispunct('z'.ord).should eq 0 }
+    assert { LibCR.ispunct('A'.ord).should eq 0 }
+    assert { LibCR.ispunct('Z'.ord).should eq 0 }
+    assert { LibCR.ispunct('@'.ord).should_not eq 0 }
+    assert { LibCR.ispunct('.'.ord).should_not eq 0 }
+    assert { LibCR.ispunct('\t'.ord).should eq 0 }
+    assert { LibCR.ispunct('\0'.ord).should eq 0 }
+    assert { LibCR.ispunct(' '.ord).should eq 0 }
+  end
+
   # TODO: sort describes by alphabetical order
 end

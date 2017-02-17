@@ -220,4 +220,5 @@ describe "LibCR" do
     assert { LibCR.isprint(' '.ord).should_not eq 0 }
   end
 
+  # TODO: sort describes by alphabetical order
 end

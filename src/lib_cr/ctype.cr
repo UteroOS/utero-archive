@@ -10,9 +10,16 @@
 require "./stddef"
 
 lib LibCR
-  fun isupper(c : Char) : Int
-  fun islower(c : Char) : Int
   fun isalpha(c : Char) : Int
-  fun isspace(c : Char) : Int
+  fun isalnum(c : Char) : Int
+  fun isblank(c : Char) : Int
+  fun iscntrl(c : Char) : Int
   fun isdigit(c : Char) : Int
+  fun isgraph(c : Char) : Int
+  fun islower(c : Char) : Int
+  fun isprint(c : Char) : Int
+  fun ispunct(c : Char) : Int
+  fun isspace(c : Char) : Int
+  fun isupper(c : Char) : Int
+  fun isxdigit(c : Char) : Int
 end

@@ -11,27 +11,70 @@ except according to those terms.
 
 #include "ctype.h"
 
-int isupper(char c)
-{
-	return (c >= 'A' && c <= 'Z');
-}
-
-int islower(char c)
-{
-	return (c >= 'a' && c <= 'z');
-}
-
-int isalpha(char c)
+int isalpha(int c)
 {
 	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
-int isspace(char c)
+int isalnum(int c)
+{
+	return isalpha(c) || isdigit(c);
+}
+
+int isblank(int c)
+{
+	return (c == ' ' || c == '\t');
+}
+
+int iscntrl(int c)
+{
+	return (unsigned)c < 0x20 || c == 0x7f;
+}
+
+int isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+// Printable characters without a space (0x21 ~ 0x7e)
+// 0x7e - 0x21 = 0x5e
+// That's why c - 0x21 < 0x5e;
+int isgraph(int c)
+{
+	return (unsigned)c-0x21 < 0x5e;
+}
+
+int islower(int c)
+{
+	return (c >= 'a' && c <= 'z');
+}
+
+// Similar to isgraph function, but including a space (0x20)
+// Printable characters (0x20 ~ 0x7e)
+// 0x7e - 0x20 = 0x5f
+// That's why c - 0x20 < 0x5f;
+int isprint(int c)
+{
+	return (unsigned)c-0x20 < 0x5f;
+}
+
+// Is it a punctuation character?
+int ispunct(int c)
+{
+	return isgraph(c) && !isalnum(c);
+}
+
+int isspace(int c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\12');
 }
 
-int isdigit(char c)
+int isupper(int c)
 {
-	return (c >= '0' && c <= '9');
+	return (c >= 'A' && c <= 'Z');
+}
+
+int isxdigit(int c)
+{
+	return isdigit(c) || ((unsigned)c|32)-'a' < 6;
 }

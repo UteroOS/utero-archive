@@ -12,13 +12,15 @@ struct Pointer(T)
     new 0_u64
   end
 
+  def +(other : Int)
+    self + other.to_i64
   end
 
   def [](offset : Int)
-    (self + offset.to_i64).value
+    (self + offset).value
   end
 
-  def []=(offset : Int, data : T)
-    (self + offset.to_i64).value = data
+  def []=(offset : Int, value : T)
+    (self + offset).value = value
   end
 end

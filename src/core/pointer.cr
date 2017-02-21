@@ -9,7 +9,9 @@
 
 struct Pointer(T)
   def self.null
-    new(0u64)
+    new 0_u64
+  end
+
   end
 
   def [](offset : Int)

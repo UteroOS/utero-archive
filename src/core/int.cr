@@ -8,6 +8,10 @@
 # except according to those terms.
 
 struct Int
+  alias Signed = Int8 | Int16 | Int32 | Int64
+  alias Unsigned = UInt8 | UInt16 | UInt32 | UInt64
+  alias Primitive = Signed | Unsigned
+
   def >>(count)
     self.unsafe_shr(count)
   end

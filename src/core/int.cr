@@ -12,21 +12,28 @@ struct Int
   alias Unsigned = UInt8 | UInt16 | UInt32 | UInt64
   alias Primitive = Signed | Unsigned
 
-  def >>(count)
-    self.unsafe_shr(count)
+  def >>(count : Int)
+    if count < 0
+      self << count.abs
+    elsif count < sizeof(self) * 8
+      self.unsafe_shr(count)
+    else
+      self.class.zero
+    end
   end
 
-  def <<(count)
-    self.unsafe_shl(count)
+  def <<(count : Int)
+    if count < 0
+      self >> count.abs
+    elsif count < sizeof(self) * 8
+      self.unsafe_shl(count)
+    else
+      self.class.zero
+    end
   end
 
-  # from line 226
   def abs
     self >= 0 ? self : -self
-  end
-
-  def -
-    0 - self
   end
 
   def /(x : Int)
@@ -48,11 +55,187 @@ struct Int
     end
   end
 
-  def times
-    x = 0
-    while x < self
-      yield x
-      x += 1
+  def times(&block : self ->) : Nil
+    i = self ^ self
+    while i < self
+      yield i
+      i += 1
     end
+  end
+end
+
+struct Int8
+  MIN = -128_i8
+  MAX =  127_i8
+
+  # Returns an `Int8` by invoking `to_i8` on *value*.
+  def self.new(value)
+    value.to_i8
+  end
+
+  def -
+    0_i8 - self
+  end
+
+  # def popcount
+  #   Intrinsics.popcount8(self)
+  # end
+
+  def clone
+    self
+  end
+end
+
+struct Int16
+  MIN = -32768_i16
+  MAX =  32767_i16
+
+  # Returns an `Int16` by invoking `to_i16` on *value*.
+  def self.new(value)
+    value.to_i16
+  end
+
+  def -
+    0_i16 - self
+  end
+
+  # def popcount
+  #   Intrinsics.popcount16(self)
+  # end
+
+  def clone
+    self
+  end
+end
+
+struct Int32
+  MIN = -2147483648_i32
+  MAX =  2147483647_i32
+
+  # Returns an `Int32` by invoking `to_i32` on *value*.
+  def self.new(value)
+    value.to_i32
+  end
+
+  def -
+    0 - self
+  end
+
+  # def popcount
+  #   Intrinsics.popcount32(self)
+  # end
+
+  def clone
+    self
+  end
+end
+
+struct Int64
+  MIN = -9223372036854775808_i64
+  MAX =  9223372036854775807_i64
+
+  # Returns an `Int64` by invoking `to_i64` on *value*.
+  def self.new(value)
+    value.to_i64
+  end
+
+  def -
+    0_i64 - self
+  end
+
+  # def popcount
+  #   Intrinsics.popcount64(self)
+  # end
+
+  def clone
+    self
+  end
+end
+
+struct UInt8
+  MIN =   0_u8
+  MAX = 255_u8
+
+  # Returns an `UInt8` by invoking `to_u8` on *value*.
+  def self.new(value)
+    value.to_u8
+  end
+
+  def abs
+    self
+  end
+
+  # def popcount
+  #   Intrinsics.popcount8(self)
+  # end
+
+  def clone
+    self
+  end
+end
+
+struct UInt16
+  MIN =     0_u16
+  MAX = 65535_u16
+
+  # Returns an `UInt16` by invoking `to_u16` on *value*.
+  def self.new(value)
+    value.to_u16
+  end
+
+  def abs
+    self
+  end
+
+  # def popcount
+  #   Intrinsics.popcount16(self)
+  # end
+
+  def clone
+    self
+  end
+end
+
+struct UInt32
+  MIN =          0_u32
+  MAX = 4294967295_u32
+
+  # Returns an `UInt32` by invoking `to_u32` on *value*.
+  def self.new(value)
+    value.to_u32
+  end
+
+  def abs
+    self
+  end
+
+  # def popcount
+  #   Intrinsics.popcount32(self)
+  # end
+
+  def clone
+    self
+  end
+end
+
+struct UInt64
+  MIN =                    0_u64
+  MAX = 18446744073709551615_u64
+
+  # Returns an `UInt64` by invoking `to_u64` on *value*.
+  def self.new(value)
+    value.to_u64
+  end
+
+  def abs
+    self
+  end
+
+  # def popcount
+  #   Intrinsics.popcount64(self)
+  # end
+
+  def clone
+    self
   end
 end

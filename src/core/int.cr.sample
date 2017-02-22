@@ -1,3 +1,5 @@
+# Taken from Crystal version 0.21.0
+
 # Int is the base type of all integer types.
 #
 # There are four signed integer types: `Int8`, `Int16`, `Int32` and `Int64`,
@@ -69,7 +71,7 @@ struct Int
   # ```
   def chr
     unless 0 <= self <= Char::MAX_CODEPOINT
-      # raise ArgumentError.new("#{self} out of char range")
+      raise ArgumentError.new("#{self} out of char range")
     end
     unsafe_chr
   end
@@ -135,12 +137,12 @@ struct Int
 
   private def check_div_argument(other)
     if other == 0
-      # raise DivisionByZero.new
+      raise DivisionByZero.new
     end
 
     {% begin %}
       if self < 0 && self == {{@type}}::MIN && other == -1
-        # raise ArgumentError.new "overflow: {{@type}}::MIN / -1"
+        raise ArgumentError.new "Overflow: {{@type}}::MIN / -1"
       end
     {% end %}
   end
@@ -156,7 +158,7 @@ struct Int
   # See `Int#/` for more details.
   def %(other : Int)
     if other == 0
-      # raise DivisionByZero.new
+      raise DivisionByZero.new
     elsif (self ^ other) >= 0
       self.unsafe_mod(other)
     else
@@ -172,7 +174,7 @@ struct Int
   # See `Int#div` for more details.
   def remainder(other : Int)
     if other == 0
-      # raise DivisionByZero.new
+      raise DivisionByZero.new
     else
       unsafe_mod other
     end
@@ -198,7 +200,7 @@ struct Int
     elsif count < sizeof(self) * 8
       self.unsafe_shr(count)
     else
-      # self.class.zero
+      self.class.zero
     end
   end
 
@@ -219,7 +221,7 @@ struct Int
     elsif count < sizeof(self) * 8
       self.unsafe_shl(count)
     else
-      # self.class.zero
+      self.class.zero
     end
   end
 
@@ -255,7 +257,7 @@ struct Int
   # ```
   def **(exponent : Int) : self
     if exponent < 0
-      # raise ArgumentError.new "cannot raise an integer to a negative integer power, use floats for that"
+      raise ArgumentError.new "Cannot raise an integer to a negative integer power, use floats for that"
     end
 
     result = self.class.new(1)
@@ -395,8 +397,8 @@ struct Int
   end
 
   def to_s(base : Int, upcase : Bool = false)
-    # raise ArgumentError.new("Invalid base #{base}") unless 2 <= base <= 36 || base == 62
-    # raise ArgumentError.new("upcase must be false for base 62") if upcase && base == 62
+    raise ArgumentError.new("Invalid base #{base}") unless 2 <= base <= 36 || base == 62
+    raise ArgumentError.new("upcase must be false for base 62") if upcase && base == 62
 
     case self
     when 0
@@ -411,8 +413,8 @@ struct Int
   end
 
   def to_s(base : Int, io : IO, upcase : Bool = false)
-    # raise ArgumentError.new("Invalid base #{base}") unless 2 <= base <= 36 || base == 62
-    # raise ArgumentError.new("upcase must be false for base 62") if upcase && base == 62
+    raise ArgumentError.new("Invalid base #{base}") unless 2 <= base <= 36 || base == 62
+    raise ArgumentError.new("upcase must be false for base 62") if upcase && base == 62
 
     case self
     when 0
@@ -475,84 +477,84 @@ struct Int
   # ```
   abstract def popcount
 
-  # private class TimesIterator(T)
-  #   include Iterator(T)
-  #
-  #   @n : T
-  #   @index : Int32
-  #
-  #   def initialize(@n : T, @index = 0)
-  #   end
-  #
-  #   def next
-  #     if @index < @n
-  #       value = @index
-  #       @index += 1
-  #       value
-  #     else
-  #       stop
-  #     end
-  #   end
-  #
-  #   def rewind
-  #     @index = 0
-  #     self
-  #   end
-  # end
+  private class TimesIterator(T)
+    include Iterator(T)
 
-  # private class UptoIterator(T, N)
-  #   include Iterator(T)
-  #
-  #   @from : T
-  #   @to : N
-  #   @current : T
-  #
-  #   def initialize(@from : T, @to : N)
-  #     @current = @from
-  #   end
-  #
-  #   def next
-  #     if @current > @to
-  #       stop
-  #     else
-  #       value = @current
-  #       @current += 1
-  #       value
-  #     end
-  #   end
-  #
-  #   def rewind
-  #     @current = @from
-  #     self
-  #   end
-  # end
+    @n : T
+    @index : Int32
 
-  # private class DowntoIterator(T, N)
-  #   include Iterator(T)
-  #
-  #   @from : T
-  #   @to : N
-  #   @current : T
-  #
-  #   def initialize(@from : T, @to : N)
-  #     @current = @from
-  #   end
-  #
-  #   def next
-  #     if @current < @to
-  #       stop
-  #     else
-  #       value = @current
-  #       @current -= 1
-  #       value
-  #     end
-  #   end
-  #
-  #   def rewind
-  #     @current = @from
-  #     self
-  #   end
-  # end
+    def initialize(@n : T, @index = 0)
+    end
+
+    def next
+      if @index < @n
+        value = @index
+        @index += 1
+        value
+      else
+        stop
+      end
+    end
+
+    def rewind
+      @index = 0
+      self
+    end
+  end
+
+  private class UptoIterator(T, N)
+    include Iterator(T)
+
+    @from : T
+    @to : N
+    @current : T
+
+    def initialize(@from : T, @to : N)
+      @current = @from
+    end
+
+    def next
+      if @current > @to
+        stop
+      else
+        value = @current
+        @current += 1
+        value
+      end
+    end
+
+    def rewind
+      @current = @from
+      self
+    end
+  end
+
+  private class DowntoIterator(T, N)
+    include Iterator(T)
+
+    @from : T
+    @to : N
+    @current : T
+
+    def initialize(@from : T, @to : N)
+      @current = @from
+    end
+
+    def next
+      if @current < @to
+        stop
+      else
+        value = @current
+        @current -= 1
+        value
+      end
+    end
+
+    def rewind
+      @current = @from
+      self
+    end
+  end
 end
 
 struct Int8

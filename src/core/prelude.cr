@@ -14,4 +14,5 @@ require "./string"
 
 # Alpha-sorted list
 require "./int"
+require "./number"
 require "./pointer"

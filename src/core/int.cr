@@ -36,6 +36,10 @@ struct Int
     self >= 0 ? self : -self
   end
 
+  def ===(char : Char)
+    self === char.ord
+  end
+
   def /(x : Int)
     if x == 0
       self # raise DivisionByZero.new

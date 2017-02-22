@@ -12,6 +12,38 @@ struct Int
   alias Unsigned = UInt8 | UInt16 | UInt32 | UInt64
   alias Primitive = Signed | Unsigned
 
+  def /(other : Int)
+    check_div_argument other
+
+    div = unsafe_div other
+    mod = unsafe_mod other
+    div -= 1 if other > 0 ? mod < 0 : mod > 0
+    div
+  end
+
+  private def check_div_argument(other)
+    if other == 0
+      self # raise DivisionByZero.new
+    end
+
+    {% begin %}
+      if self < 0 && self == {{@type}}::MIN && other == -1
+        self # raise ArgumentError.new "overflow: {{@type}}::MIN / -1"
+      end
+    {% end %}
+  end
+
+  def %(other : Int)
+    if other == 0
+      self # raise DivisionByZero.new
+    elsif (self ^ other) >= 0
+      self.unsafe_mod(other)
+    else
+      me = self.unsafe_mod(other)
+      me == 0 ? me : me + other
+    end
+  end
+
   def >>(count : Int)
     if count < 0
       self << count.abs
@@ -40,24 +72,7 @@ struct Int
     self === char.ord
   end
 
-  def /(x : Int)
-    if x == 0
-      self # raise DivisionByZero.new
-    end
 
-    unsafe_div x
-  end
-
-  def %(other : Int)
-    if other == 0
-      self # raise DivisionByZero.new
-    elsif (self ^ other) >= 0
-      self.unsafe_mod(other)
-    else
-      me = self.unsafe_mod(other)
-      me == 0 ? me : me + other
-    end
-  end
 
   def times(&block : self ->) : Nil
     i = self ^ self

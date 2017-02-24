@@ -48,7 +48,8 @@ struct Scrn
     end
 
     # The cursor should be on the last line
-    @cur_y = VGA_HEIGHT - 1
+    vga_height = VGA_HEIGHT
+    @cur_y = vga_height - 1
   end
 
   # Comments are taken from http://www.osdever.net/bkerndev/Docs/printing.htm
@@ -109,7 +110,8 @@ struct Scrn
     if byte == '\b'.ord
       if @cur_x == 0
         @cur_y = @cur_y > 0 ? @cur_y - 1 : 0
-        @cur_x = VGA_WIDTH - 1
+        vga_width = VGA_WIDTH
+        @cur_x = vga_width - 1
       else
         @cur_x -= 1
       end

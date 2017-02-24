@@ -83,7 +83,7 @@ describe "LibCR" do
       # Crystal does not support '\a' ?
       # https://github.com/crystal-lang/crystal/issues/3078#issuecomment-238630121
       # it { LibCR.iscntrl('\a'.ord).should_not eq 0 } # Bell
-      it { LibCR.iscntrl(0x07).should_not eq 0 }     # Bell
+      it { LibCR.iscntrl(0x07).should_not eq 0 } # Bell
 
       control_chars = ['\0', '\b', '\t', '\n', '\v', '\f', '\r']
       control_chars.each do |c|
@@ -112,7 +112,7 @@ describe "LibCR" do
   describe "fun isgraph(c : Char) : Int" do
     context "Returns non-zero when a printable character without a space" do
       (0x21..0x7e).each do |c|
-        it { LibCR.isgraph(c).should_not eq 0}
+        it { LibCR.isgraph(c).should_not eq 0 }
       end
     end
 
@@ -149,7 +149,7 @@ describe "LibCR" do
   describe "fun isprint(c : Char) : Int" do
     context "Returns non-zero when a printable character (including a space)" do
       (0x20..0x7e).each do |c|
-        it { LibCR.isprint(c).should_not eq 0}
+        it { LibCR.isprint(c).should_not eq 0 }
       end
     end
 

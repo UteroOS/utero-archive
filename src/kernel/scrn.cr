@@ -19,6 +19,12 @@ struct Scrn
   private VGA_FG_COLOR = VGAColor::LIGHT_GREEN.value
   private VGA_BG_COLOR = VGAColor::BLACK.value
 
+  # To avoid a bug(regression)
+  # https://github.com/crystal-lang/crystal/issues/4054
+  # https://groups.google.com/d/topic/crystal-lang/wy9hfzAe0_U/discussion
+  @cur_x : Int32
+  @cur_y : Int32
+
   def initialize
     @vmem = VGA_MEMORY
     @cur_x = 0
@@ -48,8 +54,7 @@ struct Scrn
     end
 
     # The cursor should be on the last line
-    vga_height = VGA_HEIGHT
-    @cur_y = vga_height - 1
+    @cur_y = VGA_HEIGHT - 1
   end
 
   # Comments are taken from http://www.osdever.net/bkerndev/Docs/printing.htm
@@ -110,8 +115,7 @@ struct Scrn
     if byte == '\b'.ord
       if @cur_x == 0
         @cur_y = @cur_y > 0 ? @cur_y - 1 : 0
-        vga_width = VGA_WIDTH
-        @cur_x = vga_width - 1
+        @cur_x = VGA_WIDTH - 1
       else
         @cur_x -= 1
       end

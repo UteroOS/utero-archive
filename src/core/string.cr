@@ -18,7 +18,7 @@ class String
   # ```
   # line: 280
   def bytesize
-   @bytesize
+    @bytesize
   end
 
   def bytes
@@ -32,10 +32,9 @@ class String
     end
   end
 
-
   # line: 905
   def unsafe_byte_at(index)
-      to_unsafe[index]
+    to_unsafe[index]
   end
 
   # line: 3065
@@ -87,11 +86,11 @@ class String
   # ```
   # line: 3911
   def size
-   if @length > 0 || @bytesize == 0
-    return @length
-   end
+    if @length > 0 || @bytesize == 0
+      return @length
+    end
 
-   @length = each_byte_index_and_char_index { }
+    @length = each_byte_index_and_char_index { }
   end
 
   # line: 4009

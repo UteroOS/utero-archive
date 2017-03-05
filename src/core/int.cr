@@ -72,8 +72,6 @@ struct Int
     self === char.ord
   end
 
-
-
   def times(&block : self ->) : Nil
     i = self ^ self
     while i < self

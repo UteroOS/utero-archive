@@ -44,11 +44,11 @@ libctest: $(test_libc_targets)
 				@run-parts build/test_libc
 
 build/test_libc/%: test_libc/%.c
-				@mkdir -p $(shell dirname $@)
 				@cc $< -o $@
 
 clean:
-				@rm -r build/ target/
+				@rm -f $(kernel) $(iso) $(test_libc_targets) $(assembly_object_files) $(libcr_object_files)
+				@rm -rf target/
 
 run: $(iso)
 				@qemu-system-x86_64 -cdrom $(iso)
@@ -73,12 +73,10 @@ $(crystal_os): $(crystal_files)
 				@mv -f main.o target/$(target)/debug/
 
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
-				@mkdir -p $(shell dirname $@)
 				@nasm -felf64 $< -o $@
 
 $(libcr): $(libcr_object_files)
 				@ar r $(libcr) $(libcr_object_files)
 
 build/lib_cr/%.o: src/lib_cr/%.c
-				@mkdir -p $(shell dirname $@)
 				@cc -ffreestanding -o $@ -c $<

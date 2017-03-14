@@ -3,7 +3,8 @@ BUILD_DIR = ..
 
 # include $(BUILD_DIR)/config.mak
 
-MUSL_CFLAGS = -march=x86-64 -m64
+# -w Suppress all warnings
+MUSL_CFLAGS = -march=x86-64 -m64 -w
 MUSL_OPTION = --disable-shared
 
 CC = clang

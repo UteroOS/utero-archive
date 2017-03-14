@@ -7,6 +7,8 @@ This is the *work in progress*.
 ## Requirements
 
 * Crystal 0.21.0
+  * llvm
+  * Please see [All required libraries](https://github.com/crystal-lang/crystal/wiki/All-required-libraries)
 * nasm
 * grub-mkrescue
 * xorriso
@@ -33,10 +35,23 @@ To test (crystal spec)
 ## Contributing
 
 1. Fork it ( https://github.com/UteroOS/utero/fork )
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
-5. Create a new Pull Request
+2. Clone it (including submodules)
+
+  ```
+  git clone --recursive <YOUR-FORKED-UTERO-URL>
+  ```
+
+  or
+
+  ```
+  git clone <YOUR-FORKED-UTERO-URL>
+  git submodule update --init --recursive
+  ```
+
+3. Create your feature branch (git checkout -b my-new-feature)
+4. Commit your changes (git commit -am 'Add some feature')
+5. Push to the branch (git push origin my-new-feature)
+6. Create a new Pull Request
 
 ## Contributors
 

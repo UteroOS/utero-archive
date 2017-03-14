@@ -15,10 +15,7 @@ target ?= $(arch)-pc-linux-gnu
 kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 
-libcr := src/lib_cr/libcr.a
-libcr_source_files := $(wildcard src/lib_cr/*.c)
-libcr_object_files := $(patsubst src/lib_cr/%.c, \
-				build/lib_cr/%.o, $(libcr_source_files))
+libcr := src/musl/lib/libcr.a
 
 crystal_os := target/$(target)/debug/main.o
 
@@ -29,10 +26,6 @@ assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
 				build/arch/$(arch)/%.o, $(assembly_source_files))
 crystal_files := $(shell find ./ -name *.cr)
 
-test_libc_sources := $(wildcard test_libc/*.c)
-test_libc_targets := $(patsubst test_libc/%.c, \
-				build/test_libc/%, $(test_libc_sources))
-
 .PHONY: all test clean run iso
 
 all: $(kernel)
@@ -40,15 +33,10 @@ all: $(kernel)
 test:
 				@crystal spec -v
 
-libctest: $(test_libc_targets)
-				@run-parts build/test_libc
-
-build/test_libc/%: test_libc/%.c
-				@cc $< -o $@
-
 clean:
-				@rm -f $(kernel) $(iso) $(test_libc_targets) $(assembly_object_files) $(libcr_object_files)
+				@rm -f $(kernel) $(iso) $(assembly_object_files)
 				@rm -rf target/
+				$(MAKE) -C build/musl clean
 
 run: $(iso)
 				@qemu-system-x86_64 -cdrom $(iso)
@@ -75,8 +63,5 @@ $(crystal_os): $(crystal_files)
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 				@nasm -felf64 $< -o $@
 
-$(libcr): $(libcr_object_files)
-				@ar r $(libcr) $(libcr_object_files)
-
-build/lib_cr/%.o: src/lib_cr/%.c
-				@cc -ffreestanding -o $@ -c $<
+$(libcr):
+				$(MAKE) -C build/musl

@@ -61,6 +61,7 @@ $(crystal_os): $(crystal_files)
 				@mv -f main.o target/$(target)/debug/
 
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
+				@mkdir -p $(shell dirname $@)
 				@nasm -felf64 $< -o $@
 
 $(libcr):

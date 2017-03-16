@@ -6,7 +6,6 @@
 # <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
-require "../arch/x86_64/io"
 require "./scrn_h"
 
 struct Scrn

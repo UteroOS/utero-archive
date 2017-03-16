@@ -11,7 +11,7 @@
 # https://github.com/phil-opp/blog_os/blob/set_up_rust/Makefile
 
 arch ?= x86_64
-target ?= $(arch)-pc-linux-gnu
+target ?= $(arch)-unknown-linux-musl
 kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 

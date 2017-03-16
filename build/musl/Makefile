@@ -5,7 +5,7 @@ BUILD_DIR = ..
 
 # -w Suppress all warnings
 MUSL_CFLAGS = -march=x86-64 -m64 -w
-MUSL_OPTION = --disable-shared
+MUSL_OPTION = --disable-shared --target=x86_64-unknown-linux-musl
 
 CC = clang
 

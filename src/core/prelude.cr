@@ -10,6 +10,7 @@
 # Order-dependent list
 require "../lib_cr/string"
 require "../lib_cr/ctype"
+require "../lib_cr/bits/**"
 require "./string"
 
 # Alpha-sorted list

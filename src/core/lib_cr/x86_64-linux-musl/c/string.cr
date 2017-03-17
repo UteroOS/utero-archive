@@ -12,12 +12,14 @@ require "./stddef"
 lib LibCR
   fun memchr(x0 : Void*, c : Int, n : SizeT) : Void*
   fun memcmp(x0 : Void*, x1 : Void*, x2 : SizeT) : Int
-  fun memset(dest : Void*, src : Int, len : SizeT) : Void*
-  fun strchr(x0 : Char*, x1 : Int) : Char*
-  fun strchrnul(x0 : Char*, x1 : Int) : Char*
   fun strcmp(x0 : Char*, x1 : Char*) : Int
   # fun strerror(x0 : Int) : Char*
   fun strlen(x0 : Char*) : SizeT
+
+  # Additional functions
+  fun memset(dest : Void*, src : Int, len : SizeT) : Void*
+  fun strchr(x0 : Char*, x1 : Int) : Char*
+  fun strchrnul(x0 : Char*, x1 : Int) : Char*
   fun strncmp(x0 : Char*, x1 : Char*, n : SizeT) : Int
   fun strstr(x0 : Char*, x1 : Char*) : Char*
 end

@@ -7,12 +7,12 @@
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
 
-# Order-dependent list
-require "./lib_cr"
-require "./lib_cr/**"
-require "./string"
+# This was take from
+# crystal/src/lib_c/x86_64-linux-musl/c/stddef.cr
 
-# Alpha-sorted list
-require "./int"
-require "./number"
-require "./pointer"
+# Lookup core/lib_cr.cr
+require "../../../lib_cr"
+
+lib LibCR
+  alias SizeT = ULong
+end

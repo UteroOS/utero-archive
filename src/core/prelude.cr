@@ -8,9 +8,8 @@
 # except according to those terms.
 
 # Order-dependent list
-require "../lib_cr/string"
-require "../lib_cr/ctype"
-require "../lib_cr/bits/**"
+require "./lib_cr"
+require "./lib_cr/**"
 require "./string"
 
 # Alpha-sorted list

@@ -7,10 +7,9 @@
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
 
-# from crystal/src/lib_c.cr
+# This was take from
+# crystal/src/lib_c/x86_64-linux-musl/c/stddef.cr
+
 lib LibCR
-  alias ULong = UInt64 # for x86_64
   alias SizeT = ULong
-  alias Char = UInt8
-  alias Int = Int32
 end

@@ -10,6 +10,9 @@
 # This was take from
 # crystal/src/lib_c/x86_64-linux-musl/c/stddef.cr
 
+# Lookup core/lib_cr.cr
+require "../../../lib_cr"
+
 lib LibCR
   alias SizeT = ULong
 end

@@ -8,7 +8,7 @@
 # except according to those terms.
 
 require "../spec_helper"
-require "../../src/lib_cr/string"
+require "../../src/core/lib_cr/x86_64-linux-musl/c/string"
 # FIXME: or KILLME
 # require "../../src/lib_cr/no_bind/libstring"
 # include NoBind

@@ -50,7 +50,9 @@ reset_color
 puts "31: Reset Color"
 # print 80 characters and insert a blank into the end of line
 print "32: 5678901234567890123456789012345678901234567890123456789012345678901234567890"
-print "\b"
+print "\b"; puts
+puts "33: Current directory is #{__DIR__}"
+print "34: "; Hello.hello_from_c
 # clear
 
 # puts "---------strlen------------"

@@ -16,6 +16,10 @@ kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 
 libcr := src/musl/lib/libcr.a
+c_source_files := $(wildcard src/arch/x86_64/c_files/*.c)
+c_object_files := $(patsubst src/arch/x86_64/c_files/%.c, \
+				build/arch/x86_64/c_files/%.o, $(c_source_files))
+c_object_files_fullpath := $(subst build/,$(shell pwd)/build/,$(c_object_files))
 
 crystal_os := target/$(target)/debug/main.o
 
@@ -34,7 +38,7 @@ test:
 				@crystal spec -v
 
 clean:
-				@rm -f $(kernel) $(iso) $(assembly_object_files)
+				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files)
 				@rm -rf target/
 				$(MAKE) -C build/musl clean
 
@@ -50,13 +54,13 @@ $(iso): $(kernel) $(grub_cfg)
 				@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
 				@rm -r build/isofiles
 
-$(kernel): $(assembly_object_files) $(crystal_os) $(linker_script) $(crystal_files) $(libcr)
+$(kernel): $(assembly_object_files) $(linker_script) $(crystal_files) $(libcr) $(c_object_files) $(crystal_os)
 				@echo Creating $@...
-				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libcr)
+				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(c_object_files) $(libcr)
 
 $(crystal_os): $(crystal_files)
 				@mkdir -p $(shell dirname $(crystal_os))
-				@crystal build src/kernel/main.cr --target=$(target) --prelude=empty --emit=obj --verbose
+				@crystal build src/kernel/main.cr --target=$(target) --prelude=empty --emit=obj --verbose --link-flags $(c_object_files_fullpath)
 				@rm main
 				@mv -f main.o target/$(target)/debug/
 
@@ -66,3 +70,6 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 
 $(libcr):
 				$(MAKE) -C build/musl
+
+build/arch/x86_64/c_files/%.o: src/arch/x86_64/c_files/%.c
+				@cc -ffreestanding -nostdinc -Wno-implicit -o $@ -c $<

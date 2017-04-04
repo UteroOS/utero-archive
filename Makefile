@@ -16,6 +16,8 @@ kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 
 libcr := src/musl/lib/libcr.a
+libutero = build/arch/x86_64/c_files/libutero.a
+libutero_fullpath = $(subst build/,$(shell pwd)/build/,$(libutero))
 c_source_files := $(wildcard src/arch/x86_64/c_files/*.c)
 c_object_files := $(patsubst src/arch/x86_64/c_files/%.c, \
 				build/arch/x86_64/c_files/%.o, $(c_source_files))
@@ -38,7 +40,7 @@ test:
 				@crystal spec -v
 
 clean:
-				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files)
+				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files) $(libutero)
 				@rm -rf target/
 				$(MAKE) -C build/musl clean
 
@@ -54,13 +56,13 @@ $(iso): $(kernel) $(grub_cfg)
 				@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
 				@rm -r build/isofiles
 
-$(kernel): $(assembly_object_files) $(linker_script) $(crystal_files) $(libcr) $(c_object_files) $(crystal_os)
+$(kernel): $(linker_script) $(libcr) $(libutero) $(crystal_os) $(assembly_object_files)
 				@echo Creating $@...
-				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(c_object_files) $(libcr)
+				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libutero) $(libcr)
 
-$(crystal_os): $(crystal_files)
+$(crystal_os): $(libutero) $(crystal_files)
 				@mkdir -p $(shell dirname $(crystal_os))
-				@crystal build src/kernel/main.cr --target=$(target) --prelude=empty --emit=obj --verbose --link-flags $(c_object_files_fullpath)
+				@crystal build src/kernel/main.cr --target=$(target) --prelude=empty --emit=obj --verbose --link-flags $(libutero_fullpath)
 				@rm main
 				@mv -f main.o target/$(target)/debug/
 
@@ -71,5 +73,9 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 $(libcr):
 				$(MAKE) -C build/musl
 
+$(libutero): $(c_object_files)
+				@ar r $(libutero) $(c_object_files)
+
 build/arch/x86_64/c_files/%.o: src/arch/x86_64/c_files/%.c
+				@mkdir -p $(shell dirname $@)
 				@cc -ffreestanding -nostdinc -Wno-implicit -o $@ -c $<

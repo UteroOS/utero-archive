@@ -167,12 +167,13 @@ def puts
   print "\n"
 end
 
-fun cprint(str : UInt8*)
+def cprint(str : UInt8*)
   SCRN._cprint(str)
 end
 
 lib Hello
-  fun hello_from_c : UInt8
+  fun hello_from_c : UInt8*
+  fun dummy_exception : UInt8*
 end
 
 def clear

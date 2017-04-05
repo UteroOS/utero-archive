@@ -35,6 +35,4 @@ long_mode_start:
     ; mov [0xb8008], rax
     ; mov rax, 0x4f214f644f654f6e
     ; mov [0xb8010], rax
-    extern dummy_exception
-    call dummy_exception
     hlt

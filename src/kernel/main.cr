@@ -9,10 +9,6 @@
 
 require "../core/prelude"
 require "./scrn"
-# require "./lib_cr/string"
-# FIXME: or KILLME
-# require "./lib_cr/no_bind/libstring"
-# include NoBind
 
 puts "1:"
 puts "2:"

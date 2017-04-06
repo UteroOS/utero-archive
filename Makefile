@@ -16,11 +16,11 @@ kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 
 libcr := src/musl/lib/libcr.a
-libu = build/arch/x86_64/c_files/libu.a
+libu = build/arch/x86_64/c/libu.a
 libu_fullpath = $(subst build/,$(shell pwd)/build/,$(libu))
-c_source_files := $(wildcard src/arch/x86_64/c_files/*.c)
-c_object_files := $(patsubst src/arch/x86_64/c_files/%.c, \
-				build/arch/x86_64/c_files/%.o, $(c_source_files))
+c_source_files := $(wildcard src/arch/x86_64/c/*.c)
+c_object_files := $(patsubst src/arch/x86_64/c/%.c, \
+				build/arch/x86_64/c/%.o, $(c_source_files))
 c_object_files_fullpath := $(subst build/,$(shell pwd)/build/,$(c_object_files))
 
 crystal_os := target/$(target)/debug/main.o
@@ -76,6 +76,6 @@ $(libcr):
 $(libu): $(c_object_files)
 				@ar r $(libu) $(c_object_files)
 
-build/arch/x86_64/c_files/%.o: src/arch/x86_64/c_files/%.c
+build/arch/x86_64/c/%.o: src/arch/x86_64/c/%.c
 				@mkdir -p $(shell dirname $@)
 				@cc -ffreestanding -nostdinc -Wno-implicit -o $@ -c $<

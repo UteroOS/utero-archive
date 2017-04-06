@@ -8,6 +8,7 @@
 # except according to those terms.
 
 require "../core/prelude"
+require "./prelude"
 require "./scrn"
 
 puts "1:"

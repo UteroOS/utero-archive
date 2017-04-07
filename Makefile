@@ -16,11 +16,11 @@ kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 
 libcr := src/musl/lib/libcr.a
-libu = build/arch/x86_64/c/libu.a
+libu = build/arch/$(arch)/c/libu.a
 libu_fullpath = $(subst build/,$(shell pwd)/build/,$(libu))
-c_source_files := $(wildcard src/arch/x86_64/c/*.c)
-c_object_files := $(patsubst src/arch/x86_64/c/%.c, \
-				build/arch/x86_64/c/%.o, $(c_source_files))
+c_source_files := $(wildcard src/arch/$(arch)/c/*.c)
+c_object_files := $(patsubst src/arch/$(arch)/c/%.c, \
+				build/arch/$(arch)/c/%.o, $(c_source_files))
 c_object_files_fullpath := $(subst build/,$(shell pwd)/build/,$(c_object_files))
 
 crystal_os := target/$(target)/debug/main.o
@@ -45,7 +45,7 @@ clean:
 				$(MAKE) -C build/musl clean
 
 run: $(iso)
-				@qemu-system-x86_64 -cdrom $(iso)
+				@qemu-system-$(arch) -cdrom $(iso)
 
 iso: $(iso)
 
@@ -58,7 +58,7 @@ $(iso): $(kernel) $(grub_cfg)
 
 $(kernel): $(linker_script) $(libcr) $(libu) $(crystal_os) $(assembly_object_files)
 				@echo Creating $@...
-				@ld -n -nostdlib -melf_x86_64 --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libu) $(libcr)
+				@ld -n -nostdlib -melf_$(arch) --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libu) $(libcr)
 
 $(crystal_os): $(libu) $(crystal_files)
 				@mkdir -p $(shell dirname $(crystal_os))
@@ -76,6 +76,6 @@ $(libcr):
 $(libu): $(c_object_files)
 				@ar r $(libu) $(c_object_files)
 
-build/arch/x86_64/c/%.o: src/arch/x86_64/c/%.c
+build/arch/$(arch)/c/%.o: src/arch/$(arch)/c/%.c
 				@mkdir -p $(shell dirname $@)
 				@cc -ffreestanding -nostdinc -Wno-implicit -o $@ -c $<

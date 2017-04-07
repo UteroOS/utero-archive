@@ -49,8 +49,8 @@ puts "31: Reset Color"
 print "32: 5678901234567890123456789012345678901234567890123456789012345678901234567890"
 print "\b"; puts
 puts "33: Current directory is #{__DIR__}"
-print "34: "; cprint(Hello.hello_from_c)
-cprint(Hello.dummy_exception)
+print "34: "; cprint(LibU.hello_from_c)
+cprint(LibU.dummy_exception)
 # clear
 
 # puts "---------strlen------------"

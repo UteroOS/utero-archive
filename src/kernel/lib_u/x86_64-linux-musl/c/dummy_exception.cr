@@ -8,7 +8,7 @@
 # except according to those terms.
 require "../../../lib_u"
 
-# hello.c
+# dummy_exception.c
 lib LibU
-  fun hello_from_c : LibU::Char*
+  fun dummy_exception : LibU::Char*
 end

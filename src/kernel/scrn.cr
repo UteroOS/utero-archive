@@ -140,7 +140,7 @@ struct Scrn
     str.each_byte { |byte| put_byte(byte) }
   end
 
-  def _cprint(buf)
+  def cprint(buf)
     len = LibCR.strlen(buf)
     len.times do |i|
       put_byte(buf[i])
@@ -168,7 +168,7 @@ def puts
 end
 
 def cprint(str : UInt8*)
-  SCRN._cprint(str)
+  SCRN.cprint(str)
 end
 
 def clear

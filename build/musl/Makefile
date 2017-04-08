@@ -1,11 +1,12 @@
 ROOT_DIR  = ../..
 BUILD_DIR = ..
+ROOT_DIR_REALPATH = $(shell echo -n `cd $(ROOT_DIR); pwd`)
 
 # include $(BUILD_DIR)/config.mak
 
 # -w Suppress all warnings
 MUSL_CFLAGS = -march=x86-64 -m64 -w
-MUSL_OPTION = --disable-shared --target=x86_64-unknown-linux-musl
+MUSL_OPTION = --disable-shared --target=x86_64-unknown-linux-musl --prefix=$(ROOT_DIR_REALPATH)/src/musl
 
 CC = clang
 

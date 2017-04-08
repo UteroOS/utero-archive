@@ -78,15 +78,6 @@ struct Scrn
     outb(0x3d5_u16, (temp >> 8).to_u8)
   end
 
-  def clear
-    attr = 0x0f.to_u16 << 8 | ' '.ord
-    VGA_SIZE.times { |i| @vmem[i] = attr }
-
-    @cur_x = 0
-    @cur_y = 0
-    update_cur
-  end
-
   private def linebreak
     @cur_x = 0
     @cur_y += 1
@@ -125,6 +116,15 @@ struct Scrn
     @vmem[@cur_y * VGA_WIDTH + @cur_x] = (@vga_color.to_u16 << 8 | byte).as(UInt16)
     @cur_x += 1
     linebreak if @cur_x == VGA_WIDTH
+    update_cur
+  end
+
+  def clear
+    attr = 0x0f.to_u16 << 8 | ' '.ord
+    VGA_SIZE.times { |i| @vmem[i] = attr }
+
+    @cur_x = 0
+    @cur_y = 0
     update_cur
   end
 

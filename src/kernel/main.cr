@@ -8,11 +8,8 @@
 # except according to those terms.
 
 require "../core/prelude"
+require "./prelude"
 require "./scrn"
-# require "./lib_cr/string"
-# FIXME: or KILLME
-# require "./lib_cr/no_bind/libstring"
-# include NoBind
 
 puts "1:"
 puts "2:"
@@ -50,7 +47,10 @@ reset_color
 puts "31: Reset Color"
 # print 80 characters and insert a blank into the end of line
 print "32: 5678901234567890123456789012345678901234567890123456789012345678901234567890"
-print "\b"
+print "\b"; puts
+puts "33: Current directory is #{__DIR__}"
+print "34: "; cprint(LibU.hello_from_c)
+cprint(LibU.dummy_exception)
 # clear
 
 # puts "---------strlen------------"

@@ -78,15 +78,6 @@ struct Scrn
     outb(0x3d5_u16, (temp >> 8).to_u8)
   end
 
-  def clear
-    attr = 0x0f.to_u16 << 8 | ' '.ord
-    VGA_SIZE.times { |i| @vmem[i] = attr }
-
-    @cur_x = 0
-    @cur_y = 0
-    update_cur
-  end
-
   private def linebreak
     @cur_x = 0
     @cur_y += 1
@@ -128,6 +119,15 @@ struct Scrn
     update_cur
   end
 
+  def clear
+    attr = 0x0f.to_u16 << 8 | ' '.ord
+    VGA_SIZE.times { |i| @vmem[i] = attr }
+
+    @cur_x = 0
+    @cur_y = 0
+    update_cur
+  end
+
   def set_default_color
     @vga_color = VGA_BG_COLOR << 4 | VGA_FG_COLOR
   end
@@ -140,7 +140,7 @@ struct Scrn
     str.each_byte { |byte| put_byte(byte) }
   end
 
-  def _cprint(buf)
+  def cprint(buf)
     len = LibCR.strlen(buf)
     len.times do |i|
       put_byte(buf[i])
@@ -168,7 +168,7 @@ def puts
 end
 
 def cprint(str : UInt8*)
-  SCRN._cprint(str)
+  SCRN.cprint(str)
 end
 
 def clear

@@ -171,6 +171,17 @@ def cprint(str : UInt8*)
   SCRN.cprint(str)
 end
 
+# Displays error messages from C with linebreak
+fun eputs(str : UInt8*)
+  SCRN.cprint(str)
+  puts
+end
+
+# Displays error messages from C
+fun eprint(str : UInt8*)
+  SCRN.cprint(str)
+end
+
 def clear
   SCRN.clear
 end

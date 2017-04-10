@@ -33,4 +33,51 @@ typedef char int8_t;
 // A popular type for addresses
 typedef unsigned long long size_t;
 
+// This defines what the stack looks like after the task context is saved.
+struct state {
+  // R15 register
+  uint64_t r15;
+  // R14 register
+  uint64_t r14;
+  // R13 register
+  uint64_t r13;
+  // R12 register
+  uint64_t r12;
+  // R11 register
+  uint64_t r11;
+  // R10 register
+  uint64_t r10;
+  // R9 register
+  uint64_t r9;
+  // R8 register
+  uint64_t r8;
+  // RDI register
+  uint64_t rdi;
+  // RSI register
+  uint64_t rsi;
+  // RBP register
+  uint64_t rbp;
+  // (pseudo) RSP register
+  uint64_t rsp;
+  // RBX register
+  uint64_t rbx;
+  // RDX register
+  uint64_t rdx;
+  // RCX register
+  uint64_t rcx;
+  // RAX register
+  uint64_t rax;
+
+  // Interrupt number
+  uint64_t int_no;
+
+  // pushed by the processor automatically
+  uint64_t error;
+  uint64_t rip;
+  uint64_t cs;
+  uint64_t rflags;
+  uint64_t userrsp;
+  uint64_t ss;
+};
+
 #endif /* end of include guard: STDDEF_H */

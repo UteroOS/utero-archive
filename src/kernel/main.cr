@@ -11,6 +11,9 @@ require "../core/prelude"
 require "./prelude"
 require "./scrn"
 
+# LibU.idt_install
+# LibU.isrs_install
+
 puts "1:"
 puts "2:"
 puts "3:"
@@ -51,6 +54,8 @@ print "\b"; puts
 puts "33: Current directory is #{__DIR__}"
 print "34: "; cprint(LibU.hello_from_c)
 cprint(LibU.dummy_exception)
+# Division By Zero
+42 / 0
 # clear
 
 # puts "---------strlen------------"

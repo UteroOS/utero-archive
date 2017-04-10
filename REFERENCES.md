@@ -15,6 +15,9 @@ https://github.com/TheKernelCorp/NuummiteOS
 ### Cyanurus
 https://github.com/redcap97/cyanurus
 
+### eduOS
+https://github.com/RWTH-OS/eduOS
+
 -----
 
 ### Create Your Own Operating System: Build, deploy, and test your very own operating systems for the Internet of Things and other devices Kindle Edition

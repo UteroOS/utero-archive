@@ -1,5 +1,5 @@
 # utero
-![utero screen 2017-04-08 15-02](https://cloud.githubusercontent.com/assets/5820754/24826288/203f250e-1c6d-11e7-9c0a-1eec88be3503.gif)
+![utero screenshot 2017-04-10 20-33](https://cloud.githubusercontent.com/assets/5820754/24860805/3ce9117c-1e31-11e7-8488-9c643c01d24b.gif)
 
 **Utero** is an operating system (for x86_64) written in [Crystal](https://crystal-lang.org/) *as much as possible*.
 

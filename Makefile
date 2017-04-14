@@ -56,7 +56,7 @@ $(iso): $(kernel) $(grub_cfg)
 				@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
 				@rm -r build/isofiles
 
-$(kernel): $(linker_script) $(libcr) $(libu) $(crystal_os) $(assembly_object_files)
+$(kernel): $(linker_script) $(libcr) $(libu) $(crystal_os)
 				@echo Creating $@...
 				@ld -n -nostdlib -melf_$(arch) --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libu) $(libcr)
 
@@ -66,15 +66,15 @@ $(crystal_os): $(libu) $(crystal_files)
 				@rm main
 				@mv -f main.o target/$(target)/debug/
 
-build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
-				@mkdir -p $(shell dirname $@)
-				@nasm -felf64 $< -o $@
-
 $(libcr):
 				$(MAKE) -C build/musl
 
-$(libu): $(c_object_files)
-				@ar r $(libu) $(c_object_files)
+$(libu): $(assembly_object_files) $(c_object_files)
+				@ar r $(libu) $(assembly_object_files) $(c_object_files)
+
+build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
+				@mkdir -p $(shell dirname $@)
+				@nasm -felf64 $< -o $@
 
 build/arch/$(arch)/c/%.o: src/arch/$(arch)/c/%.c
 				@mkdir -p $(shell dirname $@)

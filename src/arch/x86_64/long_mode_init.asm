@@ -24,11 +24,11 @@ long_mode_start:
 	mov fs, ax
 	mov gs, ax
 
-	extern idt_install
-	call idt_install
-	extern isrs_install
-	call isrs_install
-	; call main.cr
+	; extern idt_install
+	; call idt_install
+	; extern isrs_install
+	; call isrs_install
+	; These following lines call main.cr
 	extern main
 	call main
 

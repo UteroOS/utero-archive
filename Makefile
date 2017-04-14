@@ -16,8 +16,8 @@ kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 
 libcr := src/musl/lib/libcr.a
-libu = build/arch/$(arch)/c/libu.a
-libu_fullpath = $(subst build/,$(shell pwd)/build/,$(libu))
+libu := build/arch/$(arch)/c/libu.a
+libu_fullpath := $(subst build/,$(shell pwd)/build/,$(libu))
 c_source_files := $(wildcard src/arch/$(arch)/c/*.c)
 c_object_files := $(patsubst src/arch/$(arch)/c/%.c, \
 				build/arch/$(arch)/c/%.o, $(c_source_files))

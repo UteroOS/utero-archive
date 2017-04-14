@@ -14,3 +14,6 @@
 *.iso
 *.log
 *.a
+
+# vscode config
+.vscode/

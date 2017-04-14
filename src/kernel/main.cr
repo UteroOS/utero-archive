@@ -9,10 +9,8 @@
 
 require "../core/prelude"
 require "./prelude"
+require "./utero_init"
 require "./scrn"
-
-# LibU.idt_install
-# LibU.isrs_install
 
 puts "1:"
 puts "2:"

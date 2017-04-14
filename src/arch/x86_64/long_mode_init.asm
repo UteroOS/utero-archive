@@ -17,18 +17,14 @@ section .text
 bits 64
 long_mode_start:
 	; load 0 into all data segment registers
-	mov ax, 0
+	xor ax, ax
 	mov ss, ax
 	mov ds, ax
 	mov es, ax
 	mov fs, ax
 	mov gs, ax
 
-	extern idt_install
-	call idt_install
-	extern isrs_install
-	call isrs_install
-	; call main.cr
+	; These following lines call main.cr
 	extern main
 	call main
 

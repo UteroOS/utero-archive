@@ -7,20 +7,10 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 //
-// Functions are taken from musl/include/stdio.h
+// The part of this file was taken from:
+// musl/obj/include/bits/alltypes.h
 
-#ifndef STDIO_H
-#define STDIO_H
-
-#define __NEED_va_list
-
-#include "bits/alltypes.h"
-
-#define va_start(v, l) __builtin_va_start(v, l)
-#define va_end(v) __builtin_va_end(v)
-#define va_arg(v, l) __builtin_va_arg(v, l)
-#define va_copy(d, s) __builtin_va_copy(d, s)
-
-int sprintf(char *__restrict, const char *__restrict, ...);
-
-#endif /* end of include guard: STDIO_H */
+#if defined(__NEED_va_list) && !defined(__DEFINED_va_list)
+typedef __builtin_va_list va_list;
+#define __DEFINED_va_list
+#endif

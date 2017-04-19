@@ -8,13 +8,13 @@ unsigned int multiboot_info_address;
 unsigned int kernel_start;
 unsigned int kernel_end;
 unsigned int kernel_size;
-
+multiboot_uint32_t mmap_len;
 unsigned int address_of_module;
 
 int early_info(unsigned int ks, unsigned int ke, unsigned int ebx)
 {
   multiboot_info_address = ebx;
-  multiboot_info_t *mbinfo = (multiboot_info_t *) ebx;
+  multiboot_info_t *mbinfo = (multiboot_info_t *) multiboot_info_address;
   address_of_module = mbinfo->mods_addr;
   kernel_start = ks;
   kernel_end = ke;

@@ -43,6 +43,9 @@ clean:
 				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files) $(libu)
 				@rm -rf target/
 				$(MAKE) -C build/musl clean
+cleanobjs:
+				@rm -f $(assembly_object_files) $(c_object_files)
+				@rm -rf target/
 
 run: $(iso)
 				@qemu-system-$(arch) -cdrom $(iso)

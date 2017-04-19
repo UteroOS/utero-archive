@@ -24,6 +24,10 @@ long_mode_start:
 	mov fs, ax
 	mov gs, ax
 
+	; Pass kernel_start, kernel_end, multiboot info
+	; to the following function
+	extern early_info
+	call early_info
 	; These following lines call main.cr
 	extern main
 	call main

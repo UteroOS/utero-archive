@@ -17,6 +17,8 @@ section .text
 bits 32
 start:
 	mov esp, stack_top
+	; http://os.phil-opp.com/allocating-frames.html#the-multiboot-information-structure
+	mov edi, ebx				; Move Multiboot info pointer to edi
 
 	call check_multiboot
 	call check_cpuid
@@ -25,6 +27,13 @@ start:
 	call set_up_page_tables
 	call enable_paging
 	call set_up_SSE
+
+	; https://littleosbook.github.io/#how-much-memory-is-there
+	; Read and push linker labels
+	extern kernel_start
+	extern kernel_end
+	push kernel_end
+	push kernel_start
 
 	; load the 64-bit GDT
 	lgdt [gdt64.pointer]

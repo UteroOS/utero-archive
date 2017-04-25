@@ -38,13 +38,10 @@ SECTIONS {
 				. = ALIGN(4K);
 		}
 
-		bss_start = .;
-
 		.bss :
 		{
 				*(.bss .bss.*)
 				. = ALIGN(4K);
 		}
-		bss_end = .;
 		kernel_end = .;
 }

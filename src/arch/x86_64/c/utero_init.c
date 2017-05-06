@@ -18,10 +18,11 @@ int early_info(unsigned int ks, unsigned int ke)
 char *make_kernel_info()
 {
   static char *str[N];
-  char *fmt = "Kernel starts at: %p\nKernel ends   at: %p\n";
+  char *fmt = "Kernel starts at: %p\nKernel ends   at: %p\nmultiboot info at:%p\n";
 
   *str = make_string(fmt,
                      &kernel_start,
-                     &kernel_end);
+                     &kernel_end,
+                     &mb_info);
   return *str;
 }

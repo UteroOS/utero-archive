@@ -12,6 +12,7 @@
 ; https://github.com/RWTH-OS/eduOS/blob/master/arch/x86/kernel/entry.asm
 
 global long_mode_start
+extern stack_top
 
 section .text
 bits 64
@@ -24,8 +25,14 @@ long_mode_start:
 	mov fs, ax
 	mov gs, ax
 
+	; set default stack pointer
+	mov rsp, stack_top
+	add rsp, (8<<10) - 16
+
 	; Pass kernel_start, kernel_end, multiboot info
 	; to the following function
+	; mov rdi, rbx				; Move Multiboot info pointer to rdi
+
 	extern early_info
 	call early_info
 	; These following lines call main.cr

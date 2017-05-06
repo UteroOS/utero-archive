@@ -1,5 +1,5 @@
 # utero
-![utero screenshot 2017-04-10 20-33](https://cloud.githubusercontent.com/assets/5820754/24860805/3ce9117c-1e31-11e7-8488-9c643c01d24b.gif)
+![utero screenshot 2017-05-07 08-27](https://cloud.githubusercontent.com/assets/5820754/25776642/1111e0a0-32ff-11e7-9996-eb4e93755001.gif)
 
 **Utero** is an operating system (for x86_64) written in [Crystal](https://crystal-lang.org/) *as much as possible*.
 
@@ -18,19 +18,19 @@ This is the *work in progress*.
   * optional, See more details http://os.phil-opp.com/multiboot-kernel.html#creating-the-iso
 
 ## Usage
-To make an ISO file and run on Qemu  
+To make an ISO file and run on Qemu
 ``$ make run``
 
-To make an ISO file  
+To make an ISO file
 ``$ make iso``
 
-To make a binary file of the kernel  
+To make a binary file of the kernel
 ``$ make`` or ``$ make all``
 
-To clean up  
+To clean up
 ``$ make clean``
 
-To test (crystal spec)  
+To test (crystal spec)
 ``$ make test``
 
 ## Contributing

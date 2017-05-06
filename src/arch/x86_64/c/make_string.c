@@ -6,21 +6,19 @@
 // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
-//
-// Functions are taken from musl/include/stdio.h
 
-#ifndef STDIO_H
-#define STDIO_H
+#include "stdio.h"
+#include "make_string.h"
+#define N 256
 
-#define __NEED_va_list
+char *make_string(char *fmt, ...)
+{
+  static char s[N] = {'\0'};
+  va_list ap;
 
-#include "bits/alltypes.h"
+  va_start(ap, fmt);
+  vsprintf(s, fmt, ap);
+  va_end(ap);
 
-#define va_start(v, l) __builtin_va_start(v, l)
-#define va_end(v) __builtin_va_end(v)
-#define va_arg(v, l) __builtin_va_arg(v, l)
-#define va_copy(d, s) __builtin_va_copy(d, s)
-
-int sprintf(char *__restrict, const char *__restrict, ...);
-
-#endif /* end of include guard: STDIO_H */
+  return s;
+}

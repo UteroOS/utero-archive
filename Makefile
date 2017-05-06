@@ -43,6 +43,9 @@ clean:
 				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files) $(libu)
 				@rm -rf target/
 				$(MAKE) -C build/musl clean
+cleanobjs:
+				@rm -f $(assembly_object_files) $(c_object_files)
+				@rm -rf target/
 
 run: $(iso)
 				@qemu-system-$(arch) -cdrom $(iso)
@@ -58,7 +61,7 @@ $(iso): $(kernel) $(grub_cfg)
 
 $(kernel): $(linker_script) $(libcr) $(libu) $(crystal_os)
 				@echo Creating $@...
-				@ld -n -nostdlib -melf_$(arch) --gc-sections --build-id=none -T $(linker_script) -o $@ $(assembly_object_files) $(crystal_os) $(libu) $(libcr)
+				@ld -n -nostdlib -melf_$(arch) --gc-sections --build-id=none -T $(linker_script) -o $@ $(c_object_files) $(assembly_object_files) $(crystal_os) $(libu) $(libcr)
 
 $(crystal_os): $(libu) $(crystal_files)
 				@mkdir -p $(shell dirname $(crystal_os))

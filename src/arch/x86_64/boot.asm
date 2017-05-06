@@ -11,20 +11,37 @@
 ; https://github.com/phil-opp/blog_os/blob/set_up_rust/src/arch/x86_64/multiboot_header.asm
 
 global start
+global stack_top
 extern long_mode_start
 
 section .text
 bits 32
 start:
 	mov esp, stack_top
+	add esp, (8<<10) - 16
+	; http://os.phil-opp.com/allocating-frames.html#the-multiboot-information-structure
+	; mov edi, ebx				; Move Multiboot info pointer to edi
+
+	; Interpret multiboot information
+	mov dword [mb_info], ebx
 
 	call check_multiboot
+	call cpu_init
 	call check_cpuid
 	call check_long_mode
 
 	call set_up_page_tables
 	call enable_paging
 	call set_up_SSE
+
+	; https://littleosbook.github.io/#how-much-memory-is-there
+	; Read and push linker labels
+	extern kernel_start
+	extern kernel_end
+	; push kernel_end
+	; push kernel_start
+
+	pop ebx ; restore pointer to multiboot structure
 
 	; load the 64-bit GDT
 	lgdt [gdt64.pointer]
@@ -98,6 +115,48 @@ check_multiboot:
 .no_multiboot:
 	mov al, "0"
 	jmp error
+
+; This will set up the x86 control registers:
+; Caching and the floating point unit are enabled
+; Bootstrap page tables are loaded and page size
+; extensions (huge pages) enabled.
+cpu_init:
+	; initialize page tables
+
+	; map multiboot info 1:1
+	push edi
+	mov eax, dword [mb_info]  ; map multiboot info
+	and eax, 0xFFFFF000       ; page align lower half
+	mov edi, eax
+	shr edi, 9                ; (edi >> 12) * 8 (index for boot_pgt)
+	add edi, boot_pgt
+	or eax, 0x101             ; set present and global bits
+	mov dword [edi], eax
+	pop edi
+
+		; map kernel 1:1
+		push edi
+		push ebx
+		push ecx
+		mov ecx, kernel_start
+		mov ebx, kernel_end
+		add ebx, 0x1000
+L0: cmp ecx, ebx
+		jae L1
+		mov eax, ecx
+		and eax, 0xFFFFF000				; page align lower half
+		mov edi, eax
+		shr edi, 9								; (edi >> 12) * 8 (index for boot_pgt)
+		add edi, boot_pgt
+		or eax, 0x103							; set present, global and writable bits
+		mov dword [edi], eax
+		add ecx, 0x1000
+		jmp L0
+L1:
+		pop ecx
+		pop ebx
+		pop edi
+		ret
 
 check_cpuid:
 	; Check if CPUID is supported by attempting to flip the ID bit (bit 21)
@@ -174,6 +233,15 @@ set_up_SSE:
 .no_SSE:
 	mov al, "a"
 	jmp error
+
+section .data
+global mb_info:
+ALIGN 8
+mb_info:
+	dq 0
+
+boot_pgt:
+	times 512 dq 0
 
 section .bss
 align 4096

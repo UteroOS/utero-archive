@@ -61,7 +61,7 @@ $(iso): $(kernel) $(grub_cfg)
 
 $(kernel): $(linker_script) $(libcr) $(libu) $(crystal_os)
 				@echo Creating $@...
-				@ld -n -nostdlib -melf_$(arch) --gc-sections --build-id=none -T $(linker_script) -o $@ $(c_object_files) $(assembly_object_files) $(crystal_os) $(libu) $(libcr)
+				@ld -n -nostdlib -melf_$(arch) --gc-sections --build-id=none -T $(linker_script) -o $@ $(crystal_os) $(libu) $(libcr)
 
 $(crystal_os): $(libu) $(crystal_files)
 				@mkdir -p $(shell dirname $(crystal_os))
@@ -73,7 +73,7 @@ $(libcr):
 				$(MAKE) -C build/musl
 
 $(libu): $(assembly_object_files) $(c_object_files)
-				@ar r $(libu) $(assembly_object_files) $(c_object_files)
+				@ld -n -nostdlib -melf_$(arch) --build-id=none -r -T $(linker_script) -o $@ $(c_object_files) $(assembly_object_files)
 
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 				@mkdir -p $(shell dirname $@)

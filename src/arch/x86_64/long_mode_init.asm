@@ -33,8 +33,8 @@ long_mode_start:
 	; to the following function
 	; mov rdi, rbx				; Move Multiboot info pointer to rdi
 
-	extern early_info
-	call early_info
+	; extern early_info
+	; call early_info
 	; These following lines call main.cr
 	extern main
 	call main

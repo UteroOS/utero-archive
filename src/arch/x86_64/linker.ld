@@ -40,8 +40,10 @@ SECTIONS {
 
 		.bss :
 		{
+				bss_start = .;
 				*(.bss .bss.*)
 				. = ALIGN(4K);
+				bss_end = .;
 		}
 		kernel_end = .;
 }

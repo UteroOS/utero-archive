@@ -13,6 +13,8 @@
 global start
 global stack_top
 extern long_mode_start
+extern kernel_start			; Defined in linker script
+extern kernel_end				; Defined in linker script
 
 section .text
 bits 32
@@ -34,10 +36,6 @@ start:
 	call enable_paging
 	call set_up_SSE
 
-	; https://littleosbook.github.io/#how-much-memory-is-there
-	; Read and push linker labels
-	extern kernel_start
-	extern kernel_end
 	; push kernel_end
 	; push kernel_start
 

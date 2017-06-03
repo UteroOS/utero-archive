@@ -117,6 +117,40 @@ isrstub_pseudo_error 9
 extern fault_handler
 ; extern irq_handler
 
+global switch_context
+ALIGN 8
+switch_context:
+	; create on the stack a pseudo interrupt
+	; afterwards, we switch to the task with iret
+	mov rax, rdi                ; rdi contains the address to store the old rsp
+	pushf                       ; RFLAGS
+	push QWORD 0x08             ; CS
+	push QWORD rollback         ; RIP
+	push QWORD 0x00             ; Interrupt number
+	push QWORD 0x00edbabe       ; Error code
+	push rax
+	push rcx
+	push rdx
+	push rbx
+	push rsp
+	push rbp
+	push rsi
+	push rdi
+	push r8
+	push r9
+	push r10
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
+
+	jmp common_switch
+
+ALIGN 8
+rollback:
+	ret
+
 ALIGN 8
 common_stub:
 	push rax
@@ -144,6 +178,26 @@ common_stub:
 	; cmp rax, 0
 	; je no_context_switch
 	jmp no_context_switch
+
+common_switch:
+	mov [rax], rsp             ; store old rsp
+	; TODO: It seems to be defined in arch/x86/kernel/tasks.c
+	; call get_current_stack     ; get new rsp
+	xchg rax, rsp
+
+	; set task switched flag
+	mov rax, cr0
+	or eax, 8
+	mov cr0, rax
+
+	; set rsp0 in the task state segment
+	; TODO: It seems to be defined in gdt.c
+	; extern set_kernel_stack
+	; call set_kernel_stack
+
+	; call cleanup code
+	; TODO: It seems to be defined in kernel/tasks.c
+	; call finish_task_switch
 
 no_context_switch:
 	pop r15

@@ -49,7 +49,7 @@ test:
 				@crystal spec -v
 
 clean:
-				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files) $(libu)
+				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files) $(c_kernel_object_files) $(libu)
 				@rm -rf target/
 				$(MAKE) -C build/musl clean
 

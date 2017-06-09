@@ -13,7 +13,7 @@
 #include <asm/idt.h>
 #include <asm/isrs.h>
 #include <asm/io.h>
-#include "stdio.h"
+#include <stdio.h>
 
 /*
  * These are function prototypes for all of the exception

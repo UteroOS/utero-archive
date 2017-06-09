@@ -15,13 +15,21 @@ target ?= $(arch)-unknown-linux-musl
 kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 top_dir := $(shell pwd)
+INCLUDE := -I$(top_dir)/src/c_kernel/include -I$(top_dir)/src/arch/x86_64/c/include
+CFLAGS := -ffreestanding -nostdinc -Wno-implicit
 
 libcr := src/musl/lib/libcr.a
 libu := build/arch/$(arch)/c/libu.a
 libu_fullpath := $(subst build/,$(shell pwd)/build/,$(libu))
+
 c_source_files := $(wildcard src/arch/$(arch)/c/*.c)
 c_object_files := $(patsubst src/arch/$(arch)/c/%.c, \
 				build/arch/$(arch)/c/%.o, $(c_source_files))
+
+c_kernel_source_files := $(wildcard src/c_kernel/*.c)
+c_kernel_object_files := $(patsubst src/c_kernel/%.c, \
+				build/c_kernel/%.o, $(c_kernel_source_files))
+
 c_object_files_fullpath := $(subst build/,$(shell pwd)/build/,$(c_object_files))
 
 crystal_os := target/$(target)/debug/main.o
@@ -44,6 +52,7 @@ clean:
 				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files) $(libu)
 				@rm -rf target/
 				$(MAKE) -C build/musl clean
+
 cleanobjs:
 				@rm -f $(assembly_object_files) $(c_object_files)
 				@rm -rf target/
@@ -73,8 +82,8 @@ $(crystal_os): $(libu) $(crystal_files)
 $(libcr):
 				$(MAKE) -C build/musl
 
-$(libu): $(assembly_object_files) $(c_object_files)
-				@ld -n -nostdlib -melf_$(arch) --build-id=none -r -T $(linker_script) -o $@ $(c_object_files) $(assembly_object_files)
+$(libu): $(assembly_object_files) $(c_object_files) $(c_kernel_object_files)
+				@ld -n -nostdlib -melf_$(arch) --build-id=none -r -T $(linker_script) -o $@ $(c_kernel_object_files) $(c_object_files) $(assembly_object_files)
 
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 				@mkdir -p $(shell dirname $@)
@@ -82,4 +91,8 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 
 build/arch/$(arch)/c/%.o: src/arch/$(arch)/c/%.c
 				@mkdir -p $(shell dirname $@)
-				@cc -ffreestanding -nostdinc -Wno-implicit -I$(top_dir)/src/arch/x86_64/c/include -o $@ -c $<
+				@cc $(CFLAGS) $(INCLUDE) -o $@ -c $<
+
+build/c_kernel/%.o: src/c_kernel/%.c
+				@mkdir -p $(shell dirname $@)
+				@cc $(CFLAGS) $(INCLUDE) -o $@ -c $<

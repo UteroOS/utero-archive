@@ -7,7 +7,7 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#include "stdio.h"
+#include <stdio.h>
 #include "make_string.h"
 #define N 256
 

@@ -14,6 +14,7 @@ arch ?= x86_64
 target ?= $(arch)-unknown-linux-musl
 kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
+top_dir := $(shell pwd)
 
 libcr := src/musl/lib/libcr.a
 libu := build/arch/$(arch)/c/libu.a
@@ -81,4 +82,4 @@ build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
 
 build/arch/$(arch)/c/%.o: src/arch/$(arch)/c/%.c
 				@mkdir -p $(shell dirname $@)
-				@cc -ffreestanding -nostdinc -Wno-implicit -o $@ -c $<
+				@cc -ffreestanding -nostdinc -Wno-implicit -I$(top_dir)/src/arch/x86_64/c/include -o $@ -c $<

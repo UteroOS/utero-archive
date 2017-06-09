@@ -1,5 +1,5 @@
 #include "make_string.h"
-#include "multiboot.h"
+#include <asm/multiboot.h>
 // #include "stdint.h"
 #define N 256
 

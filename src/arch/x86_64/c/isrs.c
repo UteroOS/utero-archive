@@ -10,9 +10,9 @@
 // The part of this file was taken from:
 // https://github.com/RWTH-OS/eduOS/blob/master/arch/x86/kernel/isrs.c
 
-#include "idt.h"
-#include "isrs.h"
-#include "io.h"
+#include <asm/idt.h>
+#include <asm/isrs.h>
+#include <asm/io.h>
 #include "stdio.h"
 
 /*

@@ -10,7 +10,7 @@
 #ifndef MAKE_STRING_H
 #define MAKE_STRING_H
 
-#include "stddef.h"
+#include <asm/stddef.h>
 
 char *make_string(char *fmt, ...);
 

@@ -54,7 +54,7 @@ clean:
 				$(MAKE) -C build/musl clean
 
 cleanobjs:
-				@rm -f $(assembly_object_files) $(c_object_files)
+				@rm -f $(assembly_object_files) $(c_object_files) $(c_kernel_object_files)
 				@rm -rf target/
 
 run: $(iso)

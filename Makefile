@@ -30,16 +30,19 @@ c_kernel_source_files := $(wildcard src/c_kernel/*.c)
 c_kernel_object_files := $(patsubst src/c_kernel/%.c, \
 				build/c_kernel/%.o, $(c_kernel_source_files))
 
+assembly_source_files := $(wildcard src/arch/$(arch)/*.asm)
+assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
+				build/arch/$(arch)/%.o, $(assembly_source_files))
+crystal_files := $(shell find ./ -name *.cr)
+
 c_object_files_fullpath := $(subst build/,$(shell pwd)/build/,$(c_object_files))
+
+OBJS = $(assembly_object_files) $(c_object_files) $(c_kernel_object_files)
 
 crystal_os := target/$(target)/debug/main.o
 
 linker_script := src/arch/$(arch)/linker.ld
 grub_cfg := src/arch/$(arch)/grub.cfg
-assembly_source_files := $(wildcard src/arch/$(arch)/*.asm)
-assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
-				build/arch/$(arch)/%.o, $(assembly_source_files))
-crystal_files := $(shell find ./ -name *.cr)
 
 .PHONY: all test clean run iso
 
@@ -49,12 +52,12 @@ test:
 				@crystal spec -v
 
 clean:
-				@rm -f $(kernel) $(iso) $(assembly_object_files) $(c_object_files) $(c_kernel_object_files) $(libu)
+				@rm -f $(kernel) $(iso) $(OBJS) $(libu)
 				@rm -rf target/
 				$(MAKE) -C build/musl clean
 
 cleanobjs:
-				@rm -f $(assembly_object_files) $(c_object_files) $(c_kernel_object_files)
+				@rm -f $(OBJS)
 				@rm -rf target/
 
 run: $(iso)
@@ -82,7 +85,7 @@ $(crystal_os): $(libu) $(crystal_files)
 $(libcr):
 				$(MAKE) -C build/musl
 
-$(libu): $(assembly_object_files) $(c_object_files) $(c_kernel_object_files)
+$(libu): $(OBJS)
 				@ld -n -nostdlib -melf_$(arch) --build-id=none -r -T $(linker_script) -o $@ $(c_kernel_object_files) $(c_object_files) $(assembly_object_files)
 
 build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm

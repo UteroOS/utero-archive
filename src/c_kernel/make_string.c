@@ -7,11 +7,18 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#ifndef MAKE_STRING_H
-#define MAKE_STRING_H
+#include <stdio.h>
+#include "make_string.h"
+#define N 256
 
-#include "stddef.h"
+char *make_string(char *fmt, ...)
+{
+  static char s[N] = {'\0'};
+  va_list ap;
 
-char *make_string(char *fmt, ...);
+  va_start(ap, fmt);
+  vsprintf(s, fmt, ap);
+  va_end(ap);
 
-#endif /* end of include guard: MAKE_STRING_H */
+  return s;
+}

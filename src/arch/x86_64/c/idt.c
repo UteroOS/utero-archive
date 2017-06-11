@@ -10,7 +10,7 @@
 // The part of this file was taken from:
 // https://github.com/RWTH-OS/eduOS/blob/master/arch/x86/kernel/idt.c
 
-#include "idt.h"
+#include <asm/idt.h>
 
 static idt_entry_t idt[256] = {[0 ... 255] = {0, 0, 0, 0, 0, 0, 0}};
 static idt_ptr_t idtp;

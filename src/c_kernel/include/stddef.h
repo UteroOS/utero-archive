@@ -10,14 +10,8 @@
 #ifndef STDDEF_H
 #define STDDEF_H
 
-// #include <config.h>
+#include <config.h>
 #include <asm/stddef.h>
-
-#define VIDEO_MEM_ADDR 0xb8000
-#define CACHE_LINE 64
-
-#define NORETURN __attribute__((noreturn))
-#define STDCALL  __attribute__((stdcall))
 
 #define NULL ((void*) 0)
 

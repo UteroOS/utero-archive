@@ -17,6 +17,7 @@
 #define VIDEO_MEM_ADDR 0xb8000
 #define CACHE_LINE 64
 
+#define BUILTIN_EXPECT(exp, b) __builtin_expect((exp), (b))
 #define NORETURN __attribute__((noreturn))
 #define STDCALL __attribute__((stdcall))
 

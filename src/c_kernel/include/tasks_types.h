@@ -14,7 +14,7 @@
 #define TASKS_TYPES_H
 
 #include <stddef.h>
-// #include <asm/tasks_types.h>
+#include <asm/tasks_types.h>
 
 #define TASK_INVALID 0
 #define TASK_READY 1

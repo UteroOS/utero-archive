@@ -16,6 +16,8 @@
 #define MAX_TASKS 16
 #define VIDEO_MEM_ADDR 0xb8000
 #define CACHE_LINE 64
+#define KERNEL_STACK_SIZE (8 << 10)    /*  8 KiB */
+#define DEFAULT_STACK_SIZE (16 * 1024) /* 16 KiB */
 
 #define BUILTIN_EXPECT(exp, b) __builtin_expect((exp), (b))
 #define NORETURN __attribute__((noreturn))

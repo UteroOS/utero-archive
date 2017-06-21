@@ -8,15 +8,24 @@
 // except according to those terms.
 //
 // The part of this file was taken from:
-// https://github.com/RWTH-OS/eduOS/blob/master/include/eduos/stdlib.h
+// https://github.com/RWTH-OS/eduOS/blob/master/mm/memory.c
 
-#ifndef STDLIB_H
-#define STDLIB_H
+#include <stddef.h>
+#include <stdlib.h>
 
-#include <asm/stddef.h>
-#include <config.h>
+static char stack[MAX_TASKS - 1][KERNEL_STACK_SIZE];
 
-// Implemented in memory.c
-void* create_stack(tid_t id);
+void*
+create_stack(tid_t id)
+{
+  // Idle task uses stack
+  if (BUILTIN_EXPECT(!id, 0)) {
+    return NULL;
+  }
+  // Do we have a valid task id?
+  if (BUILTIN_EXPECT(id >= MAX_TASKS, 0)) {
+    return NULL;
+  }
 
-#endif /* end of include guard: STDLIB_H */
+  return (void*)stack[id - 1];
+}

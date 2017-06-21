@@ -8,21 +8,14 @@
 // except according to those terms.
 //
 // The part of this file was taken from:
-// https://github.com/RWTH-OS/eduOS/blob/master/include/eduos/tasks.h
+// https://github.com/RWTH-OS/eduOS/blob/master/include/eduos/processor.h
 
-#ifndef TASKS_H
-#define TASKS_H
+#ifndef PROCESSOR_H
+#define PROCESSOR_H
 
+// This is no needed because of being included in stddef.h
+// #include <config.h>
+#include <asm/processor.h>
 #include <stddef.h>
-#include <tasks_types.h>
-#include <asm/tasks.h>
 
-int multitasking_init(void);
-
-int create_kernel_task(tid_t* id, entry_point_t ep, void* args, uint8_t prio);
-
-void reschedule(void);
-
-void NORETURN leave_kernel_task(void);
-
-#endif /* end of include guard: TASKS_H */
+#endif /* end of include guard: PROCESSOR_H */

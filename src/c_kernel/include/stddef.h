@@ -5,7 +5,7 @@
 // except according to those terms.
 //
 // The part of this file was taken from:
-// https://github.com/RWTH-OS/eduOS/blob/master/include/eduos/tasks.h
+// https://github.com/RWTH-OS/eduOS/blob/master/include/eduos/stddef.h
 
 #ifndef STDDEF_H
 #define STDDEF_H

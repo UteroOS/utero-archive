@@ -13,7 +13,7 @@
 #ifndef STDLIB_H
 #define STDLIB_H
 
-#include <asm/stddef.h>
+#include <stddef.h>
 #include <config.h>
 
 // Implemented in memory.c

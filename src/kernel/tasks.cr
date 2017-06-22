@@ -6,10 +6,9 @@
 # <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
-
-# Order-dependent list
 require "./lib_u"
-require "./lib_u/**"
 
-# Alpha-sorted list
-require "./tasks"
+# tasks.c
+lib LibU
+  fun multitasking_init : Int
+end

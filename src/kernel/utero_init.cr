@@ -19,3 +19,4 @@ end
 cprint LibU.make_kernel_info
 LibU.idt_install
 LibU.isrs_install
+LibU.multitasking_init

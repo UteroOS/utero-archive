@@ -28,8 +28,8 @@ print "\b"; puts
 puts "33: Current directory is #{__DIR__}"
 print "34: "; cprint(LibU.hello_from_c)
 cprint(LibU.dummy_exception)
-# Division By Zero
-42 / 0
+# For testing: Division By Zero
+# 42 / 0
 # clear
 
 # puts "---------strlen------------"

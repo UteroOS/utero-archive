@@ -116,6 +116,8 @@ isrstub_pseudo_error 9
 
 extern fault_handler
 ; extern irq_handler
+extern get_current_stack
+extern finish_task_switch
 
 global switch_context
 ALIGN 8
@@ -175,14 +177,13 @@ common_stub:
 	call fault_handler
 	; call irq_handler
 
-	; cmp rax, 0
-	; je no_context_switch
-	jmp no_context_switch
+	cmp rax, 0
+	je no_context_switch
+	; jmp no_context_switch
 
 common_switch:
 	mov [rax], rsp             ; store old rsp
-	; TODO: It seems to be defined in arch/x86/kernel/tasks.c
-	; call get_current_stack     ; get new rsp
+	call get_current_stack     ; get new rsp
 	xchg rax, rsp
 
 	; set task switched flag
@@ -196,8 +197,7 @@ common_switch:
 	; call set_kernel_stack
 
 	; call cleanup code
-	; TODO: It seems to be defined in kernel/tasks.c
-	; call finish_task_switch
+	call finish_task_switch
 
 no_context_switch:
 	pop r15

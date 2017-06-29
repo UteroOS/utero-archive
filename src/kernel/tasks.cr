@@ -10,5 +10,7 @@ require "./lib_u"
 
 # tasks.c
 lib LibU
-  fun multitasking_init : Int
+  fun multitasking_init : LibU::Int
+  fun reschedule : Void
+  fun create_kernel_task(id : LibU::Tid_t*, ep : Void* -> LibU::Int, args : Void*, prio : LibU::UInt8_t) : Int
 end

@@ -32,5 +32,9 @@ lib LibU
   alias Float = Float32
   alias Double = Float64
 
+  # typedef unsigned int tid_t;
+  alias Tid_t = Int
+  alias UInt8_t = UChar
+
   $environ : Char**
 end

@@ -65,7 +65,7 @@ create_default_frame(task_t* task, entry_point_t ep, void* arg)
   stptr->rip = (size_t)ep;
   stptr->cs = 0x08;
   stptr->ss = 0x10;
-  stptr->rflags = 0x1002;
+  stptr->rflags = 0x1202;
   stptr->userrsp = stptr->rsp;
   // Set the task's stack pointer entry to the stack
   // we have crafted right now

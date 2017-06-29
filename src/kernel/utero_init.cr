@@ -3,6 +3,7 @@ require "./scrn"
 
 lib LibU
   fun make_kernel_info : LibU::Char*
+  fun create_foo : LibU::Int
 end
 
 # A same named function in C, and call that from assembly before call main

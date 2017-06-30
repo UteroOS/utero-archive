@@ -16,7 +16,7 @@ kernel := build/kernel-$(arch).bin
 iso := build/utero-$(arch).iso
 top_dir := $(shell pwd)
 INCLUDE := -I$(top_dir)/src/c_kernel/include -I$(top_dir)/src/arch/x86_64/c/include
-CFLAGS := -ffreestanding -nostdinc -Wno-implicit
+CFLAGS := -O2 -ffreestanding -nostdinc -Wno-implicit
 
 libcr := src/musl/lib/libcr.a
 libu := build/arch/$(arch)/c/libu.a
@@ -61,7 +61,7 @@ cleanobjs:
 				@rm -rf target/
 
 run: $(iso)
-				@qemu-system-$(arch) -cdrom $(iso)
+				@qemu-system-$(arch) -cdrom $(iso) -monitor stdio
 
 iso: $(iso)
 

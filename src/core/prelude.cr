@@ -13,6 +13,7 @@ require "./lib_cr/**"
 require "./string"
 
 # Alpha-sorted list
+require "./box"
 require "./int"
 require "./number"
 require "./pointer"

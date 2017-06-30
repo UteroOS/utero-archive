@@ -11,8 +11,8 @@
 // https://github.com/RWTH-OS/eduOS/blob/master/arch/x86/kernel/isrs.c
 
 #include <asm/idt.h>
-#include <asm/isrs.h>
 #include <asm/io.h>
+#include <asm/isrs.h>
 #include <stdio.h>
 
 /*
@@ -52,10 +52,10 @@ extern void isr28(void);
 extern void isr29(void);
 extern void isr30(void);
 extern void isr31(void);
-extern int eputs(const char *);
-extern int eprint(const char *);
+extern int eputs(const char*);
+extern int eprint(const char*);
 
-void fault_handler(struct state *s);
+void fault_handler(struct state* s);
 // static void fault_handler(struct state *s);
 // fqu_handler
 
@@ -70,74 +70,107 @@ void fault_handler(struct state *s);
  * set to the required '14', which is represented by 'E' in
  * hex.
  */
-void isrs_install(void)
+void
+isrs_install(void)
 {
   int i;
 
   idt_set_gate(0, (size_t)isr0, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(1, (size_t)isr1, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(2, (size_t)isr2, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(3, (size_t)isr3, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(4, (size_t)isr4, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(5, (size_t)isr5, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(6, (size_t)isr6, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(7, (size_t)isr7, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(8, (size_t)isr8, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(9, (size_t)isr9, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(10, (size_t)isr10, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(11, (size_t)isr11, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(12, (size_t)isr12, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(13, (size_t)isr13, KERNEL_CODE_SELECTOR,
-   IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(14, (size_t)isr14, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(15, (size_t)isr15, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(16, (size_t)isr16, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(17, (size_t)isr17, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(18, (size_t)isr18, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(19, (size_t)isr19, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(20, (size_t)isr20, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(21, (size_t)isr21, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(22, (size_t)isr22, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(23, (size_t)isr23, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(24, (size_t)isr24, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(25, (size_t)isr25, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(26, (size_t)isr26, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(27, (size_t)isr27, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(28, (size_t)isr28, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(29, (size_t)isr29, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(30, (size_t)isr30, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
   idt_set_gate(31, (size_t)isr31, KERNEL_CODE_SELECTOR,
-  IDT_FLAG_PRESENT|IDT_FLAG_RING0|IDT_FLAG_32BIT|IDT_FLAG_INTTRAP);
+               IDT_FLAG_PRESENT | IDT_FLAG_RING0 | IDT_FLAG_32BIT |
+                 IDT_FLAG_INTTRAP);
 
   // install the default handler
 
@@ -151,39 +184,66 @@ void isrs_install(void)
  * message by accessing it like this:
  * exception_message[interrupt_number]
  */
-static const char *exception_messages[] = {
-  "Division By Zero", "Debug", "Non Maskable Interrupt",
-  "Breakpoint", "Into Detected Overflow", "Out of Bounds", "Invalid Opcode",
-  "No Coprocessor", "Double Fault", "Coprocessor Segment Overrun", "Bad TSS",
-  "Segment Not Present", "Stack Fault", "General Protection Fault", "Page Fault",
-  "Unknown Interrupt", "Coprocessor Fault", "Alignment Check", "Machine Check",
-  "Reserved", "Reserved", "Reserved", "Reserved", "Reserved",
-  "Reserved", "Reserved", "Reserved", "Reserved", "Reserved", "Reserved",
-  "Reserved", "Reserved" };
+static const char* exception_messages[] = { "Division By Zero",
+                                            "Debug",
+                                            "Non Maskable Interrupt",
+                                            "Breakpoint",
+                                            "Into Detected Overflow",
+                                            "Out of Bounds",
+                                            "Invalid Opcode",
+                                            "No Coprocessor",
+                                            "Double Fault",
+                                            "Coprocessor Segment Overrun",
+                                            "Bad TSS",
+                                            "Segment Not Present",
+                                            "Stack Fault",
+                                            "General Protection Fault",
+                                            "Page Fault",
+                                            "Unknown Interrupt",
+                                            "Coprocessor Fault",
+                                            "Alignment Check",
+                                            "Machine Check",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved",
+                                            "Reserved" };
 
-  /*
-   * All of our Exception handling Interrupt Service Routines will
-   * point to this function. This will tell us what exception has
-   * occured! Right now, we simply abort the current task.
-   * All ISRs disable interrupts while they are being
-   * serviced as a 'locking' mechanism to prevent an IRQ from
-   * happening and messing up kernel data structures
-   */
+/*
+ * All of our Exception handling Interrupt Service Routines will
+ * point to this function. This will tell us what exception has
+ * occured! Right now, we simply abort the current task.
+ * All ISRs disable interrupts while they are being
+ * serviced as a 'locking' mechanism to prevent an IRQ from
+ * happening and messing up kernel data structures
+ */
 #define N 256
-void fault_handler(struct state *s)
+void
+fault_handler(struct state* s)
 // static void fault_handler(struct state *s)
 {
-  char message[N] = {'\0'};
+  char message[N] = { '\0' };
   if (s->int_no < 32) {
-  sprintf(message, " Exception (%llu) at 0x%llx:0x%llx, error code 0x%llx, rflags 0x%llx\n",
-    s->int_no, s->cs, s->rip, s->error, s->rflags);
-  eputs(exception_messages[s->int_no]);
-  eprint(message);
+    sprintf(
+      message,
+      " Exception (%llu) at 0x%llx:0x%llx, error code 0x%llx, rflags 0x%llx\n",
+      s->int_no, s->cs, s->rip, s->error, s->rflags);
+    eputs(exception_messages[s->int_no]);
+    eprint(message);
 
-  outb(0x20, 0x20);
+    outb(0x20, 0x20);
 
-  // irq_enable();
-  // abort();
-    for (;;);
+    // irq_enable();
+    // abort();
+    for (;;)
+      ;
   }
 }

@@ -7,7 +7,7 @@ This is the *work in progress*.
 
 ## Requirements
 
-* Crystal 0.22.0
+* Crystal 0.23.0
   * llvm
   * Please see [All required libraries](https://github.com/crystal-lang/crystal/wiki/All-required-libraries)
 * nasm

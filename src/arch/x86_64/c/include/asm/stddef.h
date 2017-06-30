@@ -10,8 +10,8 @@
 // The part of this file was taken from:
 // https://github.com/RWTH-OS/eduOS/blob/master/arch/x86/include/asm/stddef.h
 
-#ifndef STDDEF_H
-#define STDDEF_H
+#ifndef ASM_STDDEF_H
+#define ASM_STDDEF_H
 
 // Unsigned 64 bit integer
 typedef unsigned long long uint64_t;
@@ -34,7 +34,8 @@ typedef char int8_t;
 typedef unsigned long long size_t;
 
 // This defines what the stack looks like after the task context is saved.
-struct state {
+struct state
+{
   // R15 register
   uint64_t r15;
   // R14 register
@@ -80,4 +81,4 @@ struct state {
   uint64_t ss;
 };
 
-#endif /* end of include guard: STDDEF_H */
+#endif /* end of include guard: ASM_STDDEF_H */

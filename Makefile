@@ -61,7 +61,7 @@ cleanobjs:
 				@rm -rf target/
 
 run: $(iso)
-				@qemu-system-$(arch) -cdrom $(iso)
+				@qemu-system-$(arch) -cdrom $(iso) -monitor stdio
 
 iso: $(iso)
 

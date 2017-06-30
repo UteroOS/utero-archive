@@ -31,6 +31,7 @@ cprint(LibU.dummy_exception)
 # For testing: Division By Zero
 # 42 / 0
 # clear
+# This would fail...
 # LibU.create_foo
 
 # puts "---------strlen------------"

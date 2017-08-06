@@ -4132,7 +4132,6 @@ class String
   #   result ? result.to_s : self
   # end
 
->>>>>>> db641af... Implement a part of String and its tests in main.cr
   protected def char_bytesize_at(byte_index)
     first = unsafe_byte_at(byte_index)
 
@@ -4177,7 +4176,6 @@ class String
     @bytesize == 0 || @length > 0
   end
 
-  # line: 4009
   protected def each_byte_index_and_char_index
     byte_index = 0
     char_index = 0
@@ -4216,7 +4214,6 @@ class String
   # end
 
   # Returns a pointer to the underlying bytes of this String.
-  # line: 4046
   def to_unsafe : UInt8*
     pointerof(@c)
   end

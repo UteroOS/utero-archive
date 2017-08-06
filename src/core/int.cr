@@ -79,6 +79,34 @@ struct Int
       i += 1
     end
   end
+  # TODO: Implement this!
+  # def times
+  #   TimesIterator(typeof(self)).new(self)
+  # end
+
+  def upto(to, &block : self ->) : Nil
+    x = self
+    while x <= to
+      yield x
+      x += 1
+    end
+  end
+  # TODO: Implement this!
+  # def upto(to)
+  #   UptoIterator(typeof(self), typeof(to)).new(self, to)
+  # end
+
+  def downto(to, &block : self ->) : Nil
+    x = self
+    while x >= to
+      yield x
+      x -= 1
+    end
+  end
+  # TODO: Implement this!
+  # def downto(to)
+  #   DowntoIterator(typeof(self), typeof(to)).new(self, to)
+  # end
 end
 
 struct Int8

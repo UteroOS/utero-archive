@@ -348,12 +348,11 @@ module Indexable(T)
   end
 
   # Same as `#each`, but works in reverse.
-  # TODO: Implement this
-  # def reverse_each(&block) : Nil
-  #   (size - 1).downto(0) do |i|
-  #     yield unsafe_at(i)
-  #   end
-  # end
+  def reverse_each(&block) : Nil
+    (size - 1).downto(0) do |i|
+      yield unsafe_at(i)
+    end
+  end
 
   # Returns an `Iterator` over the elements of `self` in reverse order.
   # TODO: Implement this
@@ -371,10 +370,9 @@ module Indexable(T)
   # [1, 2, 3, 2, 3].rindex(2)            # => 3
   # [1, 2, 3, 2, 3].rindex(2, offset: 2) # => 1
   # ```
-  # TODO: Implement this
-  # def rindex(value, offset = size - 1)
-  #   rindex(offset) { |elem| elem == value }
-  # end
+  def rindex(value, offset = size - 1)
+    rindex(offset) { |elem| elem == value }
+  end
 
   # Returns the index of the first object in `self` for which the block
   # returns `true`, starting from the last object, or `nil` if no match
@@ -387,18 +385,17 @@ module Indexable(T)
   # [1, 2, 3, 2, 3].rindex { |x| x < 3 }            # => 3
   # [1, 2, 3, 2, 3].rindex(offset: 2) { |x| x < 3 } # => 1
   # ```
-  # TODO: Implement this
-  # def rindex(offset = size - 1)
-  #   offset += size if offset < 0
-  #   return nil if offset >= size
+  def rindex(offset = size - 1)
+    offset += size if offset < 0
+    return nil if offset >= size
 
-  #   offset.downto(0) do |i|
-  #     if yield unsafe_at(i)
-  #       return i
-  #     end
-  #   end
-  #   nil
-  # end
+    offset.downto(0) do |i|
+      if yield unsafe_at(i)
+        return i
+      end
+    end
+    nil
+  end
 
   # Returns a random element from `self`, using the given *random* number generator.
   # Raises `IndexError` if `self` is empty.

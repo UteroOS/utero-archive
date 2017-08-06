@@ -74,3 +74,24 @@ puts dup #=> puts "foo"
 # #clone
 clone = "foo".clone
 puts clone #=> puts "foo"
+
+# Testing for Int
+# #upto
+sum = 0
+1.upto(3) do |n|
+  sum += n
+end
+sum.times do
+  print "upto" #=> print "upto" 6 times
+end
+puts
+
+# #downto
+sum = 0
+3.downto(1) do |n|
+  sum += n
+end
+sum.times do
+  print "downto" #=> print "downto" 6 times
+end
+puts

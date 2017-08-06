@@ -10,10 +10,14 @@
 # Order-dependent list
 require "./lib_cr"
 require "./lib_cr/**"
+require "./iterable"
+# require "iterator"
+require "./indexable"
 require "./string"
 
 # Alpha-sorted list
 require "./box"
 require "./int"
+require "./nil"
 require "./number"
 require "./pointer"

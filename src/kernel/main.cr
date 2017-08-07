@@ -34,46 +34,43 @@ cprint(LibU.dummy_exception)
 # This would fail...
 # LibU.create_foo
 
-# puts "---------strlen------------"
-# ab = "abc"
-# ab_len = LibString.strlen(ab.as(LibCR::Char*))
-# ab_len.times do
-#   print "3 bytes "
-# end
-#
-# puts
-#
-# ai = "あい"
-# ai_len1 = LibString.strlen(ai.as(LibCR::Char*))
-# ai_len1.times do
-#   print "6 bytes "
-# end
-# puts
+# Testing for String
+# #bytesize
+# "hello".bytesize # => 5
+"你好".bytesize    # => 6
+"你好".bytesize.times do
+  print "你好" # It's garbled, but print 6 times
+end
+puts
 
-# puts
-# puts "---------memcmp------------"
-# puts "Comparing 'abcx' and 'abcv' returns 2"
-# ptr1 = "abcx"
-# ptr2 = "abcv"
-#
-# result = LibCR.memcmp(ptr1.as(Void*), ptr2.as(Void*), 4 * sizeof(String))
-# puts "Displays 'memcmp' twice"
-# result.times do
-#   puts "memcmp"
-# end
+# #unsafe_byte_at
+"hello".unsafe_byte_at(0) #=> 104
 
-# puts
-# puts "---------strcmp------------"
-# str1 = "abcde"
-# str2 = "abcdf"
-# puts "Comparing 'abcde' and 'abcde'"
-# strcmp_result = LibString.strcmp(str1.as(LibCR::Char*), str1.as(LibCR::Char*))
-# puts "returns 0" if strcmp_result == 0
-#
-# puts "Comparing 'abcde' and 'abcdf'"
-# strcmp_result = LibString.strcmp(str1.as(LibCR::Char*), str2.as(LibCR::Char*))
-# puts "returns -1" if strcmp_result == -1
-#
-# puts "Comparing 'abcdf' and 'abcde'"
-# strcmp_result = LibString.strcmp(str2.as(LibCR::Char*), str1.as(LibCR::Char*))
-# puts "returns 1" if strcmp_result == 1
+# #empty?
+puts "Not empty" unless "hello".empty?
+
+# #byte_index
+"hello".byte_index('l'.ord) #=> 3
+"foo bar booz".byte_index('o'.ord, 3) #=> 9
+
+# #each_byte
+"ab".each_byte do |byte| #=> 'a' is 97, 'b' is 98
+  (byte - 96).times do
+    print "each_byte" #=> So, print "each_byte" 3 times
+  end
+end
+puts
+
+# "你好".size    #=> 2
+"你好".size.times do
+  print "你好" # It's garbled, but print 2 times
+end
+puts
+
+# #dup
+dup = "foo".dup
+puts dup #=> puts "foo"
+
+# #clone
+clone = "foo".clone
+puts clone #=> puts "foo"

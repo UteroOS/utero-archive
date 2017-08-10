@@ -7,6 +7,9 @@
 # option. This file may not be copied, modified, or distributed
 # except according to those terms.
 
+# Core libraries
+require "../core/prelude"
+
 # Order-dependent list
 require "./lib_u"
 require "./lib_u/**"

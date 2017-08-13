@@ -1,5 +1,5 @@
 def string_test
-  # Testing for String
+  puts "---------------"
   puts "Test for String"
   puts "---------------"
 

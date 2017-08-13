@@ -10,8 +10,12 @@
 # Order-dependent list
 require "./lib_cr"
 require "./lib_cr/**"
+require "./macros"
+require "./object"
+require "./comparable"
+# require "exception"
 require "./iterable"
-# require "iterator"
+# require "./iterator"
 require "./indexable"
 require "./string"
 

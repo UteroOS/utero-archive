@@ -1,2 +1,3 @@
-require "./string_test.cr"
-require "./pointer_test.cr"
+require "./string_test"
+require "./pointer_test"
+require "./comparable_test"

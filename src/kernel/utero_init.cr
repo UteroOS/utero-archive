@@ -1,5 +1,6 @@
-# TODO: Initializing struct Scrn here to make it understand easier?
+require "./prelude"
 require "./scrn"
+require "../core_test/test"
 
 lib LibU
   fun make_kernel_info : LibU::Char*

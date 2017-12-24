@@ -1,5 +1,5 @@
 # utero
-![utero screenshot 2017-05-08 13-43](https://cloud.githubusercontent.com/assets/5820754/25790536/5d692c88-33f4-11e7-862d-8eaa602f7e61.gif)
+<img src="doc/utero 2017-12-24.gif" alt="utero 2017-12-24">
 
 **Utero** is an operating system (for x86_64) written in [Crystal](https://crystal-lang.org/) *as much as possible*.
 
@@ -19,19 +19,57 @@ This is the *work in progress*.
 
 ## Usage
 To make an ISO file and run on Qemu
+
 ``$ make run``
 
 To make an ISO file
+
 ``$ make iso``
 
 To make a binary file of the kernel
+
 ``$ make`` or ``$ make all``
 
+To compile the OS in DEBUG mode and run on Qemu
+
+``$ make debug``
+
+**Note:** in DEBUG mode, logging uses the serial port `COM1` to write various
+debugging information. `qemu` is configured to write the output of this serial
+port to `/tmp/serial.log`.
+
 To clean up
+
 ``$ make clean``
 
-To test (crystal spec)
-``$ make test``
+### Troubleshooting on Qemu
+On a system that uses EFI boot, like dual boot macOS and Ubuntu(16.04) on MacBook Pro
+
+Error on Qemu like this
+
+```sh
+Could not read from CDROM (code 0009)
+```
+
+The solution may be:  
+
+```sh
+$ sudo apt-get install grub-pc-bin
+```
+
+After the install `grub-pc-bin`, you will need to recreate the ISO file like this:
+
+```sh
+$ make clean
+$ make # or make iso
+$ make run
+```
+
+The following links saved my life:
+
+https://github.com/Microsoft/WSL/issues/1043
+
+http://intermezzos.github.io/book/appendix/troubleshooting.html#Could%20not%20read%20from%20CDROM%20%28code%200009%29
 
 ## Contributing
 

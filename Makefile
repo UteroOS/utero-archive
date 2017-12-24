@@ -1,101 +1,100 @@
-# Copyright (c) 2016-2017 Utero OS Developers. See the COPYRIGHT
-# file at the top-level directory of this distribution.
-#
-# Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
-# http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
-# <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
-# option. This file may not be copied, modified, or distributed
-# except according to those terms.
-#
-# The part of this file was taken from:
-# https://github.com/phil-opp/blog_os/blob/set_up_rust/Makefile
+EXT_MUSL = $(EXT_DIR)/musl
 
-arch ?= x86_64
-target ?= $(arch)-unknown-linux-musl
-kernel := build/kernel-$(arch).bin
-iso := build/utero-$(arch).iso
-top_dir := $(shell pwd)
-INCLUDE := -I$(top_dir)/src/c_kernel/include -I$(top_dir)/src/arch/x86_64/c/include
-CFLAGS := -O2 -ffreestanding -nostdinc -Wno-implicit
+CC   = $(EXT_MUSL)/bin/musl-gcc
+LD   ?= ld
+AR   ?= ar
+NASM ?= nasm
 
-libcr := src/musl/lib/libcr.a
-libu := build/arch/$(arch)/c/libu.a
-libu_fullpath := $(subst build/,$(shell pwd)/build/,$(libu))
+OS_NAME    = utero
+BUILD_DIR  = build
+BUILD_DIRS = $(dir $(OBJECTS) $(SOURCES) $(CRYSTAL_SOURCES))
+EXT_DIR    = ext
+LINKER     = linker.ld
+ISO_DIR    = $(BUILD_DIR)/isofiles
+KERNEL_DIR = $(ISO_DIR)/boot
+GRUB_DIR   = $(KERNEL_DIR)/grub
+KERNEL     = $(KERNEL_DIR)/kernel.bin
+ISO        = $(BUILD_DIR)/$(OS_NAME).iso
+LIB        = $(BUILD_DIR)/lib$(OS_NAME).a
+CRYSTAL_OS = $(filter %main.o,$(CRYSTAL_SOURCES))
 
-c_source_files := $(wildcard src/arch/$(arch)/c/*.c)
-c_object_files := $(patsubst src/arch/$(arch)/c/%.c, \
-				build/arch/$(arch)/c/%.o, $(c_source_files))
+ARCH ?= x86_64
+TARGET ?= $(ARCH)-unknown-linux-musl
 
-c_kernel_source_files := $(wildcard src/c_kernel/*.c)
-c_kernel_object_files := $(patsubst src/c_kernel/%.c, \
-				build/c_kernel/%.o, $(c_kernel_source_files))
+OBJECTS := $(patsubst %.asm,build/%.o,$(shell find asm -name '*.asm'))
+SOURCES := $(patsubst %.c,build/%.o,$(shell find src -name '*.c'))
+CRYSTAL_SOURCES := $(patsubst %.cr,build/%.o,$(shell find src -name '*.cr'))
 
-assembly_source_files := $(wildcard src/arch/$(arch)/*.asm)
-assembly_object_files := $(patsubst src/arch/$(arch)/%.asm, \
-				build/arch/$(arch)/%.o, $(assembly_source_files))
-crystal_files := $(shell find ./ -name *.cr)
+CFLAGS = -W -Wall -pedantic -std=c11 -O2 -ffreestanding -nostdinc \
+				 -fno-builtin -fno-stack-protector \
+				 -mno-red-zone \
+				 -I src/include/ -I ext/
 
-c_object_files_fullpath := $(subst build/,$(shell pwd)/build/,$(c_object_files))
+default: iso
 
-OBJS = $(assembly_object_files) $(c_object_files) $(c_kernel_object_files)
+kernel: $(KERNEL)
+.PHONY: kernel
 
-crystal_os := target/$(target)/debug/main.o
+sources:
+	@echo $(CRYSTAL_SOURCES)
+	@echo $(CRYSTAL_OS)
 
-linker_script := src/arch/$(arch)/linker.ld
-grub_cfg := src/arch/$(arch)/grub.cfg
+$(KERNEL): musl build_dirs $(CRYSTAL_OS) $(OBJECTS) $(LIB)
+	mkdir -p $(KERNEL_DIR)
+	$(LD) --nmagic --output=$@ --script=$(LINKER) $(CRYSTAL_OS) $(OBJECTS) $(LIB) $(EXT_MUSL)/lib/libc.a
 
-.PHONY: all test clean run iso
+build/asm/%.o: asm/%.asm
+	$(NASM) -f elf64 $< -o $@
 
-all: $(kernel)
+build/src/%.o: src/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-test:
-				@crystal spec -v
+$(CRYSTAL_OS): $(CRYSTAL_SOURCES)
+	crystal build src/kernel/main.cr --cross-compile --target $(TARGET) --prelude=empty --verbose
+	mv -f main.o $@
+
+$(LIB): $(SOURCES)
+	$(AR) rcs $@ $^
+
+build_dirs:
+	mkdir -p $(BUILD_DIRS)
+.PHONY: build_dirs
+
+musl:
+	$(MAKE) -C $(EXT_DIR)
+.PHONY: musl
+
+iso: $(ISO)
+.PHONY: iso
+
+$(ISO): cleansrcs $(KERNEL)
+	mkdir -p $(GRUB_DIR)
+	cp -R grub/* $(GRUB_DIR)
+	grub-mkrescue -o $@ $(ISO_DIR)
+
+run: $(ISO)
+	qemu-system-x86_64 -cdrom $<
+.PHONY: run
+
+debug: CFLAGS += -DENABLE_KERNEL_DEBUG
+debug: cleaniso $(ISO)
+	qemu-system-x86_64 -cdrom $(ISO) -serial file:/tmp/serial.log
+.PHONY: debug
 
 clean:
-				@rm -f $(kernel) $(iso) $(OBJS) $(libu)
-				@rm -rf target/
-				$(MAKE) -C build/musl clean
+	rm -f $(OBJECTS) $(SOURCES) $(CRYSTAL_OS) $(KERNEL) $(ISO) $(LIB)
+	rm -rf $(BUILD_DIR)
+.PHONY: clean
 
-cleanobjs:
-				@rm -f $(OBJS)
-				@rm -rf target/
+cleansrcs:
+	rm -f $(SOURCES)
+.PHONY: cleansrcs
 
-run: $(iso)
-				@qemu-system-$(arch) -cdrom $(iso) -monitor stdio
+cleaniso:
+	rm -f $(ISO)
+.PHONY: cleaniso
 
-iso: $(iso)
-
-$(iso): $(kernel) $(grub_cfg)
-				@mkdir -p build/isofiles/boot/grub
-				@cp $(kernel) build/isofiles/boot/kernel.bin
-				@cp $(grub_cfg) build/isofiles/boot/grub
-				@grub-mkrescue -o $(iso) build/isofiles 2> /dev/null
-				@rm -r build/isofiles
-
-$(kernel): $(linker_script) $(libcr) $(libu) $(crystal_os)
-				@echo Creating $@...
-				@ld -n -nostdlib -melf_$(arch) --gc-sections --build-id=none -T $(linker_script) -o $@ $(crystal_os) $(libu) $(libcr)
-
-$(crystal_os): $(libu) $(crystal_files)
-				@mkdir -p $(shell dirname $(crystal_os))
-				@crystal build src/kernel/main.cr --target=$(target) --prelude=empty --emit=obj --verbose --link-flags $(libu_fullpath)
-				@rm main
-				@mv -f main.o target/$(target)/debug/
-
-$(libcr):
-				$(MAKE) -C build/musl
-
-$(libu): $(OBJS)
-				@ld -n -nostdlib -melf_$(arch) --build-id=none -r -T $(linker_script) -o $@ $(c_kernel_object_files) $(c_object_files) $(assembly_object_files)
-
-build/arch/$(arch)/%.o: src/arch/$(arch)/%.asm
-				@mkdir -p $(shell dirname $@)
-				@nasm -felf64 $< -o $@
-
-build/arch/$(arch)/c/%.o: src/arch/$(arch)/c/%.c
-				@mkdir -p $(shell dirname $@)
-				@cc $(CFLAGS) $(INCLUDE) -o $@ -c $<
-
-build/c_kernel/%.o: src/c_kernel/%.c
-				@mkdir -p $(shell dirname $@)
-				@cc $(CFLAGS) $(INCLUDE) -o $@ -c $<
+cleanmusl:
+	rm -rf $(EXT_MUSL)
+	$(MAKE) -C $(EXT_DIR) clean
+.PHONY: cleanmusl

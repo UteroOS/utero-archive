@@ -18,6 +18,9 @@ https://github.com/redcap97/cyanurus
 ### eduOS
 https://github.com/RWTH-OS/eduOS
 
+### willOS
+https://github.com/willdurand/willOS/tree/f8989809ba93437abe52ee14b0a0623adc0abea1
+
 -----
 
 ### Create Your Own Operating System: Build, deploy, and test your very own operating systems for the Internet of Things and other devices Kindle Edition

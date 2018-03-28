@@ -73,12 +73,13 @@ $(ISO): cleansrcs $(KERNEL)
 	grub-mkrescue -o $@ $(ISO_DIR)
 
 run: $(ISO)
-	qemu-system-x86_64 -cdrom $<
+	qemu-system-x86_64 -cdrom $< -monitor stdio -rtc base=localtime
 .PHONY: run
 
 debug: CFLAGS += -DENABLE_KERNEL_DEBUG
 debug: cleaniso $(ISO)
-	qemu-system-x86_64 -cdrom $(ISO) -serial file:/tmp/serial.log
+	qemu-system-x86_64 -cdrom $(ISO) -serial stdio -m 256M
+	# qemu-system-x86_64 -cdrom $(ISO) -serial file:/tmp/serial.log
 .PHONY: debug
 
 clean:

@@ -4,6 +4,7 @@ CC   = $(EXT_MUSL)/bin/musl-gcc
 LD   ?= ld
 AR   ?= ar
 NASM ?= nasm
+CRYSTAL := crystal-0.24.2/bin/crystal
 
 OS_NAME    = utero
 BUILD_DIR  = build

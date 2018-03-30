@@ -4,6 +4,7 @@ CC   = $(EXT_MUSL)/bin/musl-gcc
 LD   ?= ld
 AR   ?= ar
 NASM ?= nasm
+CRYSTAL := crystal-0.24.2/bin/crystal
 
 OS_NAME    = utero
 BUILD_DIR  = build
@@ -41,7 +42,7 @@ sources:
 
 $(KERNEL): musl build_dirs $(CRYSTAL_OS) $(OBJECTS) $(LIB)
 	mkdir -p $(KERNEL_DIR)
-	$(LD) --nmagic --output=$@ --script=$(LINKER) $(CRYSTAL_OS) $(OBJECTS) $(LIB) $(EXT_MUSL)/lib/libc.a
+	$(CC) -Xlinker --nmagic -T$(LINKER) $(CRYSTAL_OS) -o $(KERNEL) $(OBJECTS) $(LIB) -L$(EXT_MUSL)/lib
 
 build/asm/%.o: asm/%.asm
 	$(NASM) -f elf64 $< -o $@
@@ -50,7 +51,7 @@ build/src/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(CRYSTAL_OS): $(CRYSTAL_SOURCES)
-	crystal build src/kernel/main.cr --cross-compile --target $(TARGET) --prelude=empty --verbose
+	$(CRYSTAL) build src/kernel/main.cr --cross-compile -Dgc_none --prelude=empty --target $(TARGET) --verbose
 	mv -f main.o $@
 
 $(LIB): $(SOURCES)
@@ -73,12 +74,13 @@ $(ISO): cleansrcs $(KERNEL)
 	grub-mkrescue -o $@ $(ISO_DIR)
 
 run: $(ISO)
-	qemu-system-x86_64 -cdrom $<
+	qemu-system-x86_64 -cdrom $< -monitor stdio -rtc base=localtime
 .PHONY: run
 
 debug: CFLAGS += -DENABLE_KERNEL_DEBUG
 debug: cleaniso $(ISO)
-	qemu-system-x86_64 -cdrom $(ISO) -serial file:/tmp/serial.log
+	qemu-system-x86_64 -cdrom $(ISO) -serial stdio -m 256M
+	# qemu-system-x86_64 -cdrom $(ISO) -serial file:/tmp/serial.log
 .PHONY: debug
 
 clean:

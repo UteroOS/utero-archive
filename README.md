@@ -1,4 +1,7 @@
 # utero-archive
+
+:warning: This is no longer maintained. :warning:
+
 <img src="doc/utero-archive 2017-12-24.gif" alt="utero-archive 2017-12-24">
 
 **Utero** is an operating system (for x86_64) written in [Crystal](https://crystal-lang.org/) *as much as possible*.

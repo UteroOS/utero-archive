@@ -1,5 +1,5 @@
-# utero
-<img src="doc/utero 2017-12-24.gif" alt="utero 2017-12-24">
+# utero-archive
+<img src="doc/utero-archive 2017-12-24.gif" alt="utero-archive 2017-12-24">
 
 **Utero** is an operating system (for x86_64) written in [Crystal](https://crystal-lang.org/) *as much as possible*.
 
@@ -73,7 +73,7 @@ http://intermezzos.github.io/book/appendix/troubleshooting.html#Could%20not%20re
 
 ## Contributing
 
-1. Fork it ( https://github.com/UteroOS/utero/fork )
+1. Fork it ( https://github.com/UteroOS/utero-archive/fork )
 2. Clone it (including submodules)
 
   ```
@@ -94,7 +94,7 @@ http://intermezzos.github.io/book/appendix/troubleshooting.html#Could%20not%20re
 
 ## Contributors
 
-- [noriyotcp](https://github.com/noriyotcp) Noriyo Akita - creator, maintainer, breeder of utero
+- [noriyotcp](https://github.com/noriyotcp) Noriyo Akita - creator, maintainer, breeder of utero-archive
 
 ## License
 

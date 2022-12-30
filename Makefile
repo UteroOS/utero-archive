@@ -6,7 +6,7 @@ AR   ?= ar
 NASM ?= nasm
 CRYSTAL := crystal-0.24.2/bin/crystal
 
-OS_NAME    = utero
+OS_NAME    = utero-archive
 BUILD_DIR  = build
 BUILD_DIRS = $(dir $(OBJECTS) $(SOURCES) $(CRYSTAL_SOURCES))
 EXT_DIR    = ext

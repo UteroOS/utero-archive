@@ -9,7 +9,7 @@
                         "|_____| |_| |_____|__|__|_____|"
 
 
-#define KERNEL_NAME    "utero"
+#define KERNEL_NAME    "utero-archive"
 
 #ifdef ENABLE_KERNEL_DEBUG
 #define KERNEL_VERSION "DEBUG MODE"
